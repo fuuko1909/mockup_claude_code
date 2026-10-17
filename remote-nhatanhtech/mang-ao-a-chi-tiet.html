@@ -1,0 +1,385 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="utf-8">
+  <title>Superpowers Brainstorming</title>
+  <style>
+    /*
+     * BRAINSTORM COMPANION FRAME TEMPLATE
+     *
+     * This template provides a consistent frame with:
+     * - OS-aware light/dark theming
+     * - Header branding and connection status
+     * - Scrollable main content area
+     * - CSS helpers for common UI patterns
+     *
+     * Content is injected via placeholder comment in #frame-content.
+     */
+
+    * { box-sizing: border-box; margin: 0; padding: 0; }
+    html, body { height: 100%; overflow: hidden; }
+
+    /* ===== THEME VARIABLES ===== */
+    :root {
+      --bg-primary: #f5f5f7;
+      --bg-secondary: #ffffff;
+      --bg-tertiary: #e5e5e7;
+      --border: #d1d1d6;
+      --text-primary: #1d1d1f;
+      --text-secondary: #86868b;
+      --text-tertiary: #aeaeb2;
+      --accent: #0071e3;
+      --accent-hover: #0077ed;
+      --success: #34c759;
+      --warning: #ff9f0a;
+      --error: #ff3b30;
+      --selected-bg: #e8f4fd;
+      --selected-border: #0071e3;
+    }
+
+    @media (prefers-color-scheme: dark) {
+      :root {
+        --bg-primary: #1d1d1f;
+        --bg-secondary: #2d2d2f;
+        --bg-tertiary: #3d3d3f;
+        --border: #424245;
+        --text-primary: #f5f5f7;
+        --text-secondary: #86868b;
+        --text-tertiary: #636366;
+        --accent: #0a84ff;
+        --accent-hover: #409cff;
+        --selected-bg: rgba(10, 132, 255, 0.15);
+        --selected-border: #0a84ff;
+      }
+    }
+
+    body {
+      font-family: system-ui, -apple-system, BlinkMacSystemFont, sans-serif;
+      background: var(--bg-primary);
+      color: var(--text-primary);
+      display: flex;
+      flex-direction: column;
+      line-height: 1.5;
+    }
+
+    /* ===== FRAME STRUCTURE ===== */
+    .brand { display: flex; align-items: center; min-width: 0; overflow: hidden; color: var(--text-secondary); line-height: 1; }
+    .brand a { color: inherit; text-decoration: none; display: flex; align-items: center; gap: 0.5rem; min-width: 0; max-width: 100%; line-height: 1; }
+    .brand-copy { display: block; min-width: 0; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; line-height: 1; transform: translateY(-1px); }
+    .brand-logo { display: block; height: 1em; width: auto; max-width: 180px; flex-shrink: 0; filter: invert(1); }
+    @media (prefers-color-scheme: dark) {
+      .brand-logo { filter: none; }
+    }
+    .status { font-size: 0.7rem; color: var(--status-color, var(--success)); display: flex; align-items: center; gap: 0.4rem; justify-self: end; white-space: nowrap; line-height: 1; }
+    .status::before { content: ''; width: 6px; height: 6px; background: var(--status-color, var(--success)); border-radius: 50%; }
+
+    .main { flex: 1; overflow-y: auto; }
+    #frame-content { padding: 2rem; min-height: 100%; }
+
+    .header {
+      background: var(--bg-secondary);
+      border-bottom: 1px solid var(--border);
+      padding: 0.5rem 1.5rem;
+      flex-shrink: 0;
+      display: grid;
+      grid-template-columns: minmax(0, 1fr) auto;
+      align-items: center;
+      gap: 1rem;
+      min-height: 42px;
+    }
+    .header .brand { justify-self: start; width: 100%; font-size: 0.75rem; line-height: 1; }
+    .header .status { grid-column: 2; line-height: 1; }
+    .header span {
+      font-size: 0.75rem;
+      color: var(--text-secondary);
+    }
+    .header .selected-text {
+      color: var(--accent);
+      font-weight: 500;
+    }
+
+    /* ===== TYPOGRAPHY ===== */
+    h2 { font-size: 1.5rem; font-weight: 600; margin-bottom: 0.5rem; }
+    h3 { font-size: 1.1rem; font-weight: 600; margin-bottom: 0.25rem; }
+    .subtitle { color: var(--text-secondary); margin-bottom: 1.5rem; }
+    .section { margin-bottom: 2rem; }
+    .label { font-size: 0.7rem; color: var(--text-secondary); text-transform: uppercase; letter-spacing: 0.05em; margin-bottom: 0.5rem; }
+
+    /* ===== OPTIONS (for A/B/C choices) ===== */
+    .options { display: flex; flex-direction: column; gap: 0.75rem; }
+    .option {
+      background: var(--bg-secondary);
+      border: 2px solid var(--border);
+      border-radius: 12px;
+      padding: 1rem 1.25rem;
+      cursor: pointer;
+      transition: all 0.15s ease;
+      display: flex;
+      align-items: flex-start;
+      gap: 1rem;
+    }
+    .option:hover { border-color: var(--accent); }
+    .option.selected { background: var(--selected-bg); border-color: var(--selected-border); }
+    .option .letter {
+      background: var(--bg-tertiary);
+      color: var(--text-secondary);
+      width: 1.75rem; height: 1.75rem;
+      border-radius: 6px;
+      display: flex; align-items: center; justify-content: center;
+      font-weight: 600; font-size: 0.85rem; flex-shrink: 0;
+    }
+    .option.selected .letter { background: var(--accent); color: white; }
+    .option .content { flex: 1; }
+    .option .content h3 { font-size: 0.95rem; margin-bottom: 0.15rem; }
+    .option .content p { color: var(--text-secondary); font-size: 0.85rem; margin: 0; }
+
+    /* ===== CARDS (for showing designs/mockups) ===== */
+    .cards { display: grid; grid-template-columns: repeat(auto-fit, minmax(280px, 1fr)); gap: 1rem; }
+    .card {
+      background: var(--bg-secondary);
+      border: 1px solid var(--border);
+      border-radius: 12px;
+      overflow: hidden;
+      cursor: pointer;
+      transition: all 0.15s ease;
+    }
+    .card:hover { border-color: var(--accent); transform: translateY(-2px); box-shadow: 0 4px 12px rgba(0,0,0,0.1); }
+    .card.selected { border-color: var(--selected-border); border-width: 2px; }
+    .card-image { background: var(--bg-tertiary); aspect-ratio: 16/10; display: flex; align-items: center; justify-content: center; }
+    .card-body { padding: 1rem; }
+    .card-body h3 { margin-bottom: 0.25rem; }
+    .card-body p { color: var(--text-secondary); font-size: 0.85rem; }
+
+    /* ===== MOCKUP CONTAINER ===== */
+    .mockup {
+      background: var(--bg-secondary);
+      border: 1px solid var(--border);
+      border-radius: 12px;
+      overflow: hidden;
+      margin-bottom: 1.5rem;
+    }
+    .mockup-header {
+      background: var(--bg-tertiary);
+      padding: 0.5rem 1rem;
+      font-size: 0.75rem;
+      color: var(--text-secondary);
+      border-bottom: 1px solid var(--border);
+    }
+    .mockup-body { padding: 1.5rem; }
+
+    /* ===== SPLIT VIEW (side-by-side comparison) ===== */
+    .split { display: grid; grid-template-columns: 1fr 1fr; gap: 1.5rem; }
+    @media (max-width: 700px) { .split { grid-template-columns: 1fr; } }
+
+    /* ===== PROS/CONS ===== */
+    .pros-cons { display: grid; grid-template-columns: 1fr 1fr; gap: 1rem; margin: 1rem 0; }
+    .pros, .cons { background: var(--bg-secondary); border-radius: 8px; padding: 1rem; }
+    .pros h4 { color: var(--success); font-size: 0.85rem; margin-bottom: 0.5rem; }
+    .cons h4 { color: var(--error); font-size: 0.85rem; margin-bottom: 0.5rem; }
+    .pros ul, .cons ul { margin-left: 1.25rem; font-size: 0.85rem; color: var(--text-secondary); }
+    .pros li, .cons li { margin-bottom: 0.25rem; }
+
+    /* ===== PLACEHOLDER (for mockup areas) ===== */
+    .placeholder {
+      background: var(--bg-tertiary);
+      border: 2px dashed var(--border);
+      border-radius: 8px;
+      padding: 2rem;
+      text-align: center;
+      color: var(--text-tertiary);
+    }
+
+    /* ===== INLINE MOCKUP ELEMENTS ===== */
+    .mock-nav { background: var(--accent); color: white; padding: 0.75rem 1rem; display: flex; gap: 1.5rem; font-size: 0.9rem; }
+    .mock-sidebar { background: var(--bg-tertiary); padding: 1rem; min-width: 180px; }
+    .mock-content { padding: 1.5rem; flex: 1; }
+    .mock-button { background: var(--accent); color: white; border: none; padding: 0.5rem 1rem; border-radius: 6px; font-size: 0.85rem; }
+    .mock-input { background: var(--bg-primary); border: 1px solid var(--border); border-radius: 6px; padding: 0.5rem; width: 100%; }
+  </style>
+</head>
+<body>
+  <div class="header">
+    <!-- BRANDING -->
+    <div class="status">Chọn, ghi chú, rồi bấm Copy gửi Claude</div>
+  </div>
+
+  <div class="main">
+    <div id="frame-content">
+      <h2>Mạng ảo (phương án A): chi tiết từng màn</h2>
+<p class="subtitle">Màn 1–3 là đề xuất, cần ghi chú thì ghi ở ô chung cuối trang. Màn 4: chọn 1 trong 2 cách thêm máy. Tên máy và IP là dữ liệu mẫu.</p>
+
+<style>
+.mk{background:#0d1117;color:#e6edf3;font:13px system-ui;border-radius:8px;padding:14px;border:1px solid #2a2f37;margin:10px 0}
+.mk .row{display:flex;gap:10px;align-items:center;padding:7px 8px;border-bottom:1px solid #2a2f37}
+.mk .hd{color:#8b949e;font-size:11px;text-transform:uppercase;letter-spacing:.05em}
+.mk .muted{color:#8b949e}.mk .on{color:#3fb950}.mk .warn{color:#d29922}.mk .red{color:#f85149}.mk .mono{font-family:ui-monospace,monospace}
+.mk .btn{border:1px solid #2a2f37;border-radius:6px;padding:4px 10px;background:#161b22;font-size:12px;display:inline-block}
+.mk .pri{background:#3fb950;color:#08160c;border-color:#3fb950;font-weight:600}
+.mk .dng{color:#f85149;border-color:#f8514966}
+.mk .card{background:#161b22;border:1px solid #2a2f37;border-radius:8px;padding:12px;margin:8px 0}
+.mk .chip{border:1px solid #2a2f37;border-radius:999px;padding:1px 8px;font-size:11px;color:#8b949e}
+.mk .tab{padding:5px 12px;border-radius:6px;color:#8b949e}.mk .tab.sel{background:#161b22;color:#e6edf3}
+.mk .ck{width:14px;height:14px;border:1px solid #8b949e;border-radius:3px;display:inline-block;flex:none}
+.mk .ck.y{background:#3fb950;border-color:#3fb950}
+.mk .in{border:1px solid #3fb950;border-radius:6px;padding:3px 8px;background:#0d1117}
+.mk .field{border:1px solid #2a2f37;border-radius:6px;padding:7px 10px;background:#0d1117;margin:4px 0 10px}
+.mk .lbl{color:#8b949e;font-size:11px}
+.mk .grid3{display:grid;grid-template-columns:repeat(3,1fr);gap:10px}
+.mk .menu{position:absolute;right:8px;top:30px;background:#161b22;border:1px solid #2a2f37;border-radius:8px;padding:4px;width:170px;box-shadow:0 8px 24px #0008}
+.mk .menu div{padding:6px 10px;border-radius:5px}
+.mk .bulk{background:#1f6feb22;border:1px solid #1f6feb66;border-radius:8px;padding:6px 10px;display:flex;gap:10px;align-items:center;margin-bottom:6px}
+.mk .modal{background:#161b22;border:1px solid #2a2f37;border-radius:10px;padding:14px;max-width:420px;margin:0 auto;box-shadow:0 10px 40px #000a}
+.mk .dim{background:#000a;border-radius:8px;padding:18px}
+</style>
+
+<div class="section">
+<h3>Màn 1: Danh sách mạng (/network)</h3>
+<div class="mk">
+  <div style="display:flex;align-items:center;gap:10px;margin-bottom:8px"><b style="font-size:16px">Mạng ảo</b><span class="muted">2 mạng · 5/27 máy đã vào mạng ảo</span><span style="flex:1"></span><span class="btn pri">+ Tạo mạng</span></div>
+  <div class="card" style="border-color:#d2992266"><span class="warn">⚠ 22 máy chưa vào mạng ảo</span> <span class="muted">(agent cũ, cần cài lại 1 lần)</span> <span class="btn" style="float:right">Xem danh sách + lệnh cài</span></div>
+  <div class="grid3">
+    <div class="card"><div style="display:flex;justify-content:space-between"><b>server</b><span class="muted">⋯</span></div><div class="muted" style="font-size:12px;margin:2px 0 8px">Máy chủ nội bộ</div><span class="on">● 3 online</span> <span class="muted">/ 4 máy</span></div>
+    <div class="card"><div style="display:flex;justify-content:space-between"><b>ketoan</b><span class="muted">⋯</span></div><div class="muted" style="font-size:12px;margin:2px 0 8px">Phòng kế toán + máy chủ kế toán</div><span class="on">● 4 online</span> <span class="muted">/ 5 máy</span></div>
+    <div class="card" style="border-style:dashed;display:grid;place-items:center;color:#8b949e">+ Tạo mạng mới</div>
+  </div>
+  <div class="card muted">Máy đã vào mạng ảo nhưng chưa thuộc mạng nào: <b style="color:#e6edf3">srv-backup, pc-qc</b>. Các máy này bị cô lập, không thấy máy nào.</div>
+</div>
+</div>
+
+<div class="section">
+<h3>Màn 2: Trang một mạng, tab Thành viên (/network/server)</h3>
+<div class="mk" style="position:relative">
+  <div class="muted" style="font-size:11px">Mạng ảo › server</div>
+  <div style="display:flex;align-items:center;gap:10px;margin:4px 0 10px"><b style="font-size:16px">server</b><span class="chip">4 máy</span><span class="chip">dải 100.88.0.0/16</span></div>
+  <div style="display:flex;gap:4px;margin-bottom:10px;border-bottom:1px solid #2a2f37;padding-bottom:8px"><span class="tab sel">Thành viên (4)</span><span class="tab">Cài đặt</span><span style="flex:1"></span><span class="btn">🔍 Tìm máy</span><span class="btn pri">+ Thêm máy</span></div>
+  <div class="bulk"><span>Đã chọn 2 máy</span><span class="btn dng">Bỏ khỏi mạng</span><span class="muted">Bỏ chọn</span></div>
+  <div class="row hd"><span class="ck"></span><span style="width:120px">Máy</span><span style="width:130px">IP ảo</span><span style="width:90px">Trạng thái</span><span style="width:120px">Mạng khác</span><span>IP thật</span></div>
+  <div class="row"><span class="ck y"></span><span class="mono" style="width:120px">srv-docker</span><span style="width:130px"><span class="in mono">100.88.0.4</span> <span class="on">✓</span></span><span class="on" style="width:90px">● online</span><span style="width:120px"><span class="chip">ketoan</span></span><span class="muted mono">10.0.0.9</span><span style="flex:1"></span><span class="muted">⋯</span></div>
+  <div class="row"><span class="ck y"></span><span class="mono" style="width:120px">srv-agent</span><span class="mono" style="width:130px">100.88.0.1 <span class="muted">✎</span></span><span class="on" style="width:90px">● online</span><span style="width:120px" class="muted">—</span><span class="muted mono">10.0.0.30</span><span style="flex:1"></span><span class="muted">⋯</span></div>
+  <div class="row"><span class="ck"></span><span class="mono" style="width:120px">rock-5b</span><span class="mono" style="width:130px">100.88.0.3 <span class="muted">✎</span></span><span class="muted" style="width:90px">● 5 ngày</span><span style="width:120px" class="muted">—</span><span class="muted mono">192.168.1.20</span><span style="flex:1"></span><span class="muted" style="color:#e6edf3">⋯</span></div>
+  <div class="menu" style="top:auto;bottom:6px;right:16px"><div>Sửa IP ảo</div><div>Mở trang máy</div><div>Copy IP</div><div class="red">Bỏ khỏi mạng</div></div>
+  <div class="row"><span class="ck"></span><span class="mono" style="width:120px">pc-qc</span><span class="mono" style="width:130px">100.88.0.5 <span class="muted">✎</span></span><span class="on" style="width:90px">● online</span><span style="width:120px" class="muted">—</span><span class="muted mono">192.168.10.5</span></div>
+  <p class="muted" style="font-size:11px;margin:8px 0 0">Bấm vào IP để sửa ngay tại dòng (Enter lưu, Esc huỷ). Sửa IP đổi IP của máy ở mọi mạng, vì mỗi máy chỉ có 1 IP. Headscale khởi động lại khoảng 10 giây.</p>
+</div>
+</div>
+
+<div class="section">
+<h3>Màn 3: Tab Cài đặt của mạng</h3>
+<div class="mk" style="max-width:520px">
+  <div style="display:flex;gap:4px;margin-bottom:10px"><span class="tab">Thành viên (4)</span><span class="tab sel">Cài đặt</span></div>
+  <div class="lbl">Tên mạng</div><div class="field mono">server</div>
+  <div class="lbl">Mô tả</div><div class="field">Máy chủ nội bộ</div>
+  <div class="lbl">Màu nhãn</div><div style="display:flex;gap:6px;margin:4px 0 12px"><span class="ck y" style="width:20px;height:20px"></span><span class="ck" style="width:20px;height:20px;background:#58a6ff;border:0"></span><span class="ck" style="width:20px;height:20px;background:#d29922;border:0"></span><span class="ck" style="width:20px;height:20px;background:#bc8cff;border:0"></span></div>
+  <span class="btn pri">Lưu</span>
+  <div class="card" style="border-color:#f8514966;margin-top:16px"><b class="red">Xoá mạng</b><div class="muted" style="font-size:12px;margin:4px 0 8px">4 máy sẽ không còn thấy nhau qua mạng này. Máy không thuộc mạng nào khác sẽ bị cô lập.</div><span class="btn dng">Xoá mạng server</span></div>
+</div>
+</div>
+
+<h3>Màn 4: Cách thêm máy vào mạng (chọn 1)</h3>
+<div class="options">
+  <div class="option" data-choice="a1" onclick="toggleSelect(this)">
+    <div class="letter">A1</div>
+    <div class="content">
+      <h3>Hộp thoại có ô tìm và tick nhiều máy</h3>
+      <p>Bấm "+ Thêm máy" mở hộp thoại giữa màn hình. Chỉ liệt kê máy đã vào mạng ảo và chưa ở trong mạng này.</p>
+      <div class="mk"><div class="dim"><div class="modal">
+        <b>Thêm máy vào server</b>
+        <div class="field muted" style="margin-top:8px">🔍 Tìm theo tên, danh mục…</div>
+        <div class="row"><span class="ck y"></span><span class="mono">pc-qc</span><span class="muted mono">100.88.0.5</span><span style="flex:1"></span><span class="on">●</span></div>
+        <div class="row"><span class="ck y"></span><span class="mono">srv-backup</span><span class="muted mono">100.88.0.7</span><span style="flex:1"></span><span class="muted">●</span></div>
+        <div class="row"><span class="ck"></span><span class="mono">pc-ketoan-01</span><span class="muted mono">100.88.0.9</span><span style="flex:1"></span><span class="on">●</span></div>
+        <div class="muted" style="font-size:11px;margin:6px 0">22 máy chưa vào mạng ảo bị ẩn</div>
+        <div style="text-align:right"><span class="btn">Huỷ</span> <span class="btn pri">Thêm 2 máy</span></div>
+      </div></div></div>
+    </div>
+  </div>
+  <div class="option" data-choice="a2" onclick="toggleSelect(this)">
+    <div class="letter">A2</div>
+    <div class="content">
+      <h3>Ngăn kéo bên phải, lọc theo danh mục</h3>
+      <p>Mở ngăn kéo bên phải, bảng thành viên vẫn nhìn thấy. Có bộ lọc theo danh mục máy (SERVER, Kế toán…) và nút "Chọn cả danh mục".</p>
+      <div class="mk" style="display:grid;grid-template-columns:1fr 210px;gap:0;padding:0;overflow:hidden">
+        <div style="padding:12px;opacity:.45"><div class="row hd"><span>Máy</span></div><div class="row mono">srv-docker</div><div class="row mono">srv-agent</div><div class="row mono">rock-5b</div></div>
+        <div style="border-left:1px solid #2a2f37;background:#161b22;padding:12px">
+          <b>Thêm máy</b>
+          <div style="display:flex;gap:4px;flex-wrap:wrap;margin:8px 0"><span class="chip" style="color:#3fb950;border-color:#3fb950">SERVER</span><span class="chip">Kế toán</span><span class="chip">QC</span></div>
+          <div class="muted" style="font-size:11px">☐ Chọn cả danh mục SERVER</div>
+          <div class="row"><span class="ck y"></span><span class="mono">srv-backup</span></div>
+          <div class="row"><span class="ck"></span><span class="mono">srv-misa</span></div>
+          <div style="margin-top:10px"><span class="btn pri">Thêm 1 máy</span></div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+    </div>
+  </div>
+
+<script>
+// Ghi chu cho mockup tinh: o ghi chu moi phuong an + ghi chu chung, luu localStorage,
+// nut Copy gom lua chon + ghi chu de user dan vao chat cho Claude (trang tinh khong gui ve duoc).
+(function () {
+  var KEY = 'mockup-notes:' + location.pathname;
+  var saved = {};
+  try { saved = JSON.parse(localStorage.getItem(KEY) || '{}'); } catch (e) {}
+  function save() {
+    var d = { _chon: picked() };
+    document.querySelectorAll('textarea[data-note]').forEach(function (t) { d[t.dataset.note] = t.value; });
+    try { localStorage.setItem(KEY, JSON.stringify(d)); } catch (e) {}
+  }
+  function picked() {
+    return [].map.call(document.querySelectorAll('.selected[data-choice]'), function (o) { return o.dataset.choice.toUpperCase(); });
+  }
+  function area(id, ph) {
+    var t = document.createElement('textarea');
+    t.dataset.note = id; t.placeholder = ph; t.rows = 2; t.value = saved[id] || '';
+    t.style.cssText = 'width:100%;margin-top:8px;padding:8px;border-radius:6px;border:1px solid #8b949e66;background:transparent;color:inherit;font:13px system-ui;resize:vertical';
+    t.addEventListener('click', function (e) { e.stopPropagation(); }); // khong chon option khi bam vao o ghi chu
+    t.addEventListener('input', save);
+    return t;
+  }
+  var status = document.createElement('span');
+  function refresh() { var s = picked(); status.textContent = s.length ? 'Đã chọn: ' + s.join(', ') : 'Chưa chọn'; }
+
+  if (!window.toggleSelect) window.toggleSelect = function (el) {
+    var c = el.closest('.options') || el.closest('.cards'); var m = c && c.dataset.multiselect !== undefined;
+    if (c && !m) c.querySelectorAll('.option, .card').forEach(function (o) { o.classList.remove('selected'); });
+    m ? el.classList.toggle('selected') : el.classList.add('selected');
+  };
+  var orig = window.toggleSelect;
+  window.toggleSelect = function (el) { orig(el); refresh(); save(); };
+
+  document.querySelectorAll('[data-choice]').forEach(function (o) {
+    var id = o.dataset.choice;
+    (o.querySelector('.content, .card-body') || o).appendChild(area(id, 'Ghi chú cho phương án ' + id.toUpperCase() + '…'));
+    if ((saved._chon || []).indexOf(id.toUpperCase()) >= 0) o.classList.add('selected');
+  });
+
+  var bar = document.createElement('div');
+  bar.style.cssText = 'position:sticky;bottom:0;z-index:50;margin-top:24px;padding:12px;border-top:1px solid #8b949e66;background:var(--bg-primary,Canvas);display:flex;flex-direction:column;gap:8px';
+  var gen = area('chung', 'Ghi chú chung: muốn đổi gì, thêm gì…');
+  gen.style.marginTop = '0';
+  var row = document.createElement('div');
+  row.style.cssText = 'display:flex;gap:10px;align-items:center;flex-wrap:wrap;font:14px system-ui';
+  var btn = document.createElement('button');
+  btn.textContent = 'Copy để gửi Claude';
+  btn.style.cssText = 'padding:8px 16px;border-radius:6px;border:0;background:#2f81f7;color:#fff;font:600 14px system-ui;cursor:pointer';
+  btn.onclick = function () {
+    var lines = ['Mockup: ' + ((document.querySelector('h1, h2') || {}).textContent || document.title) + ' (' + location.href + ')', 'Chọn: ' + (picked().join(', ') || '(chưa chọn)')];
+    document.querySelectorAll('textarea[data-note]').forEach(function (t) {
+      if (t.value.trim()) lines.push((t.dataset.note === 'chung' ? 'Ghi chú chung' : 'Ghi chú ' + t.dataset.note.toUpperCase()) + ': ' + t.value.trim());
+    });
+    var txt = lines.join('\n');
+    var done = function () { btn.textContent = 'Đã copy — dán vào chat'; setTimeout(function () { btn.textContent = 'Copy để gửi Claude'; }, 2500); };
+    if (navigator.clipboard && window.isSecureContext) navigator.clipboard.writeText(txt).then(done, function () { prompt('Copy đoạn này:', txt); });
+    else prompt('Copy đoạn này:', txt);
+  };
+  row.appendChild(btn); row.appendChild(status);
+  bar.appendChild(gen); bar.appendChild(row);
+  (document.getElementById('frame-content') || document.body).appendChild(bar);
+  refresh();
+})();
+</script>
+</body>
+</html>
