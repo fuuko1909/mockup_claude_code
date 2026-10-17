@@ -332,7 +332,7 @@
   });
 
   var bar = document.createElement('div');
-  bar.style.cssText = 'position:sticky;bottom:0;z-index:50;margin-top:24px;padding:12px;border-top:1px solid #8b949e66;background:inherit;backdrop-filter:blur(8px);display:flex;flex-direction:column;gap:8px';
+  bar.style.cssText = 'position:sticky;bottom:0;z-index:50;margin-top:24px;padding:12px;border-top:1px solid #8b949e66;background:var(--bg-primary,Canvas);display:flex;flex-direction:column;gap:8px';
   var gen = area('chung', 'Ghi chú chung: muốn đổi gì, thêm gì…');
   gen.style.marginTop = '0';
   var row = document.createElement('div');
@@ -341,7 +341,7 @@
   btn.textContent = 'Copy để gửi Claude';
   btn.style.cssText = 'padding:8px 16px;border-radius:6px;border:0;background:#2f81f7;color:#fff;font:600 14px system-ui;cursor:pointer';
   btn.onclick = function () {
-    var lines = ['Mockup: ' + document.title + ' (' + location.href + ')', 'Chọn: ' + (picked().join(', ') || '(chưa chọn)')];
+    var lines = ['Mockup: ' + ((document.querySelector('h1, h2') || {}).textContent || document.title) + ' (' + location.href + ')', 'Chọn: ' + (picked().join(', ') || '(chưa chọn)')];
     document.querySelectorAll('textarea[data-note]').forEach(function (t) {
       if (t.value.trim()) lines.push((t.dataset.note === 'chung' ? 'Ghi chú chung' : 'Ghi chú ' + t.dataset.note.toUpperCase()) + ': ' + t.value.trim());
     });
