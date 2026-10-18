@@ -1,0 +1,369 @@
+<!doctype html><html lang="vi"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1"><title>Plan tối ưu tốc độ — Sắc Màu Việt</title><style>body{margin:0;font:16px/1.6 system-ui,-apple-system,"Segoe UI",Roboto,sans-serif;color:#14212B;background:#FDFEFE}main{max-width:980px;margin:0 auto;padding:24px 16px 80px}h1{font-size:clamp(24px,4vw,34px);letter-spacing:-.02em}h2{margin-top:40px;padding-top:16px;border-top:1px solid #E3EEEC}h3{color:#0A5558;margin-top:28px}table{border-collapse:collapse;width:100%;font-size:14px;display:block;overflow-x:auto}th,td{border-bottom:1px solid #E8EFEE;padding:8px 10px;text-align:left;vertical-align:top}th{background:#F0F8F7}code{background:#EEF6F4;padding:1px 5px;border-radius:6px;font-size:.88em}blockquote{margin:0;padding:10px 14px;background:#FFF8E6;border-radius:12px}strong{color:#0A5558}</style></head><body><main><h1>Phase tối ưu tốc độ load toàn site (2026-10)</h1>
+<p><strong>Ngày:</strong> 2026-10-18 · <strong>Trạng thái:</strong> PLAN — chờ user chốt mục 6
+<strong>Tiền đề:</strong> <code>PHASE-PERF-OPTIMIZATION.md</code> (2026-06) — phần hạ tầng đã làm (kiểm tra lại mục 1.3). Plan này nhắm phần còn lại: <strong>trình duyệt + Cloudflare</strong>.</p>
+<hr>
+<h2>1. Đo thực tế (2026-10-18, prod)</h2>
+<h3>1.1 Server rất nhanh — nút thắt không nằm ở backend</h3>
+<table>
+<thead>
+<tr>
+<th>Đo</th>
+<th>Trên VPS (127.0.0.1)</th>
+<th>Từ ngoài (qua Cloudflare + NPM)</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>HTML trang chủ / sản phẩm</td>
+<td>35–78 ms</td>
+<td>300–800 ms</td>
+</tr>
+<tr>
+<td>API danh mục / sản phẩm / mẫu</td>
+<td>18–53 ms</td>
+<td>240–420 ms</td>
+</tr>
+</tbody></table>
+<h3>1.2 Trình duyệt phải tải (mobile 390px, cache trống)</h3>
+<table>
+<thead>
+<tr>
+<th>Trang</th>
+<th>Dung lượng</th>
+<th>Request</th>
+<th>LCP (mạng thật)</th>
+<th>Ghi chú</th>
+</tr>
+</thead>
+<tbody><tr>
+<td><code>/</code></td>
+<td><strong>4,4 MB</strong> (ảnh 3,9 MB)</td>
+<td>165</td>
+<td>1,9 s</td>
+<td>26/26 ảnh là ảnh gốc 1.800–3.600px, hiển thị 110–360px</td>
+</tr>
+<tr>
+<td><code>/san-pham/[slug]</code></td>
+<td><strong>2,8 MB</strong> (font mẫu 1,6 MB)</td>
+<td>221</td>
+<td>2,1 s</td>
+<td>1 font mẫu 491 KB; JS route 366 KB</td>
+</tr>
+<tr>
+<td><code>/san-pham</code></td>
+<td>2,1 MB</td>
+<td>142</td>
+<td>0,4 s</td>
+<td>ảnh thumbnail mẫu 678 KB</td>
+</tr>
+<tr>
+<td><code>/gio-hang</code>, <code>/dang-nhap</code></td>
+<td>~0,45 MB</td>
+<td>89–122</td>
+<td>~0,3 s</td>
+<td>18 file font, 38 chunk JS</td>
+</tr>
+</tbody></table>
+<h3>1.3 Lighthouse mobile (4G giả lập)</h3>
+<table>
+<thead>
+<tr>
+<th>Trang</th>
+<th>Điểm</th>
+<th>FCP</th>
+<th>LCP</th>
+<th>TBT</th>
+<th>CLS</th>
+</tr>
+</thead>
+<tbody><tr>
+<td><code>/</code></td>
+<td>61</td>
+<td>3,8 s</td>
+<td><strong>15,3 s</strong></td>
+<td>180 ms</td>
+<td>0</td>
+</tr>
+<tr>
+<td><code>/san-pham/thiep-cuoi-1</code></td>
+<td><strong>17</strong></td>
+<td>3,1 s</td>
+<td>11,0 s</td>
+<td><strong>3.270 ms</strong></td>
+<td><strong>0,398</strong></td>
+</tr>
+<tr>
+<td><code>/dang-nhap</code></td>
+<td>52</td>
+<td>3,6 s</td>
+<td>7,3 s</td>
+<td>390 ms</td>
+<td>0,156</td>
+</tr>
+</tbody></table>
+<h3>1.4 Hạ tầng đã làm (plan 2026-06) — không cần làm lại</h3>
+<p>Postgres <code>shared_buffers</code> 2,5 GB / <code>work_mem</code> 16 MB / <code>random_page_cost</code> 1.1 ✅ · Redis <code>maxmemory</code> 512 MB + LRU ✅ · uvicorn 4 worker, celery 4 ✅ · NPM HTTP/2 + <code>/_next/static</code> cache 1 năm ✅ · nén Brotli (Cloudflare) ✅.</p>
+<hr>
+<h2>2. Nguyên nhân gốc (xếp theo tác động)</h2>
+<table>
+<thead>
+<tr>
+<th>#</th>
+<th>Vấn đề</th>
+<th>Bằng chứng</th>
+<th>Ảnh hưởng</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>A</td>
+<td><strong>Ảnh gốc không qua tối ưu</strong> — mọi ảnh CMS / sản phẩm / mẫu là <code>&lt;img&gt;</code> thô trỏ <code>/api/v1/cms-anh/*/file</code> (JPEG gốc tới 2,7 MB)</td>
+<td>0/26 ảnh trang chủ qua <code>/_next/image</code>; cùng ảnh qua <code>/_next/image?w=640</code> = <strong>45 KB AVIF</strong> (nhỏ 60×)</td>
+<td>LCP trang chủ 15 s, 3,9 MB ảnh</td>
+</tr>
+<tr>
+<td>B</td>
+<td><strong>Mọi khách mới tải trang 2 lần</strong> — <code>CacheBuster</code> (dọn SW 1 lần, 2026-06) thấy <code>localStorage</code> trống ⇒ <code>location.reload()</code> với <em>mọi</em> khách mới</td>
+<td>2 request document cho 1 lượt mở</td>
+<td>Lần đầu vào chậm gấp đôi</td>
+</tr>
+<tr>
+<td>C</td>
+<td><strong>Cloudflare không cache gì</strong> (<code>cf-cache-status: DYNAMIC</code> cho JS, font, ảnh) và <strong>ghi đè</strong> cache 1 năm của <code>/_next/static</code> thành 16 giờ</td>
+<td>header <code>cache-control: max-age=57597</code> dù origin gửi <code>immutable</code></td>
+<td>Mọi file tĩnh đi về tận VPS; khách quay lại vẫn tải lại sau 16 h</td>
+</tr>
+<tr>
+<td>D</td>
+<td><strong><code>/api/auth/session</code> gọi 14 lần / trang</strong> — <code>apiClient</code> gọi <code>getSession()</code> trước <em>mỗi</em> request, không cache</td>
+<td>14 fetch session trên <code>/dang-nhap</code></td>
+<td>Thêm ~14 round-trip, chiếm kết nối</td>
+</tr>
+<tr>
+<td>E</td>
+<td><strong>Trang sản phẩm nặng JS</strong> — preview tương tác (Konva) + tải <strong>toàn bộ font của mẫu</strong> (491 KB/font) ngay khi mở</td>
+<td>TBT 3,3 s, JS exec 6,5 s, 1,6 MB font</td>
+<td>Điểm 17, máy yếu đơ vài giây</td>
+</tr>
+<tr>
+<td>F</td>
+<td><strong>Xô lệch bố cục (CLS)</strong> — khung preview / ảnh không giữ chỗ trước khi tải</td>
+<td>CLS 0,398 (sản phẩm), 0,156 (đăng nhập)</td>
+<td>Nội dung nhảy khi đang đọc / bấm</td>
+</tr>
+<tr>
+<td>G</td>
+<td>18 file font giao diện (4 độ đậm × 3 bộ ký tự), không preload</td>
+<td>117–193 KB font mỗi trang</td>
+<td>FCP chậm hơn</td>
+</tr>
+</tbody></table>
+<hr>
+<h2>3. Kế hoạch</h2>
+<h3>Giai đoạn 1 — Sửa nhanh, tác động lớn (~1 ngày, chỉ frontend)</h3>
+<table>
+<thead>
+<tr>
+<th>Việc</th>
+<th>Cách làm</th>
+<th>Ước tính</th>
+</tr>
+</thead>
+<tbody><tr>
+<td><strong>B</strong> Bỏ tải lại trang với khách mới</td>
+<td><code>CacheBuster</code>: chỉ reload khi <strong>thực sự</strong> có service worker cũ / cache cũ; khách mới chỉ ghi khoá phiên bản</td>
+<td>15 phút</td>
+</tr>
+<tr>
+<td><strong>D</strong> Cache session ở <code>apiClient</code></td>
+<td>Ghi nhớ kết quả <code>getSession()</code> ~30 s (dùng chung 1 promise khi nhiều request song song); xoá khi đăng nhập/đăng xuất/401</td>
+<td>45 phút + test</td>
+</tr>
+<tr>
+<td><strong>A</strong> Ảnh qua <code>/_next/image</code></td>
+<td>Helper <code>anhToiUu(url, rong)</code> dùng lại bộ tối ưu sẵn có (AVIF/WebP, đã cấu hình <code>images</code> trong <code>next.config.ts</code>); áp cho: thẻ danh mục, quạt ảnh hero, <code>SanPhamCard</code>, <code>CarouselStrip</code>, <code>FeatureColumns</code>, <code>PromoBlocks</code>, <code>BannerNho</code>, thumbnail mẫu (<code>file-asset</code>), giỏ hàng, gallery sản phẩm. Thêm <code>loading=&quot;lazy&quot;</code> + <code>sizes</code>; ảnh LCP đầu trang <code>fetchpriority=&quot;high&quot;</code></td>
+<td>3–4 giờ</td>
+</tr>
+<tr>
+<td><strong>F</strong> Giữ chỗ chống xô lệch</td>
+<td><code>aspect-ratio</code> cố định cho khung preview sản phẩm, ảnh gallery, logo; kiểm tra lại CLS đăng nhập (nghi popup/thông báo chèn vào)</td>
+<td>1–2 giờ</td>
+</tr>
+</tbody></table>
+<p>Kỳ vọng: trang chủ <strong>4,4 MB → ~0,7 MB</strong>, LCP lab 15 s → ~3 s; khách mới không còn tải 2 lần; bớt ~13 request/trang.</p>
+<h3>Giai đoạn 2 — Cloudflare (<strong>cần bạn</strong>: quyền dashboard hoặc API token)</h3>
+<table>
+<thead>
+<tr>
+<th>Việc</th>
+<th>Cài đặt</th>
+</tr>
+</thead>
+<tbody><tr>
+<td><strong>C1</strong> Tôn trọng header cache của origin</td>
+<td>Caching → Configuration → <strong>Browser Cache TTL = &quot;Respect Existing Headers&quot;</strong></td>
+</tr>
+<tr>
+<td><strong>C2</strong> Cache ở edge (gần khách VN)</td>
+<td>Cache Rules: <code>/_next/static/*</code>, <code>/_next/image*</code>, <code>/brand/*</code>, <code>/img/*</code>, font → <strong>Eligible for cache</strong>, Edge TTL theo header origin; <code>/api/v1/cms-anh/*/file</code> → cache 1 ngày</td>
+</tr>
+<tr>
+<td><strong>C3</strong> Không cache HTML / API động</td>
+<td>Giữ mặc định (đang <code>no-store</code>)</td>
+</tr>
+</tbody></table>
+<p>Kỳ vọng: file tĩnh trả từ edge Cloudflare (thường &lt; 50 ms ở VN) thay vì về VPS; khách quay lại không tải lại JS/font.</p>
+<blockquote>
+<p>Đổi cấu hình dịch vụ ngoài → mình không tự làm. Bạn cấp API token Cloudflare (quyền <em>Zone → Cache Rules + Zone Settings</em>, chỉ zone insacmauviet.vn) hoặc mình gửi hướng dẫn từng bước để bạn bấm.</p>
+</blockquote>
+<h3>Giai đoạn 3 — Trang sản phẩm nhẹ lại (~1 ngày)</h3>
+<table>
+<thead>
+<tr>
+<th>Việc</th>
+<th>Cách làm</th>
+</tr>
+</thead>
+<tbody><tr>
+<td><strong>E1</strong> Hiện ảnh preview tĩnh trước</td>
+<td>Lần đầu mở: ảnh render sẵn của mẫu (đã có <code>hinh_anh_url</code> / thumbnail) qua <code>/_next/image</code>; chỉ tải Konva + preview tương tác khi khách bấm &quot;Tuỳ chỉnh&quot; hoặc sau khi trang rảnh (<code>requestIdleCallback</code>)</td>
+</tr>
+<tr>
+<td><strong>E2</strong> Font mẫu tải theo nhu cầu</td>
+<td>Chỉ tải font của trường đang hiển thị / đang sửa; dùng bản subset web (backend đã có cờ subset — migration <code>0071</code>) thay font đủ; <code>font-display: swap</code></td>
+</tr>
+<tr>
+<td><strong>E3</strong> Tách bundle</td>
+<td><code>dynamic(() =&gt; import(...), { ssr: false })</code> cho <code>InteractiveTemplatePreview</code>, <code>BasicEditPanel</code>, <code>MockupPreview</code>; kiểm tra lại JS route (366 KB → mục tiêu &lt; 200 KB)</td>
+</tr>
+</tbody></table>
+<p>Kỳ vọng: TBT 3,3 s → &lt; 600 ms, điểm 17 → 60+.</p>
+<h3>Giai đoạn 4 — Font giao diện + dọn nhỏ (~2 giờ)</h3>
+<ul>
+<li>Preload 2 file font chính (400 + 600, bộ <code>vietnamese</code> + <code>latin</code>); cân nhắc bỏ độ đậm 500 (map <code>font-medium</code> → 600 hoặc 400) — giảm ~25% byte font.</li>
+<li>Bỏ request thừa: <code>/api/version</code> gọi 2 lần, <code>/api/v1/cau-hinh-website</code> gọi nhiều nơi → dùng chung react-query key.</li>
+</ul>
+<h3>Giai đoạn 5 — Ảnh gốc nhẹ từ đầu (tuỳ chọn, backend + dữ liệu)</h3>
+<ul>
+<li>Khi admin tải ảnh CMS: tự resize tối đa 2.000px + nén WebP; script một lần nén lại ảnh cũ trong MinIO (giữ bản gốc).</li>
+<li>Chỉ cần nếu sau GĐ1+2 vẫn thấy ảnh gốc bị tải (vd. link ảnh dùng ngoài web). <strong>Đụng dữ liệu prod → hỏi trước.</strong></li>
+</ul>
+<hr>
+<h2>4. Đo lại &amp; chống thoái lui</h2>
+<ul>
+<li>Script đo (Playwright: dung lượng, request, ảnh quá cỡ, LCP/TTFB) + Lighthouse 3 trang → chạy trước/sau mỗi giai đoạn, ghi bảng vào file này.</li>
+<li>Mục tiêu (Lighthouse mobile): <code>/</code> ≥ 85, <code>/san-pham/[slug]</code> ≥ 60, <code>/dang-nhap</code> ≥ 85; CLS &lt; 0,1; trang chủ &lt; 1 MB.</li>
+<li>Quy ước mới: ảnh nội dung <strong>luôn</strong> qua helper <code>anhToiUu</code> (ghi vào CLAUDE.md mục cạm bẫy).</li>
+</ul>
+<h2>5. Thứ tự &amp; ước lượng</h2>
+<table>
+<thead>
+<tr>
+<th>Giai đoạn</th>
+<th>Thời gian</th>
+<th>Phụ thuộc</th>
+<th>Deploy</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>1 Sửa nhanh (B, D, A, F)</td>
+<td>~1 ngày</td>
+<td>—</td>
+<td>riêng</td>
+</tr>
+<tr>
+<td>2 Cloudflare</td>
+<td>30 phút</td>
+<td>quyền Cloudflare từ bạn</td>
+<td>—</td>
+</tr>
+<tr>
+<td>3 Trang sản phẩm</td>
+<td>~1 ngày</td>
+<td>GĐ1</td>
+<td>riêng</td>
+</tr>
+<tr>
+<td>4 Font + dọn nhỏ</td>
+<td>~2 giờ</td>
+<td>—</td>
+<td>gộp GĐ3</td>
+</tr>
+<tr>
+<td>5 Nén ảnh gốc (tuỳ chọn)</td>
+<td>~0,5 ngày</td>
+<td>xác nhận của bạn</td>
+<td>riêng</td>
+</tr>
+</tbody></table>
+<p>Không đổi DB schema, không thêm thư viện.</p>
+<h2>6. Cần bạn chốt</h2>
+<ul>
+<li><strong>Q1 — Cloudflare:</strong> A. Cấp API token giới hạn (mình tự cấu hình + kiểm tra) · <strong>B. Mình gửi hướng dẫn từng bước, bạn bấm (khuyên — không cần cấp quyền)</strong>.</li>
+<li><strong>Q2 — Giai đoạn 5 (nén lại ảnh gốc trong MinIO):</strong> làm luôn / để sau khi xem kết quả GĐ1+2 (<strong>khuyên để sau</strong>).</li>
+<li><strong>Q3 — Font độ đậm 500:</strong> bỏ (nhẹ hơn ~25%, chữ &quot;medium&quot; hơi khác) / giữ (<strong>khuyên giữ</strong>, chỉ preload).</li>
+</ul>
+</main><script>
+// Ghi chu cho mockup tinh: o ghi chu moi phuong an + ghi chu chung, luu localStorage,
+// nut Copy gom lua chon + ghi chu de user dan vao chat cho Claude (trang tinh khong gui ve duoc).
+(function () {
+  var KEY = 'mockup-notes:' + location.pathname;
+  var saved = {};
+  try { saved = JSON.parse(localStorage.getItem(KEY) || '{}'); } catch (e) {}
+  function save() {
+    var d = { _chon: picked() };
+    document.querySelectorAll('textarea[data-note]').forEach(function (t) { d[t.dataset.note] = t.value; });
+    try { localStorage.setItem(KEY, JSON.stringify(d)); } catch (e) {}
+  }
+  function picked() {
+    return [].map.call(document.querySelectorAll('.selected[data-choice]'), function (o) { return o.dataset.choice.toUpperCase(); });
+  }
+  function area(id, ph) {
+    var t = document.createElement('textarea');
+    t.dataset.note = id; t.placeholder = ph; t.rows = 2; t.value = saved[id] || '';
+    t.style.cssText = 'width:100%;margin-top:8px;padding:8px;border-radius:6px;border:1px solid #8b949e66;background:transparent;color:inherit;font:13px system-ui;resize:vertical';
+    t.addEventListener('click', function (e) { e.stopPropagation(); }); // khong chon option khi bam vao o ghi chu
+    t.addEventListener('input', save);
+    return t;
+  }
+  var status = document.createElement('span');
+  function refresh() { var s = picked(); status.textContent = s.length ? 'Đã chọn: ' + s.join(', ') : 'Chưa chọn'; }
+
+  if (!window.toggleSelect) window.toggleSelect = function (el) {
+    var c = el.closest('.options') || el.closest('.cards'); var m = c && c.dataset.multiselect !== undefined;
+    if (c && !m) c.querySelectorAll('.option, .card').forEach(function (o) { o.classList.remove('selected'); });
+    m ? el.classList.toggle('selected') : el.classList.add('selected');
+  };
+  var orig = window.toggleSelect;
+  window.toggleSelect = function (el) { orig(el); refresh(); save(); };
+
+  document.querySelectorAll('[data-choice]').forEach(function (o) {
+    var id = o.dataset.choice;
+    (o.querySelector('.content, .card-body') || o).appendChild(area(id, 'Ghi chú cho phương án ' + id.toUpperCase() + '…'));
+    if ((saved._chon || []).indexOf(id.toUpperCase()) >= 0) o.classList.add('selected');
+  });
+
+  var bar = document.createElement('div');
+  bar.style.cssText = 'position:sticky;bottom:0;z-index:50;margin-top:24px;padding:12px;border-top:1px solid #8b949e66;background:var(--bg-primary,Canvas);display:flex;flex-direction:column;gap:8px';
+  var gen = area('chung', 'Ghi chú chung: muốn đổi gì, thêm gì…');
+  gen.style.marginTop = '0';
+  var row = document.createElement('div');
+  row.style.cssText = 'display:flex;gap:10px;align-items:center;flex-wrap:wrap;font:14px system-ui';
+  var btn = document.createElement('button');
+  btn.textContent = 'Copy để gửi Claude';
+  btn.style.cssText = 'padding:8px 16px;border-radius:6px;border:0;background:#2f81f7;color:#fff;font:600 14px system-ui;cursor:pointer';
+  btn.onclick = function () {
+    var lines = ['Mockup: ' + ((document.querySelector('h1, h2') || {}).textContent || document.title) + ' (' + location.href + ')', 'Chọn: ' + (picked().join(', ') || '(chưa chọn)')];
+    document.querySelectorAll('textarea[data-note]').forEach(function (t) {
+      if (t.value.trim()) lines.push((t.dataset.note === 'chung' ? 'Ghi chú chung' : 'Ghi chú ' + t.dataset.note.toUpperCase()) + ': ' + t.value.trim());
+    });
+    var txt = lines.join('\n');
+    var done = function () { btn.textContent = 'Đã copy — dán vào chat'; setTimeout(function () { btn.textContent = 'Copy để gửi Claude'; }, 2500); };
+    if (navigator.clipboard && window.isSecureContext) navigator.clipboard.writeText(txt).then(done, function () { prompt('Copy đoạn này:', txt); });
+    else prompt('Copy đoạn này:', txt);
+  };
+  row.appendChild(btn); row.appendChild(status);
+  bar.appendChild(gen); bar.appendChild(row);
+  (document.getElementById('frame-content') || document.body).appendChild(bar);
+  refresh();
+})();
+</script>
+</body></html>
