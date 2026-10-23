@@ -1,0 +1,183 @@
+<!doctype html>
+<html lang="vi"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">
+<title>SMV — Mockup danh mục trang chủ + menu theo nhóm</title>
+<style>
+:root{--p:#0E6F73;--ps:#E3F1F0;--ink:#16252A;--soft:#5B6B70;--bd:#DCE9E6;--bg:#F5FAF9}
+*{box-sizing:border-box}body{margin:0;font-family:"Be Vietnam Pro",system-ui,sans-serif;background:var(--bg);color:var(--ink)}
+h1{font-size:22px;margin:24px 24px 4px}p.mt{margin:0 24px 16px;color:var(--soft);font-size:14px}
+.khung{background:#fff;border:1px solid var(--bd);border-radius:24px;margin:16px 24px;padding:20px;position:relative}
+.nhan{position:absolute;top:-11px;left:20px;background:var(--p);color:#fff;font-size:12px;padding:2px 10px;border-radius:99px}
+svg{width:18px;height:18px;stroke:currentColor;fill:none;stroke-width:2;stroke-linecap:round;stroke-linejoin:round;vertical-align:middle}
+/* header + mega menu */
+.hdr{display:flex;align-items:center;gap:28px;border:1px solid var(--bd);border-radius:20px;padding:12px 20px;background:#fff}
+.logo{font-weight:800;color:#D7262C;font-size:22px}.nav a{font-size:14px;color:var(--ink);text-decoration:none;margin-right:22px}
+.nav a.on{color:var(--p);font-weight:600}
+.mega{margin-top:8px;border:1px solid var(--bd);border-radius:20px;padding:20px;display:grid;grid-template-columns:repeat(5,1fr) 220px;gap:20px;background:#fff;box-shadow:0 20px 40px -24px rgba(8,59,61,.35)}
+.mega h4{margin:0 0 10px;font-size:13px;text-transform:uppercase;letter-spacing:.04em;color:var(--p)}
+.mega a{display:block;font-size:14px;color:var(--ink);text-decoration:none;padding:5px 0}.mega a span{color:var(--soft);font-size:12px;margin-left:4px}
+.mega a.dang{color:var(--p);font-weight:600;background:var(--ps);border-radius:8px;padding:5px 8px;margin-left:-8px}
+.mega .an{color:#a9b6b9}.mega .noibat{background:var(--ps);border-radius:16px;padding:14px}
+.mega .noibat b{font-size:13px}.mega .xt{margin-top:14px;font-size:13px;color:var(--p);font-weight:600}
+/* bento + tabs */
+.tieu{display:flex;justify-content:space-between;align-items:end;margin-bottom:14px}.tieu small{color:var(--p);font-weight:600;letter-spacing:.12em;font-size:12px}
+.tieu h2{margin:4px 0 0;font-size:28px}.nut{border:1px solid var(--bd);border-radius:99px;padding:8px 14px;font-size:14px;font-weight:600;background:#fff}
+.bento{display:grid;grid-template-columns:repeat(4,1fr);grid-auto-rows:130px;gap:12px}
+.o{border-radius:22px;position:relative;overflow:hidden;display:flex;align-items:flex-end;padding:10px}
+.o .tag{background:rgba(255,255,255,.88);border-radius:14px;padding:8px 12px;width:100%;display:flex;justify-content:space-between;font-size:14px;font-weight:600}
+.o .tag small{display:block;color:var(--soft);font-weight:400;font-size:12px}
+.o1{grid-column:span 2;grid-row:span 2}.o2{grid-column:span 2}
+.c1{background:linear-gradient(135deg,#BFE3D9,#86C9B9)}.c2{background:linear-gradient(135deg,#E7D5F2,#C9A9E3)}.c3{background:linear-gradient(135deg,#F7C9C0,#EE9A8C)}.c4{background:linear-gradient(135deg,#F3E2C6,#E4C28F)}.c5{background:linear-gradient(135deg,#CFE2F6,#9BC2EA)}.c6{background:linear-gradient(135deg,#E2E6D2,#BFC9A3)}
+.tabs{display:flex;gap:6px;margin:22px 0 12px;overflow:auto}.tabs b{white-space:nowrap;font-size:14px;padding:8px 14px;border-radius:99px;border:1px solid var(--bd);font-weight:500}.tabs b.on{background:var(--p);color:#fff;border-color:var(--p)}
+.hang{display:flex;gap:12px;overflow-x:auto;padding-bottom:6px}.the{flex:0 0 170px;border:1px solid var(--bd);border-radius:18px;overflow:hidden;background:#fff}
+.the .a{height:110px}.the p{margin:8px 10px 10px;font-size:14px;font-weight:600}.the p small{display:block;font-weight:400;color:var(--soft);font-size:12px}
+.xemtatca{margin-top:14px;text-align:center}.xemtatca span{display:inline-block;border:1px solid var(--p);color:var(--p);border-radius:99px;padding:9px 18px;font-weight:600;font-size:14px}
+/* mobile */
+.dt{display:flex;gap:24px;flex-wrap:wrap}.phone{width:360px;border:10px solid #16252A;border-radius:36px;background:var(--bg);overflow:hidden}
+.phone .bar{display:flex;justify-content:space-between;align-items:center;padding:12px 14px;background:#fff;border-bottom:1px solid var(--bd)}
+.ngan{background:#fff;padding:12px 14px}.ngan .nh{display:flex;justify-content:space-between;padding:12px 0;border-bottom:1px solid var(--bd);font-weight:600;font-size:15px}
+.ngan .con a{display:block;padding:9px 12px;font-size:14px;color:var(--ink);text-decoration:none}.ngan .con a span{color:var(--soft);font-size:12px}
+.mb{padding:14px}.mb .bento{grid-template-columns:repeat(2,1fr);grid-auto-rows:110px}.mb .o1{grid-column:span 2;grid-row:span 1}.mb .o2{grid-column:span 1}
+.ghichu{font-size:13px;color:var(--soft);margin:10px 0 0;line-height:1.55}
+.chon{display:flex;gap:10px;margin:8px 24px 30px;flex-wrap:wrap}.chon div{border:1px solid var(--bd);background:#fff;border-radius:14px;padding:12px 16px;cursor:pointer;font-size:14px}
+.chon div.selected{border-color:var(--p);background:var(--ps)}
+</style></head><body>
+<h1>Mockup — Danh mục trang chủ + menu theo nhóm</h1>
+<p class="mt">Dữ liệu minh hoạ (5 nhóm đã tạo, số mẫu giả định). Ảnh danh mục thật thay cho ô màu. Không dùng emoji; icon là SVG phẳng.</p>
+
+<div class="khung"><span class="nhan">1. Desktop — menu "Mẫu thiết kế" mở theo nhóm</span>
+  <div class="hdr"><span class="logo">SMV</span><nav class="nav"><a class="on" href="#">Mẫu thiết kế <svg viewBox="0 0 24 24"><path d="m6 9 6 6 6-6"/></svg></a><a href="#">Tự thiết kế</a><a href="#">Yêu cầu thiết kế</a><a href="#">Liên hệ</a></nav></div>
+  <div class="mega">
+    <div><h4>Học sinh</h4><a class="dang" href="#">Nhãn vở <span>13</span></a><a href="#">Bìa vở học sinh <span>6</span></a><a href="#">Bìa sổ tay <span>4</span></a></div>
+    <div><h4>Lịch</h4><a href="#">Lịch treo tường <span>8</span></a><a href="#">Lịch để bàn <span>5</span></a></div>
+    <div><h4>Thiệp</h4><a href="#">Thiệp cưới <span>9</span></a><a href="#">Thiệp mời <span>7</span></a></div>
+    <div><h4>Ảnh &amp; kỷ niệm</h4><a href="#">Photobook <span>3</span></a><a href="#">Ảnh photobooth <span>2</span></a></div>
+    <div><h4>Văn phòng &amp; tiếp thị</h4><a href="#">Danh thiếp <span>11</span></a><a href="#">Sticker &amp; nhãn dán <span>5</span></a><a href="#">Hashtag cầm tay <span>4</span></a><a href="#">Quạt cầm tay <span>3</span></a></div>
+    <div class="noibat"><b>Nổi bật</b><div class="o c1" style="height:120px;margin-top:10px;border-radius:14px"><div class="tag">Nhãn vở<svg viewBox="0 0 24 24"><path d="M5 12h14M13 6l6 6-6 6"/></svg></div></div><div class="xt">Xem tất cả 13 danh mục</div></div>
+  </div>
+  <p class="ghichu">Rê chuột có độ trễ ~150 ms để đi chéo vào khung. Danh mục đang xem được tô nền (Baymard: phải cho khách biết đang ở đâu). Số nhỏ = số mẫu. Danh mục chưa có mẫu không hiện.</p>
+</div>
+
+<div class="khung"><span class="nhan">2. Desktop — khối "Sản phẩm in theo danh mục"</span>
+  <div class="tieu"><div><small>DANH MỤC</small><h2>Sản phẩm in theo danh mục</h2></div><span class="nut">Xem tất cả 13 danh mục <svg viewBox="0 0 24 24"><path d="M5 12h14M13 6l6 6-6 6"/></svg></span></div>
+  <div class="bento">
+    <div class="o o1 c1"><div class="tag"><span>Nhãn vở<small>13 mẫu</small></span><svg viewBox="0 0 24 24"><path d="M5 12h14M13 6l6 6-6 6"/></svg></div></div>
+    <div class="o o2 c2"><div class="tag"><span>Lịch treo tường<small>8 mẫu</small></span><svg viewBox="0 0 24 24"><path d="M5 12h14M13 6l6 6-6 6"/></svg></div></div>
+    <div class="o c3"><div class="tag"><span>Danh thiếp<small>11 mẫu</small></span></div></div>
+    <div class="o c4"><div class="tag"><span>Thiệp cưới<small>9 mẫu</small></span></div></div>
+    <div class="o c5"><div class="tag"><span>Lịch để bàn<small>5 mẫu</small></span></div></div>
+    <div class="o c6"><div class="tag"><span>Thiệp mời<small>7 mẫu</small></span></div></div>
+    <div class="o c2"><div class="tag"><span>Sticker<small>5 mẫu</small></span></div></div>
+    <div class="o c1"><div class="tag"><span>Photobook<small>3 mẫu</small></span></div></div>
+  </div>
+  <p class="ghichu">8 ô = danh mục admin bật "Nổi bật" (sao), theo thứ tự admin kéo thả — không còn cắt mất danh mục thứ 9+.</p>
+  <div class="tabs"><b class="on">Học sinh</b><b>Lịch</b><b>Thiệp</b><b>Ảnh &amp; kỷ niệm</b><b>Văn phòng &amp; tiếp thị</b></div>
+  <div class="hang">
+    <div class="the"><div class="a c1"></div><p>Nhãn vở<small>13 mẫu</small></p></div>
+    <div class="the"><div class="a c5"></div><p>Bìa vở học sinh<small>6 mẫu</small></p></div>
+    <div class="the"><div class="a c4"></div><p>Bìa sổ tay<small>4 mẫu</small></p></div>
+  </div>
+  <p class="ghichu">Tab theo nhóm: mỗi tab 1 hàng thẻ cuộn ngang, thêm bao nhiêu danh mục cũng không vỡ bố cục. Nhóm không có danh mục nào có mẫu thì ẩn tab.</p>
+  <div class="xemtatca"><span>Xem tất cả 13 danh mục</span></div>
+</div>
+
+<div class="khung"><span class="nhan">3. Điện thoại — ngăn kéo menu theo nhóm + khối danh mục</span>
+  <div class="dt">
+    <div class="phone"><div class="bar"><svg viewBox="0 0 24 24"><path d="M18 6 6 18M6 6l12 12"/></svg><span class="logo" style="font-size:18px">SMV</span><svg viewBox="0 0 24 24"><circle cx="11" cy="11" r="7"/><path d="m21 21-4.3-4.3"/></svg></div>
+      <div class="ngan">
+        <div class="nh">Học sinh<svg viewBox="0 0 24 24"><path d="m18 15-6-6-6 6"/></svg></div>
+        <div class="con"><a href="#" style="background:var(--ps);border-radius:10px;color:var(--p);font-weight:600">Nhãn vở <span>13</span></a><a href="#">Bìa vở học sinh <span>6</span></a><a href="#">Bìa sổ tay <span>4</span></a></div>
+        <div class="nh">Lịch<svg viewBox="0 0 24 24"><path d="m6 9 6 6 6-6"/></svg></div>
+        <div class="nh">Thiệp<svg viewBox="0 0 24 24"><path d="m6 9 6 6 6-6"/></svg></div>
+        <div class="nh">Ảnh &amp; kỷ niệm<svg viewBox="0 0 24 24"><path d="m6 9 6 6 6-6"/></svg></div>
+        <div class="nh">Văn phòng &amp; tiếp thị<svg viewBox="0 0 24 24"><path d="m6 9 6 6 6-6"/></svg></div>
+        <div class="nh" style="border:0;color:var(--p)">Xem tất cả danh mục</div>
+      </div>
+    </div>
+    <div class="phone"><div class="mb">
+      <div class="tieu"><div><small>DANH MỤC</small><h2 style="font-size:22px">Sản phẩm in</h2></div></div>
+      <div class="bento">
+        <div class="o o1 c1"><div class="tag"><span>Nhãn vở<small>13 mẫu</small></span></div></div>
+        <div class="o o2 c2"><div class="tag"><span>Lịch treo tường<small>8 mẫu</small></span></div></div>
+        <div class="o o2 c3"><div class="tag"><span>Danh thiếp<small>11 mẫu</small></span></div></div>
+        <div class="o c4"><div class="tag"><span>Thiệp cưới</span></div></div><div class="o c6"><div class="tag"><span>Thiệp mời</span></div></div>
+      </div>
+      <div class="tabs"><b class="on">Học sinh</b><b>Lịch</b><b>Thiệp</b><b>Ảnh</b></div>
+      <div class="hang"><div class="the" style="flex-basis:140px"><div class="a c1"></div><p>Nhãn vở<small>13 mẫu</small></p></div><div class="the" style="flex-basis:140px"><div class="a c5"></div><p>Bìa vở<small>6 mẫu</small></p></div><div class="the" style="flex-basis:140px"><div class="a c4"></div><p>Bìa sổ tay<small>4 mẫu</small></p></div></div>
+      <div class="xemtatca"><span>Xem tất cả 13 danh mục</span></div>
+    </div></div>
+  </div>
+  <p class="ghichu">Điện thoại: bento rút còn 5 ô nổi bật đầu, tab nhóm vuốt ngang, menu là ngăn kéo mở từng nhóm (không phải bấm qua nhiều tầng).</p>
+</div>
+
+<h1 style="font-size:18px">Bạn duyệt</h1>
+<div class="chon">
+  <div data-choice="a" onclick="this.classList.toggle('selected')">A. Duyệt như mockup (bento nổi bật + tab nhóm + mega menu)</div>
+  <div data-choice="b" onclick="this.classList.toggle('selected')">B. Bỏ bento, chỉ tab theo nhóm</div>
+  <div data-choice="c" onclick="this.classList.toggle('selected')">C. Giữ bento, menu chỉ đổi sang theo nhóm</div>
+</div>
+<script>
+// Ghi chu cho mockup tinh: o ghi chu moi phuong an + ghi chu chung, luu localStorage,
+// nut Copy gom lua chon + ghi chu de user dan vao chat cho Claude (trang tinh khong gui ve duoc).
+(function () {
+  var KEY = 'mockup-notes:' + location.pathname;
+  var saved = {};
+  try { saved = JSON.parse(localStorage.getItem(KEY) || '{}'); } catch (e) {}
+  function save() {
+    var d = { _chon: picked() };
+    document.querySelectorAll('textarea[data-note]').forEach(function (t) { d[t.dataset.note] = t.value; });
+    try { localStorage.setItem(KEY, JSON.stringify(d)); } catch (e) {}
+  }
+  function picked() {
+    return [].map.call(document.querySelectorAll('.selected[data-choice]'), function (o) { return o.dataset.choice.toUpperCase(); });
+  }
+  function area(id, ph) {
+    var t = document.createElement('textarea');
+    t.dataset.note = id; t.placeholder = ph; t.rows = 2; t.value = saved[id] || '';
+    t.style.cssText = 'width:100%;margin-top:8px;padding:8px;border-radius:6px;border:1px solid #8b949e66;background:transparent;color:inherit;font:13px system-ui;resize:vertical';
+    t.addEventListener('click', function (e) { e.stopPropagation(); }); // khong chon option khi bam vao o ghi chu
+    t.addEventListener('input', save);
+    return t;
+  }
+  var status = document.createElement('span');
+  function refresh() { var s = picked(); status.textContent = s.length ? 'Đã chọn: ' + s.join(', ') : 'Chưa chọn'; }
+
+  if (!window.toggleSelect) window.toggleSelect = function (el) {
+    var c = el.closest('.options') || el.closest('.cards'); var m = c && c.dataset.multiselect !== undefined;
+    if (c && !m) c.querySelectorAll('.option, .card').forEach(function (o) { o.classList.remove('selected'); });
+    m ? el.classList.toggle('selected') : el.classList.add('selected');
+  };
+  var orig = window.toggleSelect;
+  window.toggleSelect = function (el) { orig(el); refresh(); save(); };
+
+  document.querySelectorAll('[data-choice]').forEach(function (o) {
+    var id = o.dataset.choice;
+    (o.querySelector('.content, .card-body') || o).appendChild(area(id, 'Ghi chú cho phương án ' + id.toUpperCase() + '…'));
+    if ((saved._chon || []).indexOf(id.toUpperCase()) >= 0) o.classList.add('selected');
+  });
+
+  var bar = document.createElement('div');
+  bar.style.cssText = 'position:sticky;bottom:0;z-index:50;margin-top:24px;padding:12px;border-top:1px solid #8b949e66;background:var(--bg-primary,Canvas);display:flex;flex-direction:column;gap:8px';
+  var gen = area('chung', 'Ghi chú chung: muốn đổi gì, thêm gì…');
+  gen.style.marginTop = '0';
+  var row = document.createElement('div');
+  row.style.cssText = 'display:flex;gap:10px;align-items:center;flex-wrap:wrap;font:14px system-ui';
+  var btn = document.createElement('button');
+  btn.textContent = 'Copy để gửi Claude';
+  btn.style.cssText = 'padding:8px 16px;border-radius:6px;border:0;background:#2f81f7;color:#fff;font:600 14px system-ui;cursor:pointer';
+  btn.onclick = function () {
+    var lines = ['Mockup: ' + ((document.querySelector('h1, h2') || {}).textContent || document.title) + ' (' + location.href + ')', 'Chọn: ' + (picked().join(', ') || '(chưa chọn)')];
+    document.querySelectorAll('textarea[data-note]').forEach(function (t) {
+      if (t.value.trim()) lines.push((t.dataset.note === 'chung' ? 'Ghi chú chung' : 'Ghi chú ' + t.dataset.note.toUpperCase()) + ': ' + t.value.trim());
+    });
+    var txt = lines.join('\n');
+    var done = function () { btn.textContent = 'Đã copy — dán vào chat'; setTimeout(function () { btn.textContent = 'Copy để gửi Claude'; }, 2500); };
+    if (navigator.clipboard && window.isSecureContext) navigator.clipboard.writeText(txt).then(done, function () { prompt('Copy đoạn này:', txt); });
+    else prompt('Copy đoạn này:', txt);
+  };
+  row.appendChild(btn); row.appendChild(status);
+  bar.appendChild(gen); bar.appendChild(row);
+  (document.getElementById('frame-content') || document.body).appendChild(bar);
+  refresh();
+})();
+</script>
+</body></html>
