@@ -1,0 +1,344 @@
+<!doctype html>
+<html lang="vi">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Mockup – Tổng quan & Báo cáo kinh doanh (ECharts)</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Be+Vietnam+Pro:wght@400;500;600;700&display=swap" rel="stylesheet">
+<script src="https://cdn.jsdelivr.net/npm/echarts@5.5.1/dist/echarts.min.js" integrity="sha384-Mx5lkUEQPM1pOJCwFtUICyX45KNojXbkWdYhkKUKsbv391mavbfoAmONbzkgYPzR" crossorigin="anonymous"></script>
+<style>
+  :root {
+    --nen: #f4f7fb; --the: #fff; --vien: #e6ebf2; --chu: #0f1b2d; --chu-nhat: #5b6677; --chu-mo: #8a94a3;
+    --c1: #2a78d6; --c2: #eb6834; --c3: #1baf7a; --c4: #6250d6; --tot: #0a8a3a; --xau: #c2342e;
+    --r: 18px;
+  }
+  * { box-sizing: border-box; }
+  body { margin: 0; font-family: "Be Vietnam Pro", system-ui, sans-serif; font-size: 14px; background: var(--nen); color: var(--chu); }
+  .khung { display: grid; grid-template-columns: 220px 1fr; min-height: 100vh; }
+  aside { background: #fff; border-right: 1px solid var(--vien); padding: 18px 12px; }
+  .logo { display: flex; gap: 10px; align-items: center; font-weight: 700; margin-bottom: 18px; }
+  .logo i { width: 34px; height: 34px; border-radius: 50%; background: #176fc0; display: inline-block; }
+  .menu a { display: block; padding: 8px 12px; border-radius: 999px; color: var(--chu-nhat); text-decoration: none; margin-bottom: 2px; cursor: pointer; }
+  .menu a.chon { background: #e8f1fc; color: #176fc0; font-weight: 600; }
+  .menu .nhom { font-size: 11px; letter-spacing: .14em; text-transform: uppercase; color: #176fc0; font-weight: 600; margin: 14px 12px 6px; }
+  main { padding: 20px 24px 40px; max-width: 1500px; }
+  .dau { display: flex; flex-wrap: wrap; gap: 12px; align-items: flex-end; justify-content: space-between; margin-bottom: 16px; }
+  h1 { margin: 0; font-size: 22px; letter-spacing: -.02em; }
+  .mo-ta { color: var(--chu-nhat); font-size: 13px; margin-top: 2px; }
+  .tab { display: inline-flex; background: #e9eef5; border-radius: 10px; padding: 3px; gap: 2px; }
+  .tab button { border: 0; background: transparent; font: inherit; font-size: 13px; padding: 6px 12px; border-radius: 8px; color: var(--chu-nhat); cursor: pointer; }
+  .tab button.chon { background: #fff; color: var(--chu); font-weight: 600; box-shadow: 0 1px 3px rgba(15,27,45,.12); }
+  .bento { display: grid; grid-template-columns: repeat(4, minmax(0, 1fr)); gap: 14px; }
+  .the { background: var(--the); border: 1px solid var(--vien); border-radius: var(--r); padding: 16px 18px; box-shadow: 0 1px 2px rgba(15,27,45,.04); min-width: 0; }
+  .the h3 { margin: 0; font-size: 14px; font-weight: 600; }
+  .the .goi-y { color: var(--chu-mo); font-size: 12px; }
+  .the-dau { display: flex; justify-content: space-between; align-items: flex-start; gap: 8px; margin-bottom: 6px; }
+  .span2 { grid-column: span 2; } .span3 { grid-column: span 3; } .span4 { grid-column: span 4; }
+  .hang2 { grid-row: span 2; }
+  .kpi .nhan { color: var(--chu-nhat); font-size: 13px; font-weight: 500; }
+  .kpi .so { font-size: 26px; font-weight: 700; letter-spacing: -.03em; margin-top: 4px; }
+  .kpi.chinh .so { font-size: 40px; }
+  .badge { display: inline-flex; align-items: center; gap: 4px; font-size: 12px; font-weight: 600; padding: 3px 8px; border-radius: 999px; }
+  .badge.tang { background: #e5f6eb; color: var(--tot); } .badge.giam { background: #fdecea; color: var(--xau); }
+  .badge.trung { background: #eef1f6; color: var(--chu-nhat); }
+  .kpi .phu { color: var(--chu-mo); font-size: 12px; margin-top: 2px; }
+  .spark { height: 56px; margin: 6px -6px -6px; }
+  .bd { width: 100%; height: 280px; }
+  .bd.cao { height: 320px; } .bd.thap { height: 200px; }
+  .nhom-tieu-de { grid-column: 1 / -1; margin: 14px 0 0; font-size: 12px; letter-spacing: .14em; text-transform: uppercase; color: var(--chu-nhat); font-weight: 600; display: flex; justify-content: space-between; align-items: center; }
+  .icon { width: 34px; height: 34px; border-radius: 10px; display: grid; place-items: center; font-size: 16px; }
+  .xep { list-style: none; margin: 8px 0 0; padding: 0; display: grid; gap: 10px; }
+  .xep li { display: grid; grid-template-columns: 26px 30px 1fr auto; gap: 10px; align-items: center; }
+  .hang { color: var(--chu-mo); font-weight: 600; font-size: 12px; text-align: center; }
+  .av { width: 30px; height: 30px; border-radius: 50%; display: grid; place-items: center; font-weight: 700; font-size: 11px; color: #fff; }
+  .ten-thanh .ten { font-weight: 500; font-size: 13px; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+  .ray { height: 8px; background: #edf1f7; border-radius: 999px; margin-top: 5px; overflow: hidden; }
+  .ray i { display: block; height: 100%; border-radius: 999px; background: var(--c1); transform-origin: left; animation: moc .8s ease-out; }
+  @keyframes moc { from { transform: scaleX(0); } }
+  .gia { text-align: right; font-variant-numeric: tabular-nums; font-weight: 600; font-size: 13px; }
+  .gia small { display: block; color: var(--chu-mo); font-weight: 500; }
+  .chu-giai { display: flex; flex-wrap: wrap; gap: 6px 14px; font-size: 12px; color: var(--chu-nhat); margin-top: 8px; }
+  .chu-giai i { display: inline-block; width: 10px; height: 10px; border-radius: 3px; margin-right: 6px; vertical-align: -1px; }
+  .an { display: none; }
+  .ghi-chu-mockup { background: #fff8e6; border: 1px solid #f5d98a; border-radius: 12px; padding: 10px 14px; margin-bottom: 16px; font-size: 13px; }
+  @media (prefers-reduced-motion: reduce) { .ray i { animation: none; } }
+  @media (max-width: 1100px) { .bento { grid-template-columns: repeat(2, minmax(0, 1fr)); } .span3, .span4 { grid-column: span 2; } }
+  @media (max-width: 720px) {
+    .khung { grid-template-columns: 1fr; } aside { display: none; } main { padding: 14px 12px 30px; }
+    .bento { grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 10px; }
+    .span2, .span3, .span4, .bento > .the:not(.kpi) { grid-column: span 2; } .hang2 { grid-row: auto; }
+    .kpi.chinh .so { font-size: 32px; } .kpi .so { font-size: 20px; } .bd { height: 240px; }
+  }
+</style>
+</head>
+<body>
+<div class="khung">
+  <aside>
+    <div class="logo"><i></i> TuanTu Label</div>
+    <nav class="menu">
+      <a class="chon" data-xem="tq">Tổng quan</a>
+      <div class="nhom">Kinh doanh</div>
+      <a>Tính giá</a><a>Báo giá đã lưu</a><a>Khách hàng</a>
+      <a data-xem="bc">Báo cáo kinh doanh</a>
+      <div class="nhom">Sản xuất</div><a>Lệnh sản xuất</a><a>Xưởng</a>
+    </nav>
+  </aside>
+  <main>
+    <div class="ghi-chu-mockup">Mockup — số liệu giả. Bấm menu <b>Tổng quan</b> / <b>Báo cáo kinh doanh</b> để chuyển trang. Bấm các tab thời gian, rê chuột vào biểu đồ để xem tooltip. Thư viện: Apache ECharts.</div>
+
+    <!-- ===================== TỔNG QUAN ===================== -->
+    <section id="tq">
+      <div class="dau">
+        <div><h1>Tổng quan</h1><div class="mo-ta">Thứ Năm, 23/10/2026 · số liệu cập nhật mỗi lần tải trang</div></div>
+        <div class="tab" id="tab-thang"><button data-n="6">6 tháng</button><button class="chon" data-n="12">12 tháng</button><button data-n="nam">Năm nay</button></div>
+      </div>
+
+      <div class="bento">
+        <div class="the kpi chinh span2 hang2" data-choice="kpi-chinh">
+          <div class="the-dau"><div><div class="nhan">Doanh thu tháng này</div><div class="goi-y">chứng từ bán hàng, chưa VAT</div></div><span class="badge tang">▲ 18% so tháng trước</span></div>
+          <div class="so" id="so-dt">1,84 tỷ đ</div>
+          <div class="phu">Cả năm 2026: 14,2 tỷ đ · mục tiêu 18 tỷ đ (79%)</div>
+          <div class="bd" id="bd-hero" style="height:250px"></div>
+        </div>
+        <div class="the kpi">
+          <div class="the-dau"><div class="nhan">Đặt hàng tháng này</div><span class="badge tang">▲ 6%</span></div>
+          <div class="so">2,12 tỷ đ</div><div class="phu">38 PO · 61 dòng hàng</div>
+          <div class="spark" id="sp1"></div>
+        </div>
+        <div class="the kpi">
+          <div class="the-dau"><div class="nhan">Còn phải thu</div><span class="badge giam">▲ quá hạn 312 tr</span></div>
+          <div class="so">3,46 tỷ đ</div><div class="phu">9 khách có nợ quá hạn</div>
+          <div class="spark" id="sp2"></div>
+        </div>
+        <div class="the kpi">
+          <div class="the-dau"><div class="nhan">Báo giá cần theo dõi</div><span class="badge trung">7 chờ PO</span></div>
+          <div class="so">12</div><div class="phu">gửi quá 3 ngày chưa phản hồi</div>
+          <div class="spark" id="sp3"></div>
+        </div>
+        <div class="the kpi">
+          <div class="the-dau"><div class="nhan">Tỷ lệ chốt báo giá</div><span class="badge tang">▲ 4 điểm</span></div>
+          <div class="bd thap" id="bd-chot" style="height:120px"></div>
+        </div>
+
+        <div class="the span3" data-choice="dat-vs-thu">
+          <div class="the-dau"><div><h3>Đặt hàng và doanh thu</h3><div class="goi-y">triệu đồng, chưa VAT</div></div></div>
+          <div class="bd cao" id="bd-area"></div>
+        </div>
+        <div class="the">
+          <div class="the-dau"><div><h3>Phải thu theo tuổi nợ</h3><div class="goi-y">3,46 tỷ đ</div></div></div>
+          <div class="bd" id="bd-tuoi" style="height:200px"></div>
+          <div class="chu-giai" id="cg-tuoi"></div>
+        </div>
+
+        <div class="nhom-tieu-de">Sản xuất <div class="tab" id="tab-ngay"><button data-n="7">7 ngày</button><button class="chon" data-n="14">14 ngày</button><button data-n="30">30 ngày</button></div></div>
+        <div class="the kpi"><div class="the-dau"><div class="nhan">Lệnh chờ sản xuất</div><div class="icon" style="background:#e8f1fc;color:var(--c1)">⏳</div></div><div class="so">14</div><div class="phu">3 lệnh chờ quá 2 ngày</div></div>
+        <div class="the kpi"><div class="the-dau"><div class="nhan">Đang sản xuất</div><div class="icon" style="background:#e7f7f0;color:var(--c3)">⚙</div></div><div class="so">9</div><div class="phu">22 lệnh hoàn thành tháng này</div></div>
+        <div class="the kpi"><div class="the-dau"><div class="nhan">PO trễ hạn giao</div><div class="icon" style="background:#fdecea;color:var(--xau)">⚠</div></div><div class="so">3</div><div class="phu">trễ lâu nhất 6 ngày</div></div>
+        <div class="the kpi"><div class="the-dau"><div class="nhan">Maket chờ khách duyệt</div><div class="icon" style="background:#efedfc;color:var(--c4)">✎</div></div><div class="so">5</div><div class="phu">2 yêu cầu sửa</div></div>
+
+        <div class="the span2">
+          <div class="the-dau"><div><h3>Công đoạn hoàn thành</h3><div class="goi-y">số công đoạn báo xong ở xưởng · hôm nay đậm màu</div></div></div>
+          <div class="bd" id="bd-cd"></div>
+        </div>
+        <div class="the span2" data-choice="top-khach">
+          <div class="the-dau"><div><h3>Top khách</h3><div class="goi-y">giá trị đặt hàng 12 tháng</div></div></div>
+          <ul class="xep" id="top-khach"></ul>
+        </div>
+      </div>
+    </section>
+
+    <!-- ===================== BÁO CÁO KINH DOANH ===================== -->
+    <section id="bc" class="an">
+      <div class="dau">
+        <div><h1>Báo cáo kinh doanh 2026</h1><div class="mo-ta">Đặt hàng = PO theo ngày nhận · Doanh thu = chứng từ bán hàng · chưa VAT</div></div>
+        <div class="tab"><button>2024</button><button>2025</button><button class="chon">2026</button></div>
+      </div>
+      <div class="bento">
+        <div class="the kpi"><div class="nhan">Đặt hàng năm nay</div><div class="so">17,6 tỷ đ</div><span class="badge tang">▲ 22% so 2025</span></div>
+        <div class="the kpi"><div class="nhan">Doanh thu năm nay</div><div class="so">14,2 tỷ đ</div><span class="badge tang">▲ 15% so 2025</span></div>
+        <div class="the kpi"><div class="nhan">Khách đặt hàng</div><div class="so">42</div><span class="badge tang">▲ 6 khách mới</span></div>
+        <div class="the kpi"><div class="nhan">Giá trị PO trung bình</div><div class="so">46 tr đ</div><span class="badge giam">▼ 3%</span></div>
+
+        <div class="the span4" data-choice="nam-vs-nam">
+          <div class="the-dau"><div><h3>Đặt hàng theo tháng: 2026 so với 2025</h3><div class="goi-y">triệu đồng</div></div></div>
+          <div class="bd cao" id="bd-nam"></div>
+        </div>
+        <div class="the span2"><div class="the-dau"><h3>Top sản phẩm</h3></div><ul class="xep" id="top-sp"></ul></div>
+        <div class="the span2"><div class="the-dau"><div><h3>Theo nhân viên phụ trách</h3><div class="goi-y">đặt hàng và doanh thu, triệu đồng</div></div></div><div class="bd" id="bd-nv"></div></div>
+        <div class="the span2"><div class="the-dau"><div><h3>Báo giá 2026</h3><div class="goi-y">186 báo giá · tỷ lệ chốt 64%</div></div></div><div class="bd" id="bd-bg" style="height:220px"></div></div>
+        <div class="the span2"><div class="the-dau"><div><h3>Lý do từ chối</h3></div></div><div class="bd" id="bd-ly-do" style="height:220px"></div></div>
+      </div>
+    </section>
+  </main>
+</div>
+
+<script>
+const C = { c1: "#2a78d6", c2: "#eb6834", c3: "#1baf7a", c4: "#6250d6", luoi: "#eef1f6", truc: "#8a94a3", chu: "#0f1b2d" };
+const tip = { trigger: "axis", backgroundColor: "#fff", borderColor: "#e6ebf2", borderWidth: 1, padding: [8, 12],
+  textStyle: { color: C.chu, fontFamily: "Be Vietnam Pro", fontSize: 12 }, extraCssText: "box-shadow:0 8px 24px rgba(15,27,45,.12);border-radius:12px;",
+  axisPointer: { type: "line", lineStyle: { color: "#c9d2df" } } };
+const truc = { axisLine: { show: false }, axisTick: { show: false }, axisLabel: { color: C.truc, fontSize: 12, fontFamily: "Be Vietnam Pro" } };
+const gradient = (mau, a = "55") => new echarts.graphic.LinearGradient(0, 0, 0, 1, [{ offset: 0, color: mau + a }, { offset: 1, color: mau + "00" }]);
+const tr = (v) => v >= 1000 ? (v / 1000).toLocaleString("vi-VN", { maximumFractionDigits: 1 }) + " tỷ" : v + " tr";
+const bieuDo = {};
+function ve(id, opt) { const el = document.getElementById(id); bieuDo[id] = bieuDo[id] || echarts.init(el); bieuDo[id].setOption(opt, true); }
+
+// Du lieu gia
+const thang = ["T11/25","T12/25","T1","T2","T3","T4","T5","T6","T7","T8","T9","T10"];
+const dat =  [1350,1520,980,1120,1640,1710,1580,1830,1690,1920,2010,2120];
+const thu =  [1210,1440,1150, 900,1380,1560,1500,1640,1610,1700,1560,1840];
+
+function veTheoThang(n) {
+  const k = n === "nam" ? 10 : n; const tg = thang.slice(-k), d = dat.slice(-k), t = thu.slice(-k);
+  ve("bd-hero", { grid: { left: 0, right: 0, top: 10, bottom: 0 }, tooltip: { ...tip, valueFormatter: tr },
+    xAxis: { type: "category", data: tg, show: false, boundaryGap: false }, yAxis: { type: "value", show: false },
+    series: [{ name: "Doanh thu", type: "line", data: t, smooth: true, symbol: "none", lineStyle: { width: 3, color: C.c1 }, areaStyle: { color: gradient(C.c1) } }] });
+  ve("bd-area", { grid: { left: 44, right: 12, top: 36, bottom: 28 }, tooltip: { ...tip, valueFormatter: tr },
+    legend: { top: 0, left: 0, icon: "roundRect", itemWidth: 10, itemHeight: 10, itemGap: 18, textStyle: { color: "#5b6677", fontFamily: "Be Vietnam Pro" } },
+    xAxis: { type: "category", data: tg, boundaryGap: false, ...truc },
+    yAxis: { type: "value", ...truc, axisLabel: { ...truc.axisLabel, formatter: (v) => v >= 1000 ? (v / 1000).toLocaleString("vi-VN") + " tỷ" : v ? v + " tr" : 0 }, splitLine: { lineStyle: { color: C.luoi } } },
+    series: [
+      { name: "Đặt hàng", type: "line", data: d, smooth: true, symbol: "circle", symbolSize: 7, showSymbol: false, lineStyle: { width: 2.5, color: C.c1 }, itemStyle: { color: C.c1 }, areaStyle: { color: gradient(C.c1) } },
+      { name: "Doanh thu", type: "line", data: t, smooth: true, symbol: "circle", symbolSize: 7, showSymbol: false, lineStyle: { width: 2.5, color: C.c2 }, itemStyle: { color: C.c2 }, areaStyle: { color: gradient(C.c2, "22") } }] });
+}
+function spark(id, data, mau) {
+  ve(id, { grid: { left: 0, right: 0, top: 4, bottom: 0 }, xAxis: { type: "category", show: false, boundaryGap: false }, yAxis: { type: "value", show: false, min: "dataMin" },
+    series: [{ type: "line", data, smooth: true, symbol: "none", lineStyle: { width: 2, color: mau }, areaStyle: { color: gradient(mau) } }] });
+}
+spark("sp1", dat, C.c1); spark("sp2", [3.1,3.2,3.0,3.3,3.5,3.4,3.6,3.5,3.3,3.4,3.5,3.46], C.c2); spark("sp3", [8,10,7,9,12,11,9,10,13,11,14,12], C.c4);
+
+ve("bd-chot", { series: [{ type: "gauge", startAngle: 90, endAngle: -270, radius: "95%", pointer: { show: false },
+  progress: { show: true, roundCap: true, width: 12, itemStyle: { color: C.c3 } }, axisLine: { lineStyle: { width: 12, color: [[1, "#edf1f7"]] } },
+  splitLine: { show: false }, axisTick: { show: false }, axisLabel: { show: false },
+  detail: { valueAnimation: true, formatter: "{value}%", fontSize: 22, fontWeight: 700, color: C.chu, offsetCenter: [0, 0], fontFamily: "Be Vietnam Pro" },
+  data: [{ value: 64 }] }] });
+
+const tuoi = [["Chưa đến hạn", 2210, "#86b6ef"], ["1–30 ngày", 640, "#5598e7"], ["31–60 ngày", 298, "#256abf"], ["61–90 ngày", 210, "#184f95"], ["Trên 90 ngày", 102, "#0d366b"]];
+ve("bd-tuoi", { tooltip: { ...tip, trigger: "item", valueFormatter: tr }, series: [{ type: "pie", radius: ["58%", "82%"], padAngle: 2, itemStyle: { borderRadius: 6 }, label: { show: true, position: "center", formatter: "3,46 tỷ", fontSize: 18, fontWeight: 700, color: C.chu },
+  data: tuoi.map(([name, value, color]) => ({ name, value, itemStyle: { color } })) }] });
+document.getElementById("cg-tuoi").innerHTML = tuoi.map(([n, v, c]) => `<span><i style="background:${c}"></i>${n} · ${tr(v)}</span>`).join("");
+
+function veCongDoan(n) {
+  const nhan = [], so = [];
+  for (let i = n - 1; i >= 0; i--) { const d = new Date(2026, 9, 23 - i); nhan.push(d.getDate() + "/" + (d.getMonth() + 1)); so.push(Math.round(18 + 14 * Math.sin(i / 2) + (i % 7 === 0 ? -12 : 0) + i % 5)); }
+  ve("bd-cd", { grid: { left: 32, right: 8, top: 10, bottom: 28 }, tooltip: { ...tip, axisPointer: { type: "shadow", shadowStyle: { color: "rgba(42,120,214,.06)" } } },
+    xAxis: { type: "category", data: nhan, ...truc }, yAxis: { type: "value", ...truc, splitLine: { lineStyle: { color: C.luoi } } },
+    series: [{ name: "Công đoạn xong", type: "bar", data: so.map((v, i) => ({ value: v, itemStyle: { color: i === so.length - 1 ? C.c1 : "#b8d2f3" } })), barMaxWidth: 28, itemStyle: { borderRadius: [6, 6, 0, 0] } }] });
+}
+
+function xepHang(id, ds, mau) {
+  const lon = ds[0][1], tong = ds.reduce((a, x) => a + x[1], 0);
+  document.getElementById(id).innerHTML = ds.map(([ten, v], i) => `<li><span class="hang">${i + 1}</span><span class="av" style="background:${mau[i % mau.length]}">${ten.slice(0, 3)}</span>
+    <div class="ten-thanh"><div class="ten">${ten}</div><div class="ray"><i style="width:${v / lon * 100}%"></i></div></div>
+    <div class="gia">${tr(v)}<small>${Math.round(v / tong * 100)}%</small></div></li>`).join("");
+}
+xepHang("top-khach", [["ITT — Công ty ABC Việt Nam", 4120], ["BTD — Mỹ phẩm Bình Tâm", 3360], ["ANG — Thực phẩm An Giang", 2410], ["HMP — Dược Hoà Minh", 1980], ["KLS — Kim Long Star", 1290]], [C.c1, C.c2, C.c3, C.c4, "#8a94a3"]);
+xepHang("top-sp", [["ITT-000012 — Tem chai 500ml", 1840], ["BTD-000031 — Nhãn hộp kem", 1520], ["ANG-000007 — Tem nắp", 1190], ["HMP-000019 — Nhãn vỉ thuốc", 960], ["KLS-000002 — Tem bảo hành", 610]], [C.c1, C.c2, C.c3, C.c4, "#8a94a3"]);
+
+// Bao cao
+let veBaoCao = () => {
+  const nay = [980,1120,1640,1710,1580,1830,1690,1920,2010,2120,0,0], truoc = [820,760,1300,1410,1350,1480,1520,1600,1590,1700,1880,2100];
+  ve("bd-nam", { grid: { left: 44, right: 12, top: 36, bottom: 28 }, tooltip: { ...tip, axisPointer: { type: "shadow", shadowStyle: { color: "rgba(42,120,214,.06)" } }, valueFormatter: tr },
+    legend: { top: 0, left: 0, icon: "roundRect", itemWidth: 10, itemHeight: 10, itemGap: 18, textStyle: { color: "#5b6677" } },
+    xAxis: { type: "category", data: ["T1","T2","T3","T4","T5","T6","T7","T8","T9","T10","T11","T12"], ...truc },
+    yAxis: { type: "value", ...truc, axisLabel: { ...truc.axisLabel, formatter: (v) => v >= 1000 ? (v / 1000).toLocaleString("vi-VN") + " tỷ" : v ? v + " tr" : 0 }, splitLine: { lineStyle: { color: C.luoi } } },
+    series: [{ name: "2026", type: "bar", data: nay, barMaxWidth: 22, barGap: "20%", itemStyle: { color: C.c1, borderRadius: [6, 6, 0, 0] } },
+             { name: "2025", type: "bar", data: truoc, barMaxWidth: 22, itemStyle: { color: "#c9d6e8", borderRadius: [6, 6, 0, 0] } }] });
+  ve("bd-nv", { grid: { left: 118, right: 16, top: 30, bottom: 10 }, tooltip: { ...tip, axisPointer: { type: "shadow" }, valueFormatter: tr },
+    legend: { top: 0, left: 0, icon: "roundRect", itemWidth: 10, itemHeight: 10, itemGap: 18 },
+    xAxis: { type: "value", show: false }, yAxis: { type: "category", data: ["Chưa phân công", "Chị Mai", "Anh Tuấn", "Chị Lan"], ...truc },
+    series: [{ name: "Đặt hàng", type: "bar", data: [1200, 3600, 5400, 7400], barMaxWidth: 14, itemStyle: { color: C.c1, borderRadius: [0, 6, 6, 0] } },
+             { name: "Doanh thu", type: "bar", data: [900, 2900, 4300, 6100], barMaxWidth: 14, itemStyle: { color: C.c2, borderRadius: [0, 6, 6, 0] } }] });
+  ve("bd-bg", { tooltip: { ...tip, trigger: "item" }, legend: { bottom: 0, icon: "roundRect", itemWidth: 10, itemHeight: 10 },
+    series: [{ type: "pie", radius: ["50%", "75%"], center: ["50%", "44%"], padAngle: 2, itemStyle: { borderRadius: 6 },
+      label: { show: true, position: "center", formatter: "64%\nchốt", fontSize: 18, fontWeight: 700, color: C.chu, lineHeight: 22 },
+      data: [{ name: "Khách đồng ý", value: 98, itemStyle: { color: C.c3 } }, { name: "Từ chối", value: 31, itemStyle: { color: C.c2 } },
+             { name: "Hết hạn", value: 24, itemStyle: { color: "#c9d6e8" } }, { name: "Đang mở", value: 33, itemStyle: { color: C.c1 } }] }] });
+  ve("bd-ly-do", { grid: { left: 150, right: 30, top: 6, bottom: 6 }, tooltip: { ...tip, axisPointer: { type: "shadow" } },
+    xAxis: { type: "value", show: false }, yAxis: { type: "category", data: ["Khác", "Không còn nhu cầu", "Chọn NCC khác", "Thời gian giao", "Giá cao"], ...truc },
+    series: [{ name: "Báo giá", type: "bar", data: [2, 3, 6, 7, 13], barMaxWidth: 16, label: { show: true, position: "right", color: "#5b6677" },
+      itemStyle: { color: C.c2, borderRadius: [0, 6, 6, 0] } }] });
+};
+
+// Tab
+function tab(id, ham) { document.querySelectorAll(`#${id} button`).forEach((b) => b.onclick = () => {
+  document.querySelectorAll(`#${id} button`).forEach((x) => x.classList.remove("chon")); b.classList.add("chon"); ham(b.dataset.n === "nam" ? "nam" : +b.dataset.n); }); }
+tab("tab-thang", veTheoThang); tab("tab-ngay", veCongDoan);
+veTheoThang(12); veCongDoan(14);
+
+document.querySelectorAll("[data-xem]").forEach((a) => a.onclick = () => {
+  document.querySelectorAll(".menu a").forEach((x) => x.classList.remove("chon")); a.classList.add("chon");
+  document.getElementById("tq").classList.toggle("an", a.dataset.xem !== "tq"); document.getElementById("bc").classList.toggle("an", a.dataset.xem !== "bc");
+  if (a.dataset.xem === "bc") veBaoCao();
+  Object.values(bieuDo).forEach((c) => c.resize());
+});
+window.addEventListener("resize", () => Object.values(bieuDo).forEach((c) => c.resize()));
+</script>
+<script>
+// Ghi chu cho mockup tinh: o ghi chu moi phuong an + ghi chu chung, luu localStorage,
+// nut Copy gom lua chon + ghi chu de user dan vao chat cho Claude (trang tinh khong gui ve duoc).
+(function () {
+  var KEY = 'mockup-notes:' + location.pathname;
+  var saved = {};
+  try { saved = JSON.parse(localStorage.getItem(KEY) || '{}'); } catch (e) {}
+  function save() {
+    var d = { _chon: picked() };
+    document.querySelectorAll('textarea[data-note]').forEach(function (t) { d[t.dataset.note] = t.value; });
+    try { localStorage.setItem(KEY, JSON.stringify(d)); } catch (e) {}
+  }
+  function picked() {
+    return [].map.call(document.querySelectorAll('.selected[data-choice]'), function (o) { return o.dataset.choice.toUpperCase(); });
+  }
+  function area(id, ph) {
+    var t = document.createElement('textarea');
+    t.dataset.note = id; t.placeholder = ph; t.rows = 2; t.value = saved[id] || '';
+    t.style.cssText = 'width:100%;margin-top:8px;padding:8px;border-radius:6px;border:1px solid #8b949e66;background:transparent;color:inherit;font:13px system-ui;resize:vertical';
+    t.addEventListener('click', function (e) { e.stopPropagation(); }); // khong chon option khi bam vao o ghi chu
+    t.addEventListener('input', save);
+    return t;
+  }
+  var status = document.createElement('span');
+  function refresh() { var s = picked(); status.textContent = s.length ? 'Đã chọn: ' + s.join(', ') : 'Chưa chọn'; }
+
+  if (!window.toggleSelect) window.toggleSelect = function (el) {
+    var c = el.closest('.options') || el.closest('.cards'); var m = c && c.dataset.multiselect !== undefined;
+    if (c && !m) c.querySelectorAll('.option, .card').forEach(function (o) { o.classList.remove('selected'); });
+    m ? el.classList.toggle('selected') : el.classList.add('selected');
+  };
+  var orig = window.toggleSelect;
+  window.toggleSelect = function (el) { orig(el); refresh(); save(); };
+
+  document.querySelectorAll('[data-choice]').forEach(function (o) {
+    var id = o.dataset.choice;
+    (o.querySelector('.content, .card-body') || o).appendChild(area(id, 'Ghi chú cho phương án ' + id.toUpperCase() + '…'));
+    if ((saved._chon || []).indexOf(id.toUpperCase()) >= 0) o.classList.add('selected');
+  });
+
+  var bar = document.createElement('div');
+  bar.style.cssText = 'position:sticky;bottom:0;z-index:50;margin-top:24px;padding:12px;border-top:1px solid #8b949e66;background:var(--bg-primary,Canvas);display:flex;flex-direction:column;gap:8px';
+  var gen = area('chung', 'Ghi chú chung: muốn đổi gì, thêm gì…');
+  gen.style.marginTop = '0';
+  var row = document.createElement('div');
+  row.style.cssText = 'display:flex;gap:10px;align-items:center;flex-wrap:wrap;font:14px system-ui';
+  var btn = document.createElement('button');
+  btn.textContent = 'Copy để gửi Claude';
+  btn.style.cssText = 'padding:8px 16px;border-radius:6px;border:0;background:#2f81f7;color:#fff;font:600 14px system-ui;cursor:pointer';
+  btn.onclick = function () {
+    var lines = ['Mockup: ' + ((document.querySelector('h1, h2') || {}).textContent || document.title) + ' (' + location.href + ')', 'Chọn: ' + (picked().join(', ') || '(chưa chọn)')];
+    document.querySelectorAll('textarea[data-note]').forEach(function (t) {
+      if (t.value.trim()) lines.push((t.dataset.note === 'chung' ? 'Ghi chú chung' : 'Ghi chú ' + t.dataset.note.toUpperCase()) + ': ' + t.value.trim());
+    });
+    var txt = lines.join('\n');
+    var done = function () { btn.textContent = 'Đã copy — dán vào chat'; setTimeout(function () { btn.textContent = 'Copy để gửi Claude'; }, 2500); };
+    if (navigator.clipboard && window.isSecureContext) navigator.clipboard.writeText(txt).then(done, function () { prompt('Copy đoạn này:', txt); });
+    else prompt('Copy đoạn này:', txt);
+  };
+  row.appendChild(btn); row.appendChild(status);
+  bar.appendChild(gen); bar.appendChild(row);
+  (document.getElementById('frame-content') || document.body).appendChild(bar);
+  refresh();
+})();
+</script>
+</body>
+</html>
