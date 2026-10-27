@@ -1,0 +1,347 @@
+<!doctype html>
+<html lang="vi">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Mockup — Ảnh lịch theo trang (Sheet dòng 17)</title>
+<style>
+  :root { --p: hsl(182 78% 25.3%); --ps: hsl(182 50% 94%); --ink: hsl(206 37% 12.4%); --soft: hsl(206 12% 42%); --wash: hsl(165 29% 97.3%); --line: hsl(200 15% 88%); }
+  * { box-sizing: border-box; }
+  body { margin: 0; font: 15px/1.5 system-ui, -apple-system, "Segoe UI", Roboto, sans-serif; color: var(--ink); background: var(--wash); }
+  header.top { padding: 24px 24px 8px; max-width: 1240px; margin: 0 auto; }
+  h1 { font-size: 22px; margin: 0 0 4px; }
+  .muted { color: var(--soft); font-size: 13px; }
+  .tabs { display: flex; gap: 8px; margin: 16px 0 0; flex-wrap: wrap; }
+  .tab { border: 1px solid var(--line); background: #fff; border-radius: 999px; padding: 8px 16px; cursor: pointer; font-weight: 600; font-size: 14px; }
+  .tab.on { background: var(--p); color: #fff; border-color: var(--p); }
+  .wrap { max-width: 1240px; margin: 0 auto; padding: 16px 24px 60px; }
+  .phuong-an { display: none; }
+  .phuong-an.on { display: block; }
+  .mo-ta { background: #fff; border: 1px solid var(--line); border-radius: 16px; padding: 14px 18px; margin-bottom: 16px; font-size: 14px; }
+  .mo-ta b { color: var(--p); }
+  .layout { display: grid; grid-template-columns: 1fr 380px; gap: 20px; align-items: start; }
+  @media (max-width: 900px) { .layout { grid-template-columns: 1fr; } }
+  .card { background: #fff; border: 1px solid var(--line); border-radius: 20px; padding: 16px; }
+  /* Xem truoc trang lich */
+  .xem-truoc { aspect-ratio: 3/4; max-height: 640px; margin: 0 auto; background: #fff; border-radius: 12px; box-shadow: 0 6px 30px rgb(0 0 0 / .08); position: relative; overflow: hidden; }
+  .xem-truoc .khung { position: absolute; border-radius: 8px; overflow: hidden; background: repeating-linear-gradient(45deg, #eef3f3 0 10px, #e5eded 10px 20px); display: grid; place-items: center; cursor: pointer; outline: 2px dashed transparent; transition: outline-color .15s; }
+  .xem-truoc .khung:hover, .xem-truoc .khung.chon { outline-color: var(--p); }
+  .xem-truoc .khung img { width: 100%; height: 100%; object-fit: cover; }
+  .xem-truoc .cong { width: 40px; height: 40px; border-radius: 50%; background: #fffc; display: grid; place-items: center; color: var(--p); }
+  .lich-chu { position: absolute; left: 6%; right: 6%; bottom: 4%; height: 30%; border-top: 2px solid var(--line); padding-top: 8px; font-size: 12px; color: var(--soft); }
+  .lich-chu .thang { font-weight: 700; font-size: 18px; color: var(--ink); }
+  .luoi-ngay { display: grid; grid-template-columns: repeat(7, 1fr); gap: 4px; margin-top: 6px; }
+  .luoi-ngay span { text-align: center; font-size: 11px; }
+  .dai-trang { display: flex; gap: 8px; overflow-x: auto; padding: 12px 2px 4px; }
+  .dai-trang button { flex: 0 0 auto; width: 58px; border: 2px solid var(--line); border-radius: 10px; background: #fff; padding: 4px; cursor: pointer; font-size: 11px; color: var(--soft); }
+  .dai-trang button.on { border-color: var(--p); color: var(--p); font-weight: 700; }
+  .dai-trang .mini { height: 52px; border-radius: 6px; background: var(--wash); display: grid; grid-template-columns: 1fr 1fr; gap: 2px; padding: 3px; }
+  .dai-trang .mini i { border-radius: 3px; background: #dfe8e8; background-size: cover; background-position: center; }
+  .dai-trang .mini i.co { background-color: transparent; }
+  /* Panel anh */
+  .panel h3 { margin: 0; font-size: 16px; }
+  .tien-do { display: flex; align-items: center; gap: 10px; margin: 8px 0 12px; font-size: 13px; color: var(--soft); }
+  .thanh { flex: 1; height: 6px; background: var(--wash); border-radius: 99px; overflow: hidden; }
+  .thanh i { display: block; height: 100%; background: var(--p); width: 0; transition: width .3s; }
+  .nut { display: inline-flex; align-items: center; justify-content: center; gap: 8px; border: 0; border-radius: 999px; padding: 11px 18px; font-weight: 700; cursor: pointer; font-size: 14px; }
+  .nut-chinh { background: var(--p); color: #fff; width: 100%; }
+  .nut-phu { background: var(--ps); color: var(--p); }
+  .nhom-trang { margin-top: 14px; }
+  .nhom-trang .tieu { display: flex; justify-content: space-between; font-size: 13px; font-weight: 700; margin-bottom: 6px; }
+  .nhom-trang .tieu span { color: var(--soft); font-weight: 500; }
+  .luoi-anh { display: grid; grid-template-columns: repeat(3, 1fr); gap: 8px; }
+  .o-anh { position: relative; aspect-ratio: 1; border-radius: 12px; overflow: hidden; border: 2px dashed var(--line); background: var(--wash); cursor: pointer; display: grid; place-items: center; color: var(--soft); font-size: 11px; text-align: center; padding: 0; }
+  .o-anh.co { border-style: solid; border-color: transparent; }
+  .o-anh.chon { border-color: var(--p); border-style: solid; }
+  .o-anh img { position: absolute; inset: 0; width: 100%; height: 100%; object-fit: cover; }
+  .o-anh .nhan { position: absolute; left: 4px; top: 4px; background: #fffd; border-radius: 6px; padding: 1px 6px; font-size: 10px; font-weight: 700; color: var(--ink); }
+  .o-anh .chinh { position: absolute; right: 4px; bottom: 4px; width: 26px; height: 26px; border-radius: 50%; border: 0; background: #fffe; display: none; place-items: center; cursor: pointer; color: var(--ink); }
+  .o-anh.co .chinh { display: grid; }
+  .o-anh svg { width: 22px; height: 22px; }
+  .chinh svg { width: 14px; height: 14px; }
+  .bang-chinh { display: none; margin-top: 12px; border: 1px solid var(--line); border-radius: 14px; padding: 12px; background: var(--wash); }
+  .bang-chinh.mo { display: block; }
+  .bang-chinh label { display: flex; align-items: center; gap: 10px; font-size: 13px; margin: 6px 0; }
+  .bang-chinh input[type=range] { flex: 1; accent-color: var(--p); }
+  .meo { font-size: 12px; color: var(--soft); margin-top: 10px; display: flex; gap: 6px; }
+  .meo svg { flex: 0 0 auto; width: 14px; height: 14px; margin-top: 2px; }
+  /* Mobile */
+  .dien-thoai { width: 360px; border: 10px solid #1d2730; border-radius: 36px; overflow: hidden; background: #fff; margin: 0 auto; }
+  .dien-thoai .man { height: 680px; position: relative; background: var(--wash); }
+  .dien-thoai .xem { position: absolute; inset: 12px 12px auto; height: 300px; background: #fff; border-radius: 10px; display: grid; place-items: center; color: var(--soft); font-size: 12px; }
+  .ngan-keo { position: absolute; left: 0; right: 0; bottom: 0; height: 360px; background: #fff; border-radius: 22px 22px 0 0; box-shadow: 0 -8px 30px rgb(0 0 0 / .1); padding: 10px 14px; overflow: auto; }
+  .ngan-keo .tay-cam { width: 40px; height: 4px; border-radius: 4px; background: var(--line); margin: 0 auto 10px; }
+  .so-sanh { display: grid; grid-template-columns: 1fr 1fr; gap: 16px; }
+  @media (max-width: 900px) { .so-sanh { grid-template-columns: 1fr; } }
+  .so-sanh ul { margin: 6px 0 0; padding-left: 18px; font-size: 14px; }
+  .chon-pa { margin-top: 12px; }
+  .chon-pa button { border: 2px solid var(--p); background: #fff; color: var(--p); }
+  .chon-pa button.da { background: var(--p); color: #fff; }
+</style>
+</head>
+<body>
+<header class="top">
+  <h1>Ảnh lịch theo trang — panel "Ảnh của bạn"</h1>
+  <div class="muted">Sheet dòng 17 · mẫu "Lịch bé yêu" (8 khung ảnh). Bấm thử: chọn ảnh thật từ máy (ảnh chỉ xử lý trong trình duyệt, không tải lên đâu). Ảnh điện thoại tự xoay đúng chiều và tự cắt phủ kín khung.</div>
+  <div class="tabs">
+    <button class="tab on" data-pa="a">A · Lưới ảnh theo trang trong panel (khuyên)</button>
+    <button class="tab" data-pa="b">B · Bấm thẳng vào khung trên ảnh xem trước</button>
+    <button class="tab" data-pa="m">Điện thoại (dùng cho A)</button>
+  </div>
+</header>
+
+<div class="wrap">
+  <!-- PHUONG AN A -->
+  <section class="phuong-an on" id="pa-a" data-choice="a">
+    <div class="mo-ta"><b>A.</b> Panel bên phải thay 8 khối dọc (nhãn "Logo", 2 thanh trượt mỗi khối) bằng <b>lưới ảnh thu nhỏ gom theo trang lịch</b>. Bấm ô trống hoặc ảnh → chọn ảnh → thay ngay. Nút "Tải lên N ảnh" chọn nhiều ảnh một lần, tự lấp các khung trống theo thứ tự. Phóng to / xoay nằm sau nút nhỏ góc ảnh. Bấm ô trong panel thì ảnh xem trước nhảy tới đúng trang và viền khung đó.</div>
+    <div class="layout">
+      <div class="card">
+        <div class="xem-truoc" id="a-xem"></div>
+        <div class="dai-trang" id="a-dai"></div>
+      </div>
+      <aside class="card panel">
+        <h3>Ảnh của bạn</h3>
+        <div class="tien-do"><div class="thanh"><i id="a-thanh"></i></div><span id="a-dem">0/8 ảnh</span></div>
+        <button class="nut nut-chinh" id="a-nhieu"><svg viewBox="0 0 24 24" width="18" height="18" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/><polyline points="17 8 12 3 7 8"/><line x1="12" y1="3" x2="12" y2="15"/></svg><span id="a-nhieu-ten">Tải lên 8 ảnh</span></button>
+        <div id="a-nhom"></div>
+        <div class="bang-chinh" id="a-bang">
+          <div style="font-weight:700;font-size:13px" id="a-bang-ten">Chỉnh ảnh</div>
+          <label>Phóng to <input type="range" min="100" max="300" value="100" id="a-zoom"></label>
+          <label>Xoay <input type="range" min="-180" max="180" value="0" id="a-xoay"></label>
+          <div style="display:flex;gap:8px;margin-top:8px"><button class="nut nut-phu" id="a-doi">Đổi ảnh</button><button class="nut nut-phu" id="a-xoa">Xoá</button><button class="nut nut-phu" id="a-dong">Xong</button></div>
+          <div class="meo"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="10"/><path d="M12 16v-4M12 8h.01"/></svg>Kéo trực tiếp trên ảnh xem trước để dời vị trí.</div>
+        </div>
+        <div class="meo"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="10"/><path d="M12 16v-4M12 8h.01"/></svg>Ảnh tự xoay đúng chiều và tự cắt phủ kín khung, căn giữa. Nên dùng ảnh từ 1500px cạnh ngắn để in nét.</div>
+      </aside>
+    </div>
+  </section>
+
+  <!-- PHUONG AN B -->
+  <section class="phuong-an" id="pa-b" data-choice="b">
+    <div class="mo-ta"><b>B.</b> Giống In Hình Online: khung trống trên <b>ảnh xem trước</b> có dấu "+", bấm vào khung để chọn ảnh. Panel chỉ còn nút "Tải lên N ảnh" + dải trang lịch. Gọn hơn nhưng khách phải lật từng trang mới thấy khung nào còn trống, khung nhỏ khó bấm trên điện thoại.</div>
+    <div class="layout">
+      <div class="card">
+        <div class="xem-truoc" id="b-xem"></div>
+        <div class="dai-trang" id="b-dai"></div>
+      </div>
+      <aside class="card panel">
+        <h3>Ảnh của bạn</h3>
+        <div class="tien-do"><div class="thanh"><i id="b-thanh"></i></div><span id="b-dem">0/8 ảnh</span></div>
+        <button class="nut nut-chinh" id="b-nhieu">Tải lên 8 ảnh</button>
+        <div class="meo"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="10"/><path d="M12 16v-4M12 8h.01"/></svg>Bấm vào khung trên ảnh để chọn hoặc đổi ảnh. Bấm ảnh đã có để phóng to / xoay.</div>
+      </aside>
+    </div>
+  </section>
+
+  <!-- DIEN THOAI -->
+  <section class="phuong-an" id="pa-m" data-choice="mobile">
+    <div class="mo-ta">Điện thoại (A): ảnh xem trước ở trên, ngăn kéo "Ảnh của bạn" ở dưới, lưới 3 cột, ô đủ lớn để bấm (≥ 96px). Nút "Tải lên" mở thư viện ảnh chọn nhiều.</div>
+    <div class="dien-thoai"><div class="man">
+      <div class="xem">Ảnh xem trước trang lịch</div>
+      <div class="ngan-keo">
+        <div class="tay-cam"></div>
+        <h3 style="margin:0;font-size:15px">Ảnh của bạn</h3>
+        <div class="tien-do"><div class="thanh"><i id="m-thanh"></i></div><span id="m-dem">0/8 ảnh</span></div>
+        <button class="nut nut-chinh" id="m-nhieu">Tải lên 8 ảnh</button>
+        <div id="m-nhom"></div>
+      </div>
+    </div></div>
+  </section>
+
+  <div class="card" style="margin-top:20px">
+    <div class="so-sanh">
+      <div><b>A · Lưới ảnh theo trang (khuyên)</b><ul><li>Thấy hết khung, khung nào trống, ở trang nào</li><li>Ô bấm lớn, hợp điện thoại; lịch 13 trang vẫn gọn (gom theo trang)</li><li>Giữ được kéo ảnh trên xem trước</li></ul></div>
+      <div><b>B · Bấm trên ảnh xem trước</b><ul><li>Trực quan, panel gọn nhất</li><li>Phải lật trang mới thấy khung trống; khung nhỏ khó bấm trên điện thoại</li><li>Dễ bấm nhầm khi muốn kéo dời ảnh</li></ul></div>
+    </div>
+  </div>
+</div>
+
+<input type="file" id="chon-1" accept="image/*" hidden>
+<input type="file" id="chon-n" accept="image/*" multiple hidden>
+
+<script>
+// Du lieu gia: 4 trang (bia + 3 thang), 8 khung anh
+const TRANG = [
+  { ten: "Bìa", khung: [{ x: 8, y: 8, w: 84, h: 58 }] },
+  { ten: "Tháng 1", khung: [{ x: 6, y: 6, w: 56, h: 56 }, { x: 64, y: 6, w: 30, h: 27 }, { x: 64, y: 35, w: 30, h: 27 }] },
+  { ten: "Tháng 2", khung: [{ x: 6, y: 6, w: 88, h: 56 }] },
+  { ten: "Tháng 3", khung: [{ x: 6, y: 6, w: 43, h: 56 }, { x: 51, y: 6, w: 43, h: 27 }, { x: 51, y: 35, w: 43, h: 27 }] },
+];
+const KHUNG = TRANG.flatMap((t, ti) => t.khung.map((k, ki) => ({ ...k, trang: ti, so: ki + 1, anh: null, zoom: 100, xoay: 0 })));
+let trangHien = 0, khungChon = null, dangChoMot = null;
+
+const icCong = '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><path d="M12 5v14M5 12h14"/></svg>';
+const icChinh = '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 20h9"/><path d="M16.5 3.5a2.1 2.1 0 0 1 3 3L7 19l-4 1 1-4Z"/></svg>';
+
+// Chuan huong anh theo EXIF: createImageBitmap mac dinh imageOrientation "from-image"
+async function docAnh(file) {
+  const bm = await createImageBitmap(file);
+  const c = document.createElement("canvas");
+  const s = Math.min(1, 1200 / Math.max(bm.width, bm.height));
+  c.width = bm.width * s; c.height = bm.height * s;
+  c.getContext("2d").drawImage(bm, 0, 0, c.width, c.height);
+  return c.toDataURL("image/jpeg", 0.85);
+}
+
+function ve() {
+  const da = KHUNG.filter((k) => k.anh).length;
+  for (const p of ["a", "b", "m"]) {
+    const t = document.getElementById(p + "-thanh"); if (t) t.style.width = (da / KHUNG.length * 100) + "%";
+    const d = document.getElementById(p + "-dem"); if (d) d.textContent = da + "/" + KHUNG.length + " ảnh";
+    const n = document.getElementById(p + "-nhieu"); const con = KHUNG.length - da;
+    const ten = con === 0 ? "Thay nhiều ảnh" : (da ? "Tải lên " + con + " ảnh còn thiếu" : "Tải lên " + KHUNG.length + " ảnh");
+    if (n) (n.querySelector("span") || n).textContent = ten;
+  }
+  for (const p of ["a", "b"]) veXemTruoc(p);
+  veNhom("a-nhom"); veNhom("m-nhom");
+}
+
+function anhHtml(k) {
+  return '<img src="' + k.anh + '" style="transform:scale(' + k.zoom / 100 + ') rotate(' + k.xoay + 'deg)">';
+}
+
+function veXemTruoc(p) {
+  const el = document.getElementById(p + "-xem");
+  const t = TRANG[trangHien];
+  let h = "";
+  KHUNG.forEach((k, i) => {
+    if (k.trang !== trangHien) return;
+    h += '<div class="khung' + (khungChon === i ? " chon" : "") + '" data-i="' + i + '" style="left:' + k.x + '%;top:' + k.y + '%;width:' + k.w + '%;height:' + k.h + '%">' + (k.anh ? anhHtml(k) : '<span class="cong">' + icCong + '</span>') + '</div>';
+  });
+  if (trangHien > 0) {
+    h += '<div class="lich-chu"><div class="thang">' + t.ten + ' 2027</div><div class="luoi-ngay">' + ["T2","T3","T4","T5","T6","T7","CN"].map((d) => "<span><b>" + d + "</b></span>").join("") + Array.from({ length: 31 }, (_, i) => "<span>" + (i + 1) + "</span>").join("") + "</div></div>";
+  } else {
+    h += '<div class="lich-chu" style="border:0;text-align:center"><div class="thang" style="font-size:28px">Lịch 2027</div>Gia đình bé Na</div>';
+  }
+  el.innerHTML = h;
+  el.querySelectorAll(".khung").forEach((d) => d.onclick = () => {
+    const i = +d.dataset.i;
+    if (p === "b" && KHUNG[i].anh) { khungChon = i; ve(); return; }
+    chonMot(i);
+  });
+  const dai = document.getElementById(p + "-dai");
+  dai.innerHTML = TRANG.map((tt, ti) => '<button class="' + (ti === trangHien ? "on" : "") + '" data-t="' + ti + '"><div class="mini">' + KHUNG.filter((k) => k.trang === ti).map((k) => '<i class="' + (k.anh ? "co" : "") + '" style="' + (k.anh ? "background-image:url(" + k.anh + ")" : "") + '"></i>').join("") + "</div>" + tt.ten + "</button>").join("");
+  dai.querySelectorAll("button").forEach((b) => b.onclick = () => { trangHien = +b.dataset.t; ve(); });
+}
+
+function veNhom(id) {
+  const el = document.getElementById(id);
+  el.innerHTML = TRANG.map((t, ti) => {
+    const ks = KHUNG.map((k, i) => ({ k, i })).filter((x) => x.k.trang === ti);
+    const da = ks.filter((x) => x.k.anh).length;
+    return '<div class="nhom-trang"><div class="tieu">' + t.ten + '<span>' + da + "/" + ks.length + '</span></div><div class="luoi-anh">' + ks.map(({ k, i }) =>
+      '<div class="o-anh' + (k.anh ? " co" : "") + (khungChon === i ? " chon" : "") + '" data-i="' + i + '" role="button" tabindex="0">' + (k.anh ? anhHtml(k) : icCong) + '<span class="nhan">Ảnh ' + (i + 1) + '</span><button class="chinh" data-c="' + i + '" aria-label="Chỉnh ảnh">' + icChinh + "</button></div>").join("") + "</div></div>";
+  }).join("");
+  el.querySelectorAll(".o-anh").forEach((o) => o.onclick = (e) => {
+    const i = +o.dataset.i;
+    if (e.target.closest(".chinh")) { moBang(i); return; }
+    trangHien = KHUNG[i].trang; khungChon = i;
+    chonMot(i);
+  });
+}
+
+function moBang(i) {
+  khungChon = i; trangHien = KHUNG[i].trang;
+  document.getElementById("a-bang").classList.add("mo");
+  document.getElementById("a-bang-ten").textContent = "Chỉnh Ảnh " + (i + 1) + " · " + TRANG[KHUNG[i].trang].ten;
+  document.getElementById("a-zoom").value = KHUNG[i].zoom;
+  document.getElementById("a-xoay").value = KHUNG[i].xoay;
+  ve();
+}
+
+function chonMot(i) { dangChoMot = i; document.getElementById("chon-1").click(); }
+
+document.getElementById("chon-1").onchange = async (e) => {
+  const f = e.target.files[0]; e.target.value = "";
+  if (!f || dangChoMot === null) return;
+  KHUNG[dangChoMot].anh = await docAnh(f); KHUNG[dangChoMot].zoom = 100; KHUNG[dangChoMot].xoay = 0;
+  khungChon = dangChoMot; trangHien = KHUNG[dangChoMot].trang; ve();
+};
+for (const p of ["a", "b", "m"]) document.getElementById(p + "-nhieu").onclick = () => document.getElementById("chon-n").click();
+document.getElementById("chon-n").onchange = async (e) => {
+  const files = [...e.target.files]; e.target.value = "";
+  // Lap khung trong truoc theo thu tu; het khung trong thi thay tu dau
+  const trong = KHUNG.map((k, i) => i).filter((i) => !KHUNG[i].anh);
+  const dich = trong.length ? trong : KHUNG.map((_, i) => i);
+  for (let j = 0; j < Math.min(files.length, dich.length); j++) KHUNG[dich[j]].anh = await docAnh(files[j]);
+  ve();
+};
+document.getElementById("a-zoom").oninput = (e) => { if (khungChon !== null) { KHUNG[khungChon].zoom = +e.target.value; ve(); } };
+document.getElementById("a-xoay").oninput = (e) => { if (khungChon !== null) { KHUNG[khungChon].xoay = +e.target.value; ve(); } };
+document.getElementById("a-doi").onclick = () => khungChon !== null && chonMot(khungChon);
+document.getElementById("a-xoa").onclick = () => { if (khungChon !== null) { KHUNG[khungChon].anh = null; document.getElementById("a-bang").classList.remove("mo"); ve(); } };
+document.getElementById("a-dong").onclick = () => { document.getElementById("a-bang").classList.remove("mo"); khungChon = null; ve(); };
+
+document.querySelectorAll(".tab").forEach((t) => t.onclick = () => {
+  document.querySelectorAll(".tab").forEach((x) => x.classList.toggle("on", x === t));
+  document.querySelectorAll(".phuong-an").forEach((s) => s.classList.toggle("on", s.id === "pa-" + t.dataset.pa));
+});
+ve();
+</script>
+<script>
+// Ghi chu cho mockup tinh: o ghi chu moi phuong an + ghi chu chung, luu localStorage,
+// nut Copy gom lua chon + ghi chu de user dan vao chat cho Claude (trang tinh khong gui ve duoc).
+(function () {
+  var KEY = 'mockup-notes:' + location.pathname;
+  var saved = {};
+  try { saved = JSON.parse(localStorage.getItem(KEY) || '{}'); } catch (e) {}
+  function save() {
+    var d = { _chon: picked() };
+    document.querySelectorAll('textarea[data-note]').forEach(function (t) { d[t.dataset.note] = t.value; });
+    try { localStorage.setItem(KEY, JSON.stringify(d)); } catch (e) {}
+  }
+  function picked() {
+    return [].map.call(document.querySelectorAll('.selected[data-choice]'), function (o) { return o.dataset.choice.toUpperCase(); });
+  }
+  function area(id, ph) {
+    var t = document.createElement('textarea');
+    t.dataset.note = id; t.placeholder = ph; t.rows = 2; t.value = saved[id] || '';
+    t.style.cssText = 'width:100%;margin-top:8px;padding:8px;border-radius:6px;border:1px solid #8b949e66;background:transparent;color:inherit;font:13px system-ui;resize:vertical';
+    t.addEventListener('click', function (e) { e.stopPropagation(); }); // khong chon option khi bam vao o ghi chu
+    t.addEventListener('input', save);
+    return t;
+  }
+  var status = document.createElement('span');
+  function refresh() { var s = picked(); status.textContent = s.length ? 'Đã chọn: ' + s.join(', ') : 'Chưa chọn'; }
+
+  if (!window.toggleSelect) window.toggleSelect = function (el) {
+    var c = el.closest('.options') || el.closest('.cards'); var m = c && c.dataset.multiselect !== undefined;
+    if (c && !m) c.querySelectorAll('.option, .card').forEach(function (o) { o.classList.remove('selected'); });
+    m ? el.classList.toggle('selected') : el.classList.add('selected');
+  };
+  var orig = window.toggleSelect;
+  window.toggleSelect = function (el) { orig(el); refresh(); save(); };
+
+  document.querySelectorAll('[data-choice]').forEach(function (o) {
+    var id = o.dataset.choice;
+    (o.querySelector('.content, .card-body') || o).appendChild(area(id, 'Ghi chú cho phương án ' + id.toUpperCase() + '…'));
+    if ((saved._chon || []).indexOf(id.toUpperCase()) >= 0) o.classList.add('selected');
+  });
+
+  var bar = document.createElement('div');
+  bar.style.cssText = 'position:sticky;bottom:0;z-index:50;margin-top:24px;padding:12px;border-top:1px solid #8b949e66;background:var(--bg-primary,Canvas);display:flex;flex-direction:column;gap:8px';
+  var gen = area('chung', 'Ghi chú chung: muốn đổi gì, thêm gì…');
+  gen.style.marginTop = '0';
+  var row = document.createElement('div');
+  row.style.cssText = 'display:flex;gap:10px;align-items:center;flex-wrap:wrap;font:14px system-ui';
+  var btn = document.createElement('button');
+  btn.textContent = 'Copy để gửi Claude';
+  btn.style.cssText = 'padding:8px 16px;border-radius:6px;border:0;background:#2f81f7;color:#fff;font:600 14px system-ui;cursor:pointer';
+  btn.onclick = function () {
+    var lines = ['Mockup: ' + ((document.querySelector('h1, h2') || {}).textContent || document.title) + ' (' + location.href + ')', 'Chọn: ' + (picked().join(', ') || '(chưa chọn)')];
+    document.querySelectorAll('textarea[data-note]').forEach(function (t) {
+      if (t.value.trim()) lines.push((t.dataset.note === 'chung' ? 'Ghi chú chung' : 'Ghi chú ' + t.dataset.note.toUpperCase()) + ': ' + t.value.trim());
+    });
+    var txt = lines.join('\n');
+    var done = function () { btn.textContent = 'Đã copy — dán vào chat'; setTimeout(function () { btn.textContent = 'Copy để gửi Claude'; }, 2500); };
+    if (navigator.clipboard && window.isSecureContext) navigator.clipboard.writeText(txt).then(done, function () { prompt('Copy đoạn này:', txt); });
+    else prompt('Copy đoạn này:', txt);
+  };
+  row.appendChild(btn); row.appendChild(status);
+  bar.appendChild(gen); bar.appendChild(row);
+  (document.getElementById('frame-content') || document.body).appendChild(bar);
+  refresh();
+})();
+</script>
+</body>
+</html>
