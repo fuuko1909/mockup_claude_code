@@ -1,0 +1,257 @@
+<!doctype html>
+<html lang="vi">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>Tuấn Tú Label - chọn phong cách website</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Be+Vietnam+Pro:wght@400;500;700;800;900&family=Fraunces:opsz,wght@9..144,500;9..144,800&family=JetBrains+Mono:wght@400;700&display=swap" rel="stylesheet">
+<style>
+:root{--brand:#176fc0}
+*{box-sizing:border-box;margin:0;padding:0}
+body{font-family:"Be Vietnam Pro",system-ui,sans-serif;background:#eef0f3;color:#14171c;line-height:1.5}
+.intro{max-width:1100px;margin:0 auto;padding:48px 20px 16px}
+.intro h1{font-size:clamp(26px,4vw,40px);font-weight:800;letter-spacing:-.02em}
+.intro p{color:#555;margin-top:8px;max-width:760px}
+.opt{max-width:1100px;margin:32px auto;padding:0 20px}
+.opt-head{display:flex;flex-wrap:wrap;gap:12px 24px;align-items:flex-end;justify-content:space-between;margin-bottom:12px}
+.opt-head h2{font-size:22px;font-weight:800}
+.opt-head h2 span{display:inline-block;background:#14171c;color:#fff;border-radius:6px;padding:0 10px;margin-right:8px}
+.sw{display:flex;gap:6px}
+.sw i{width:28px;height:28px;border-radius:50%;border:1px solid #0002}
+.meta{display:grid;grid-template-columns:repeat(auto-fit,minmax(240px,1fr));gap:12px;margin-top:12px;font-size:14px}
+.meta div{background:#fff;border-radius:10px;padding:12px 14px}
+.meta b{display:block;font-size:12px;text-transform:uppercase;letter-spacing:.06em;color:#666;margin-bottom:4px}
+.frame{border-radius:16px;overflow:hidden;box-shadow:0 20px 50px -20px #0004;position:relative}
+.nav{display:flex;align-items:center;justify-content:space-between;padding:18px 28px;font-size:14px}
+.nav ul{display:flex;gap:22px;list-style:none}
+.logo{display:flex;align-items:center;gap:10px;font-weight:800}
+.logo i{width:30px;height:30px;border-radius:50%;background:var(--brand);color:#fff;display:grid;place-items:center;font-style:normal;font-weight:900}
+.btn{display:inline-flex;align-items:center;gap:8px;padding:12px 20px;border-radius:999px;font-weight:700;font-size:14px;text-decoration:none;border:0;cursor:pointer}
+.btn svg{width:16px;height:16px}
+@media(max-width:720px){.nav ul{display:none}}
+
+/* A - Bento sáng */
+.a{background:#f7f8fa;color:#0d1b2a}
+.a .hero{display:grid;grid-template-columns:repeat(4,1fr);grid-auto-rows:150px;gap:14px;padding:10px 28px 28px}
+.a .cell{border-radius:22px;background:#fff;padding:22px;border:1px solid #e3e7ee;transition:transform .35s cubic-bezier(.2,.8,.2,1),box-shadow .35s;overflow:hidden;position:relative}
+.a .cell:hover{transform:translateY(-4px);box-shadow:0 18px 30px -18px #176fc066}
+.a .big{grid-column:span 2;grid-row:span 2;background:linear-gradient(135deg,#176fc0,#0b3f7a);color:#fff;border:0;display:flex;flex-direction:column;justify-content:flex-end}
+.a .big h3{font-size:clamp(26px,3.4vw,40px);line-height:1.1;font-weight:800;letter-spacing:-.02em}
+.a .big p{opacity:.85;margin:10px 0 16px}
+.a .big .btn{background:#ff6b2c;color:#fff;align-self:flex-start}
+.a .num{font-size:40px;font-weight:900;color:#176fc0;letter-spacing:-.03em}
+.a .wide{grid-column:span 2;padding-right:130px}
+.a .roll{position:absolute;right:-30px;bottom:-30px;width:140px;height:140px;border-radius:50%;background:repeating-conic-gradient(#ff6b2c 0 10deg,#ffd4c0 10deg 20deg);animation:spin 14s linear infinite}
+.a .roll::after{content:"";position:absolute;inset:42px;border-radius:50%;background:#fff}
+@media(max-width:720px){.a .hero{grid-template-columns:1fr 1fr}.a .big,.a .wide{grid-column:span 2;padding-right:130px}}
+
+/* B - Tối, chính xác, dữ liệu biến đổi */
+.b{background:#07090d;color:#e8edf5;--x:50%;--y:40%}
+.b::before{content:"";position:absolute;inset:0;background:radial-gradient(500px circle at var(--x) var(--y),#1e7bd633,transparent 60%),linear-gradient(#ffffff08 1px,transparent 1px) 0 0/40px 40px,linear-gradient(90deg,#ffffff08 1px,transparent 1px) 0 0/40px 40px;pointer-events:none}
+.b .nav .logo i{box-shadow:0 0 20px #1e7bd6}
+.b .hero{position:relative;display:grid;grid-template-columns:1.2fr 1fr;gap:28px;padding:30px 28px 44px;align-items:center}
+.b h3{font-size:clamp(28px,4vw,50px);line-height:1.05;font-weight:800;letter-spacing:-.03em}
+.b h3 em{font-style:normal;background:linear-gradient(90deg,#00c2ff,#ff2fb3,#ffe14d);-webkit-background-clip:text;background-clip:text;color:transparent}
+.b p{color:#9aa6b8;margin:14px 0 22px}
+.b .btn{background:#e8edf5;color:#07090d}
+.b .ghost{background:transparent;color:#e8edf5;border:1px solid #ffffff33;margin-left:8px}
+.b .tag{background:#fff;color:#111;border-radius:12px;padding:18px;font-family:"JetBrains Mono",monospace;box-shadow:0 0 0 1px #ffffff22,0 30px 60px -20px #00c2ff55;transform:rotate(-3deg)}
+.b .tag .row{display:flex;justify-content:space-between;font-size:12px;border-bottom:1px dashed #ccc;padding:6px 0}
+.b .tag .row b{color:#176fc0}
+.b .bar{height:56px;margin-top:12px;background:repeating-linear-gradient(90deg,#111 0 2px,#fff 2px 4px,#111 4px 7px,#fff 7px 8px,#111 8px 9px,#fff 9px 12px)}
+.b .serial{font-size:22px;font-weight:700;letter-spacing:.08em;text-align:center;margin-top:8px}
+.b .cmyk{display:flex;gap:6px;margin-top:22px;font-family:"JetBrains Mono",monospace;font-size:12px;color:#9aa6b8}
+.b .cmyk span{display:flex;align-items:center;gap:6px}
+.b .cmyk i{width:10px;height:10px;border-radius:2px}
+@media(max-width:720px){.b .hero{grid-template-columns:1fr}}
+
+/* C - Giấy, thủ công in */
+.c{background:#f3ece0;color:#2a2018;background-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='160' height='160'%3E%3Cfilter id='n'%3E%3CfeTurbulence baseFrequency='.8' numOctaves='3'/%3E%3C/filter%3E%3Crect width='160' height='160' filter='url(%23n)' opacity='.08'/%3E%3C/svg%3E")}
+.c .hero{display:grid;grid-template-columns:1.1fr .9fr;gap:24px;padding:30px 28px 48px;align-items:center;position:relative}
+.c h3{font-family:Fraunces,serif;font-size:clamp(32px,5vw,62px);line-height:1;font-weight:800;letter-spacing:-.02em}
+.c h3 i{color:#176fc0}
+.c p{margin:16px 0 22px;color:#5a4c3e;max-width:440px}
+.c .btn{background:#2a2018;color:#f3ece0;border-radius:4px}
+.c .crop{position:relative;aspect-ratio:1;max-width:340px;justify-self:center;width:100%}
+.c .crop::before,.c .crop::after{content:"";position:absolute;inset:-14px;border:1px solid #2a2018;clip-path:polygon(0 0,18px 0,18px 1px,1px 1px,1px 18px,0 18px,0 calc(100% - 18px),1px calc(100% - 18px),1px calc(100% - 1px),18px calc(100% - 1px),18px 100%,0 100%,0 0,100% 0,calc(100% - 18px) 0,calc(100% - 18px) 1px,calc(100% - 1px) 1px,calc(100% - 1px) 18px,100% 18px,100% calc(100% - 18px),calc(100% - 1px) calc(100% - 18px),calc(100% - 1px) calc(100% - 1px),calc(100% - 18px) calc(100% - 1px),calc(100% - 18px) 100%,100% 100%,100% 0)}
+.c .sticker{position:absolute;inset:0;border-radius:50%;background:radial-gradient(circle,#176fc0 1.6px,transparent 2px) 0 0/9px 9px,#d9e8f7;display:grid;place-items:center;transition:transform .5s cubic-bezier(.2,.8,.2,1);box-shadow:6px 8px 0 #2a201822}
+.c .sticker:hover{transform:rotate(-8deg) scale(1.03)}
+.c .sticker span{background:#f3ece0;padding:14px 22px;border-radius:999px;font-family:Fraunces,serif;font-size:24px;font-weight:800;border:2px solid #2a2018}
+.c .swatches{display:flex;gap:0;margin-top:26px}
+.c .swatches div{width:72px;background:#fff;padding:4px 4px 8px;font-size:10px;box-shadow:0 2px 6px #0002;transform:rotate(var(--r));margin-right:-8px}
+.c .swatches div i{display:block;height:46px;margin-bottom:4px}
+@media(max-width:720px){.c .hero{grid-template-columns:1fr}}
+
+/* D - CMYK rực, chữ lớn */
+.d{background:#fff200;color:#111}
+.d .hero{padding:20px 28px 0}
+.d h3{font-size:clamp(44px,9vw,120px);line-height:1.12;font-weight:900;letter-spacing:-.04em;text-transform:uppercase}
+.d h3 span{display:inline-block;background:#ff00a0;color:#fff;padding:0 .12em;transform:rotate(-2deg)}
+.d h3 b{color:#00aeef}
+.d .row{display:flex;flex-wrap:wrap;gap:16px;align-items:center;justify-content:space-between;margin:22px 0}
+.d p{max-width:420px;font-weight:500}
+.d .btn{background:#111;color:#fff200;border-radius:0;box-shadow:6px 6px 0 #ff00a0;transition:transform .15s,box-shadow .15s}
+.d .btn:hover{transform:translate(3px,3px);box-shadow:3px 3px 0 #ff00a0}
+.d .marquee{background:#111;color:#fff;overflow:hidden;white-space:nowrap;font-weight:800;font-size:22px;padding:14px 0;text-transform:uppercase}
+.d .marquee div{display:inline-block;animation:mq 18s linear infinite}
+.d .marquee em{font-style:normal;color:#00aeef;margin:0 18px}
+
+/* hiệu ứng chung */
+@keyframes spin{to{transform:rotate(360deg)}}
+@keyframes mq{to{transform:translateX(-50%)}}
+@supports (animation-timeline:view()){
+  .reveal{animation:rv linear both;animation-timeline:view();animation-range:entry 0% cover 30%}
+  @keyframes rv{from{opacity:0;transform:translateY(40px) scale(.98)}}
+}
+@media (prefers-reduced-motion:reduce){*,*::before,*::after{animation:none!important;transition:none!important}}
+.foot{max-width:1100px;margin:40px auto 120px;padding:0 20px;color:#666;font-size:13px}
+</style>
+</head>
+<body>
+<section class="intro">
+  <h1>Website Tuấn Tú Label: 4 phong cách để chọn</h1>
+  <p>Mỗi phương án là phần đầu trang chủ (hero) dựng thật bằng HTML/CSS, có hiệu ứng chạy được. Rê chuột, cuộn trang để xem. Nội dung, số liệu là ví dụ. Chọn một phương án (hoặc kết hợp), ghi chú rồi bấm "Copy để gửi Claude".</p>
+</section>
+
+<!-- A -->
+<section class="opt reveal" data-choice="a">
+  <div class="opt-head"><h2><span>A</span>Bento sáng, chuyên nghiệp</h2>
+    <div class="sw"><i style="background:#176fc0"></i><i style="background:#0b3f7a"></i><i style="background:#ff6b2c"></i><i style="background:#f7f8fa"></i></div></div>
+  <div class="frame a">
+    <div class="nav"><div class="logo"><i>t</i>TUẤN TÚ LABEL</div><ul><li>Sản phẩm</li><li>Năng lực</li><li>Dự án</li><li>Giới thiệu</li><li>VI / EN</li></ul></div>
+    <div class="hero">
+      <div class="cell big"><h3>Tem nhãn in chuẩn màu, mỗi con tem một dữ liệu riêng</h3><p>In decal, tem bảo hành, mã vạch, QR, số serial cho nhà máy và thương hiệu.</p><a class="btn" href="#">Yêu cầu báo giá <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M5 12h14M13 6l6 6-6 6"/></svg></a></div>
+      <div class="cell"><div class="num" data-count="12">0</div>năm kinh nghiệm</div>
+      <div class="cell"><div class="num" data-count="30">0</div>triệu tem / tháng</div>
+      <div class="cell wide"><b>Dữ liệu biến đổi</b><br>QR, barcode, serial chạy liên tục, kiểm tra 100% bằng camera<div class="roll"></div></div>
+    </div>
+  </div>
+  <div class="meta"><div><b>Cảm giác</b>Gọn, tin cậy, kiểu web công ty công nghệ. Màu xanh logo làm chủ đạo, cam làm nút hành động.</div><div><b>Xu hướng</b>Bento grid, bo góc lớn, số liệu nổi bật, nền sáng.</div><div><b>Hiệu ứng</b>Thẻ nhấc lên khi rê chuột, số đếm tăng, hiện dần khi cuộn (CSS scroll-driven, không cần thư viện JS).</div></div>
+</section>
+
+<!-- B -->
+<section class="opt reveal" data-choice="b">
+  <div class="opt-head"><h2><span>B</span>Tối, công nghệ, nhấn dữ liệu biến đổi</h2>
+    <div class="sw"><i style="background:#07090d"></i><i style="background:#00c2ff"></i><i style="background:#ff2fb3"></i><i style="background:#ffe14d"></i></div></div>
+  <div class="frame b" id="bfr">
+    <div class="nav" style="position:relative"><div class="logo"><i>t</i>TUẤN TÚ LABEL</div><ul><li>Giải pháp</li><li>Công nghệ in</li><li>Dự án</li><li>VI / EN</li></ul></div>
+    <div class="hero">
+      <div><h3>Mỗi con tem là <em>một dữ liệu duy nhất</em></h3><p>In dữ liệu biến đổi tốc độ cao: serial, QR truy xuất, tem chống giả. Kết nối thẳng với file dữ liệu của bạn.</p>
+        <a class="btn" href="#">Gửi file dữ liệu</a><a class="btn ghost" href="#">Xem năng lực</a>
+        <div class="cmyk"><span><i style="background:#00c2ff"></i>C</span><span><i style="background:#ff2fb3"></i>M</span><span><i style="background:#ffe14d"></i>Y</span><span><i style="background:#fff"></i>K</span></div></div>
+      <div class="tag"><div class="row"><span>SẢN PHẨM</span><b>NƯỚC CHẤM 500ML</b></div><div class="row"><span>LÔ</span><b id="lot">L2610-A</b></div><div class="row"><span>HSD</span><b>29/10/2027</b></div><div class="bar"></div><div class="serial" id="serial">TT-00012847</div></div>
+    </div>
+  </div>
+  <div class="meta"><div><b>Cảm giác</b>Khác biệt hẳn các nhà in khác, nói rõ thế mạnh in dữ liệu biến đổi. Hợp khách nhà máy, FMCG, dược.</div><div><b>Xu hướng</b>Dark mode, lưới kỹ thuật, gradient CMYK, font mono.</div><div><b>Hiệu ứng</b>Vùng sáng chạy theo chuột, số serial tự nhảy như máy đang in, con tem nổi 3D.</div></div>
+</section>
+
+<!-- C -->
+<section class="opt reveal" data-choice="c">
+  <div class="opt-head"><h2><span>C</span>Giấy và mực, cảm giác nghề in</h2>
+    <div class="sw"><i style="background:#f3ece0"></i><i style="background:#2a2018"></i><i style="background:#176fc0"></i><i style="background:#d94f2b"></i></div></div>
+  <div class="frame c">
+    <div class="nav"><div class="logo"><i>t</i>Tuấn Tú Label</div><ul><li>Sản phẩm</li><li>Xưởng in</li><li>Câu chuyện</li><li>VI / EN</li></ul></div>
+    <div class="hero">
+      <div><h3>Từng con tem, <i>in bằng tay nghề</i></h3><p>Decal giấy, decal nhựa, tem vỡ, nhũ, ép kim, cán màng. Chuẩn màu Pantone, dữ liệu biến đổi đến từng con tem.</p><a class="btn" href="#">Đặt in mẫu</a>
+        <div class="swatches"><div style="--r:-4deg"><i style="background:#176fc0"></i>2935 C</div><div style="--r:3deg"><i style="background:#d94f2b"></i>7417 C</div><div style="--r:-2deg"><i style="background:#f2b705"></i>7408 C</div><div style="--r:5deg"><i style="background:#2a2018"></i>Black 6 C</div></div></div>
+      <div class="crop"><div class="sticker"><span>Tem chính hãng</span></div></div>
+    </div>
+  </div>
+  <div class="meta"><div><b>Cảm giác</b>Ấm, có chiều sâu nghề nghiệp, giống tạp chí. Hợp làm hồ sơ năng lực cho khách thương hiệu, mỹ phẩm, F&amp;B.</div><div><b>Xu hướng</b>Texture giấy, chữ serif lớn, chấm halftone, dấu cắt (crop mark), mẫu màu Pantone.</div><div><b>Hiệu ứng</b>Con tem xoay khi rê chuột, mẫu màu nghiêng, hiện dần khi cuộn.</div></div>
+</section>
+
+<!-- D -->
+<section class="opt reveal" data-choice="d">
+  <div class="opt-head"><h2><span>D</span>CMYK rực rỡ, chữ khổng lồ</h2>
+    <div class="sw"><i style="background:#fff200"></i><i style="background:#ff00a0"></i><i style="background:#00aeef"></i><i style="background:#111"></i></div></div>
+  <div class="frame d">
+    <div class="nav"><div class="logo"><i>t</i>TUẤN TÚ LABEL</div><ul><li>Sản phẩm</li><li>Năng lực</li><li>Liên hệ</li><li>VI / EN</li></ul></div>
+    <div class="hero">
+      <h3>In <span>tem nhãn</span><br>nói <b>thay</b> sản phẩm</h3>
+      <div class="row"><p>Từ 1.000 đến hàng triệu con tem, mỗi con một mã riêng. Giao nhanh tại TP.HCM và toàn quốc.</p><a class="btn" href="#">Báo giá trong 2 giờ</a></div>
+    </div>
+    <div class="marquee"><div>Decal giấy<em>/</em>Decal nhựa<em>/</em>Tem bảo hành<em>/</em>Tem QR<em>/</em>Mã vạch<em>/</em>Số serial<em>/</em>Tem vỡ<em>/</em>Ép kim<em>/</em>Decal giấy<em>/</em>Decal nhựa<em>/</em>Tem bảo hành<em>/</em>Tem QR<em>/</em>Mã vạch<em>/</em>Số serial<em>/</em>Tem vỡ<em>/</em>Ép kim<em>/</em></div></div>
+  </div>
+  <div class="meta"><div><b>Cảm giác</b>Trẻ, mạnh, dễ nhớ. Màu lấy từ mực CMYK. Nổi bật nhưng kén khách doanh nghiệp lớn.</div><div><b>Xu hướng</b>Dopamine color, neo-brutalism, chữ cực lớn, dải chữ chạy.</div><div><b>Hiệu ứng</b>Dải chữ chạy vô tận, nút bóng cứng nhấn xuống, chữ nghiêng nhẹ.</div></div>
+</section>
+
+<p class="foot">Mọi hiệu ứng tự tắt khi người xem bật "giảm chuyển động" trên máy (prefers-reduced-motion). Logo ở đây là bản vẽ tạm, bản thật sẽ dùng logo Tuấn Tú.</p>
+
+<script>
+// số đếm tăng (A)
+document.querySelectorAll('[data-count]').forEach(el=>{const t=+el.dataset.count;let n=0;const s=setInterval(()=>{el.textContent=(++n)+'+';if(n>=t)clearInterval(s)},60)});
+// vùng sáng theo chuột (B)
+const b=document.getElementById('bfr');b.addEventListener('pointermove',e=>{const r=b.getBoundingClientRect();b.style.setProperty('--x',e.clientX-r.left+'px');b.style.setProperty('--y',e.clientY-r.top+'px')});
+// serial nhảy (B)
+let sn=12847;const se=document.getElementById('serial');
+if(!matchMedia('(prefers-reduced-motion: reduce)').matches)setInterval(()=>{se.textContent='TT-'+String(++sn).padStart(8,'0')},180);
+</script>
+<script>
+// Ghi chu cho mockup tinh: o ghi chu moi phuong an + ghi chu chung, luu localStorage,
+// nut Copy gom lua chon + ghi chu de user dan vao chat cho Claude (trang tinh khong gui ve duoc).
+(function () {
+  var KEY = 'mockup-notes:' + location.pathname;
+  var saved = {};
+  try { saved = JSON.parse(localStorage.getItem(KEY) || '{}'); } catch (e) {}
+  function save() {
+    var d = { _chon: picked() };
+    document.querySelectorAll('textarea[data-note]').forEach(function (t) { d[t.dataset.note] = t.value; });
+    try { localStorage.setItem(KEY, JSON.stringify(d)); } catch (e) {}
+  }
+  function picked() {
+    return [].map.call(document.querySelectorAll('.selected[data-choice]'), function (o) { return o.dataset.choice.toUpperCase(); });
+  }
+  function area(id, ph) {
+    var t = document.createElement('textarea');
+    t.dataset.note = id; t.placeholder = ph; t.rows = 2; t.value = saved[id] || '';
+    t.style.cssText = 'width:100%;margin-top:8px;padding:8px;border-radius:6px;border:1px solid #8b949e66;background:transparent;color:inherit;font:13px system-ui;resize:vertical';
+    t.addEventListener('click', function (e) { e.stopPropagation(); }); // khong chon option khi bam vao o ghi chu
+    t.addEventListener('input', save);
+    return t;
+  }
+  var status = document.createElement('span');
+  function refresh() { var s = picked(); status.textContent = s.length ? 'Đã chọn: ' + s.join(', ') : 'Chưa chọn'; }
+
+  if (!window.toggleSelect) window.toggleSelect = function (el) {
+    var c = el.closest('.options') || el.closest('.cards'); var m = c && c.dataset.multiselect !== undefined;
+    if (c && !m) c.querySelectorAll('.option, .card').forEach(function (o) { o.classList.remove('selected'); });
+    m ? el.classList.toggle('selected') : el.classList.add('selected');
+  };
+  var orig = window.toggleSelect;
+  window.toggleSelect = function (el) { orig(el); refresh(); save(); };
+
+  document.querySelectorAll('[data-choice]').forEach(function (o) {
+    var id = o.dataset.choice;
+    (o.querySelector('.content, .card-body') || o).appendChild(area(id, 'Ghi chú cho phương án ' + id.toUpperCase() + '…'));
+    if ((saved._chon || []).indexOf(id.toUpperCase()) >= 0) o.classList.add('selected');
+  });
+
+  var bar = document.createElement('div');
+  bar.style.cssText = 'position:sticky;bottom:0;z-index:50;margin-top:24px;padding:12px;border-top:1px solid #8b949e66;background:var(--bg-primary,Canvas);display:flex;flex-direction:column;gap:8px';
+  var gen = area('chung', 'Ghi chú chung: muốn đổi gì, thêm gì…');
+  gen.style.marginTop = '0';
+  var row = document.createElement('div');
+  row.style.cssText = 'display:flex;gap:10px;align-items:center;flex-wrap:wrap;font:14px system-ui';
+  var btn = document.createElement('button');
+  btn.textContent = 'Copy để gửi Claude';
+  btn.style.cssText = 'padding:8px 16px;border-radius:6px;border:0;background:#2f81f7;color:#fff;font:600 14px system-ui;cursor:pointer';
+  btn.onclick = function () {
+    var lines = ['Mockup: ' + ((document.querySelector('h1, h2') || {}).textContent || document.title) + ' (' + location.href + ')', 'Chọn: ' + (picked().join(', ') || '(chưa chọn)')];
+    document.querySelectorAll('textarea[data-note]').forEach(function (t) {
+      if (t.value.trim()) lines.push((t.dataset.note === 'chung' ? 'Ghi chú chung' : 'Ghi chú ' + t.dataset.note.toUpperCase()) + ': ' + t.value.trim());
+    });
+    var txt = lines.join('\n');
+    var done = function () { btn.textContent = 'Đã copy — dán vào chat'; setTimeout(function () { btn.textContent = 'Copy để gửi Claude'; }, 2500); };
+    if (navigator.clipboard && window.isSecureContext) navigator.clipboard.writeText(txt).then(done, function () { prompt('Copy đoạn này:', txt); });
+    else prompt('Copy đoạn này:', txt);
+  };
+  row.appendChild(btn); row.appendChild(status);
+  bar.appendChild(gen); bar.appendChild(row);
+  (document.getElementById('frame-content') || document.body).appendChild(bar);
+  refresh();
+})();
+</script>
+</body>
+</html>
