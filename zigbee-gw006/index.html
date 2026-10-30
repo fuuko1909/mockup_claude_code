@@ -7,6 +7,8 @@ code{background:#242430;padding:1px 5px;border-radius:4px}a{color:#5ab0ff}.warn{
 <h1>RSH-GW006 (ZS3L + WBRG1) — sơ đồ nạp</h1>
 <p class="warn">DÒ ĐỒNG HỒ TRƯỚC KHI HÀN. Backup firmware gốc trước. Hàn sai pad = chết module.</p>
 <img src="board-pinout.png" alt="pinout">
+<h2>ZS3L — chân SWD (hàn ST-Link)</h2>
+<img src="zs3l-swd.png" alt="zs3l swd"><p class="warn">Cột 6 pad trái = nhóm nạp. SWDIO=18, SWCLK=19. DÒ ĐỒNG HỒ xác định 3V3 (đo khi cấp nguồn) + GND (thông mạch với vỏ module) để biết chiều; SWDIO/SWCLK sai không chết, OpenOCD không nhận thì đổi.</p>
 <h2>Module</h2>
 <ul>
 <li><b>WBRG1 = Realtek RTL8720D</b> (Wi-Fi) → OpenBeken qua <b>UART 3V3</b>. ESPHome/Tasmota KHÔNG chạy.</li>
