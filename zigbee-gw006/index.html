@@ -1,0 +1,37 @@
+<!doctype html><html lang="vi"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">
+<title>RSH-GW006 flash — pinout</title>
+<style>body{font-family:system-ui,Arial,sans-serif;max-width:900px;margin:16px auto;padding:0 14px;background:#141418;color:#e8e8e8}
+img{width:100%;border-radius:8px;border:1px solid #333}h1{font-size:20px}h2{font-size:17px;margin-top:22px;color:#ffd23c}
+table{border-collapse:collapse;width:100%;margin:8px 0}td,th{border:1px solid #444;padding:6px 8px;font-size:14px}
+code{background:#242430;padding:1px 5px;border-radius:4px}a{color:#5ab0ff}.warn{color:#ff8080;font-weight:600}</style></head><body>
+<h1>RSH-GW006 (ZS3L + WBRG1) — sơ đồ nạp</h1>
+<p class="warn">DÒ ĐỒNG HỒ TRƯỚC KHI HÀN. Backup firmware gốc trước. Hàn sai pad = chết module.</p>
+<img src="board-pinout.png" alt="pinout">
+<h2>Module</h2>
+<ul>
+<li><b>WBRG1 = Realtek RTL8720D</b> (Wi-Fi) → OpenBeken qua <b>UART 3V3</b>. ESPHome/Tasmota KHÔNG chạy.</li>
+<li><b>ZS3L = Silabs EFR32MG21</b> (Zigbee) → EmberZNet NCP qua <b>SWD</b> → coordinator ZHA/Z2M.</li></ul>
+<h2>Pinout ZS3L (số chân module)</h2>
+<table><tr><th>Chân</th><th>Tín hiệu</th></tr>
+<tr><td>18</td><td>SWDIO</td></tr><tr><td>19</td><td>SWCLK</td></tr><tr><td>1 / 21</td><td>RST</td></tr>
+<tr><td>8, 17</td><td>3V3</td></tr><tr><td>9, 20, 22</td><td>GND</td></tr>
+<tr><td>15</td><td>RXD (PA06) — OTA sau</td></tr><tr><td>16</td><td>TXD (PA05) — OTA sau</td></tr></table>
+<p>Chân 17-22 là "burning pin", mặc định không ra header → hàn thẳng castellation module, đếm từ dấu pin1.</p>
+<h2>WBRG1 (RTL8720D)</h2>
+<p>Cần TX, RX, GND, 3V3 + chân vào bootloader. Pad chính xác + điện trở bootloader: thread elektroda RSH-GW006
+(<a href="https://www.elektroda.com/rtvforum/topic4127578.html">topic4127578</a>).</p>
+<h2>File firmware (tải về máy flash)</h2>
+<ul>
+<li>ZS3L bootloader: <a href="https://raw.githubusercontent.com/MattWestb/EFR32-FW/main/tuya_ZS3L/bootloader-LDMG21.s37">bootloader-LDMG21.s37</a></li>
+<li>ZS3L NCP coordinator: <a href="https://raw.githubusercontent.com/MattWestb/EFR32-FW/main/tuya_ZS3L/ncp-gp-LDMG21-92.s37">ncp-gp-LDMG21-92.s37</a></li>
+<li>WBRG1 OpenBeken: <a href="https://github.com/openshwprojects/OpenBK7231T_App/releases/download/1.18.320/OpenRTL8720D_1.18.320.bin">OpenRTL8720D_1.18.320.bin</a></li></ul>
+<h2>Công cụ</h2>
+<ul><li>ST-Link + <b>OpenOCD</b> (target EFR32 Series 2) nạp ZS3L; hoặc J-Link + Simplicity Commander (nạp thẳng .s37).</li>
+<li><b>USB-UART 3V3</b> (CP2102/CH340) + Realtek Ameba ImageTool nạp WBRG1.</li>
+<li><code>pip install universal-silabs-flasher</code> để OTA ZS3L qua UART sau khi có bootloader.</li></ul>
+<h2>Thứ tự nạp</h2>
+<ol><li>Backup FW gốc 2 module.</li>
+<li>ZS3L (SWD): nạp bootloader-LDMG21.s37 → ncp-gp-LDMG21-92.s37.</li>
+<li>WBRG1 (UART+bootloader): nạp OpenRTL8720D...bin, cấu hình OBK cầu UART↔TCP.</li>
+<li>HA ZHA: coordinator EZSP qua mạng <code>socket://&lt;ip&gt;:&lt;port&gt;</code>. Migrate khỏi CC2531.</li></ol>
+</body></html>
