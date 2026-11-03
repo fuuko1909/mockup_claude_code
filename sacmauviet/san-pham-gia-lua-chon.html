@@ -1,0 +1,297 @@
+<!doctype html>
+<html lang="vi">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Mockup — Bước Giá và Lựa chọn cho khách</title>
+<style>
+  :root{--p:#0f6e70;--p2:#e6f3f3;--ink:#13292a;--mut:#5f7374;--bd:#dbe5e5;--bg:#f4f7f7;--ok:#15803d;--okbg:#e8f6ec;--warn:#b45309;--warnbg:#fdf4e3}
+  *{box-sizing:border-box}
+  body{margin:0;font:14px/1.5 system-ui,-apple-system,"Segoe UI",Roboto,sans-serif;color:var(--ink);background:var(--bg)}
+  svg.i{width:16px;height:16px;stroke:currentColor;fill:none;stroke-width:2;stroke-linecap:round;stroke-linejoin:round;flex:none}
+  .wrap{max-width:1180px;margin:0 auto;padding:16px}
+  .switch{display:flex;gap:8px;margin-bottom:10px;flex-wrap:wrap}
+  .switch button{border:1px solid var(--bd);background:#fff;border-radius:999px;padding:6px 14px;cursor:pointer;font:inherit}
+  .switch button.on{background:var(--p);color:#fff;border-color:var(--p)}
+  .note{font-size:12px;color:var(--mut);margin:0 0 12px}
+  .grid{display:grid;grid-template-columns:210px 1fr 280px;gap:14px;align-items:start}
+  .steps,.card,.pv{background:#fff;border:1px solid var(--bd);border-radius:18px}
+  .steps{padding:8px}
+  .step{display:flex;gap:9px;padding:8px;border-radius:12px;font-size:13px;align-items:center;cursor:pointer}
+  .step.on{background:var(--p2);font-weight:600}
+  .dot{width:22px;height:22px;border-radius:50%;background:var(--ok);color:#fff;display:flex;align-items:center;justify-content:center;font-size:11px;font-weight:700;flex:none}
+  .dot.x{background:#fff;color:var(--mut);border:1.5px solid var(--bd)}
+  .card{padding:18px;margin-bottom:14px}
+  h2{font-size:16px;margin:0 0 2px}
+  .sub{color:var(--mut);font-size:12.5px;margin:0 0 14px}
+  .q{font-weight:600;margin:14px 0 6px}
+  .help{font-size:12px;color:var(--mut);margin-top:5px}
+  .seg{display:flex;gap:8px;flex-wrap:wrap}
+  .seg label{flex:1;min-width:190px;border:1.5px solid var(--bd);border-radius:14px;padding:9px 12px;cursor:pointer;display:block}
+  .seg label.on{border-color:var(--p);background:var(--p2)}
+  .seg b{display:block;font-size:13.5px}.seg small{color:var(--mut);font-size:12px}
+  .in{border:1px solid var(--bd);border-radius:10px;padding:6px 9px;font:inherit;background:#fff;width:90px}
+  .in.w{width:100%}
+  .muc{display:flex;align-items:center;gap:8px;padding:7px 0;border-bottom:1px solid var(--bd);flex-wrap:wrap}
+  .btn{border:1px solid var(--bd);background:#fff;border-radius:999px;padding:6px 12px;font:inherit;font-size:13px;font-weight:600;cursor:pointer;display:inline-flex;gap:6px;align-items:center}
+  .btn.pri{background:var(--p);color:#fff;border-color:var(--p)}
+  .icon{border:0;background:none;color:#b42318;cursor:pointer;padding:3px}
+  .quick{display:grid;grid-template-columns:repeat(4,1fr);gap:8px}
+  .quick button{border:1px solid var(--bd);background:#fff;border-radius:14px;padding:10px;text-align:left;cursor:pointer;font:inherit}
+  .quick b{display:block;font-size:13px}.quick small{color:var(--mut);font-size:11.5px}
+  .kq{background:var(--p2);border-radius:14px;padding:12px;margin-top:10px}
+  .kq .row{display:flex;justify-content:space-between;font-size:13px;padding:2px 0}
+  .kq .tong{font-weight:700;font-size:15px;color:var(--p);border-top:1px solid #bcdcdc;margin-top:5px;padding-top:6px}
+  .f{display:grid;grid-template-columns:1fr 1fr;gap:10px}
+  label.t{font-size:12.5px;font-weight:600;display:block;margin-bottom:3px}
+  select.in{width:100%}
+  .nhom{border:1px solid var(--bd);border-radius:16px;margin-bottom:12px;overflow:hidden}
+  .nhom-h{background:#f8fbfb;padding:10px 12px;display:flex;gap:8px;align-items:center;flex-wrap:wrap}
+  .nhom-h b{font-size:14.5px}.nhom-h span{font-size:12px;color:var(--mut)}
+  .cai{padding:10px 12px;border-bottom:1px solid var(--bd);display:flex;flex-wrap:wrap;gap:6px 16px;font-size:13px;background:#fcfefe}
+  .lc{padding:10px 12px;border-bottom:1px solid var(--bd);display:grid;grid-template-columns:1.2fr 1.2fr 90px 86px 92px 22px;gap:8px;align-items:center}
+  .lc small{display:block;color:var(--mut);font-size:11.5px}
+  .tag{font-size:11.5px;color:var(--warn);background:var(--warnbg);border-radius:999px;padding:1px 8px;display:inline-block;margin-top:2px}
+  .sw{width:34px;height:19px;border-radius:99px;background:var(--p);position:relative;display:inline-block;vertical-align:middle}
+  .sw:after{content:"";position:absolute;right:2px;top:2px;width:15px;height:15px;border-radius:50%;background:#fff}
+  .sw.off{background:#c7d2d2}.sw.off:after{right:auto;left:2px}
+  .thay{padding:10px 12px;background:var(--okbg);font-size:13px;color:#14532d}
+  .chip{display:inline-block;border:1px solid #9bc8a8;border-radius:999px;padding:1px 9px;margin:2px 3px;background:#fff;font-size:12.5px}
+  .chip.on{border-color:var(--p);background:var(--p);color:#fff}
+  .pv{padding:12px;font-size:13px}
+  .pv .img{height:110px;border-radius:12px;background:linear-gradient(135deg,#f6d9b7,#e9b48c);margin-bottom:8px}
+  .pv .o{border:1px solid var(--bd);border-radius:10px;padding:6px 8px;margin-top:6px;display:flex;justify-content:space-between}
+  .pv .tong{color:var(--p);font-weight:700;font-size:15px;margin-top:8px}
+  .hide{display:none}
+  @media (max-width:980px){.grid{grid-template-columns:1fr}.quick{grid-template-columns:1fr 1fr}.lc{grid-template-columns:1fr 1fr}}
+</style>
+</head>
+<body>
+<div class="wrap">
+  <div class="switch">
+    <button class="on" onclick="man('gia',this)">Màn 1: Bước Giá</button>
+    <button onclick="man('lc',this)">Màn 2: Lựa chọn cho khách</button>
+  </div>
+  <p class="note">Dữ liệu giả. Ở bước Giá, bấm 2 câu hỏi để thấy bảng đổi theo câu trả lời.</p>
+
+  <div class="grid">
+    <nav class="steps" data-choice="thu-tu-buoc">
+      <div class="step"><span class="dot"><svg class="i" style="width:12px" viewBox="0 0 24 24"><path d="M20 6 9 17l-5-5"/></svg></span>Thông tin cơ bản</div>
+      <div class="step"><span class="dot"><svg class="i" style="width:12px" viewBox="0 0 24 24"><path d="M20 6 9 17l-5-5"/></svg></span>Khổ &amp; mặt in</div>
+      <div class="step on" id="s-gia" onclick="man('gia',document.querySelectorAll('.switch button')[0])"><span class="dot">3</span>Giá</div>
+      <div class="step" id="s-lc" onclick="man('lc',document.querySelectorAll('.switch button')[1])"><span class="dot">4</span>Lựa chọn cho khách</div>
+      <div class="step"><span class="dot x">5</span>Mẫu thiết kế</div>
+      <div class="step"><span class="dot x">6</span>Sản xuất (bình file)</div>
+      <div class="step"><span class="dot x">7</span>Trang bán</div>
+      <div class="step"><span class="dot x">8</span>Xem lại &amp; đăng</div>
+    </nav>
+
+    <main>
+      <!-- MAN GIA -->
+      <div id="gia">
+        <section class="card" data-choice="gia-cau-hoi">
+          <h2>Giá</h2>
+          <p class="sub">Giá gốc của sản phẩm, chưa gồm phần cộng thêm ở bước Lựa chọn.</p>
+
+          <div class="q">Giá có giảm khi khách mua nhiều không?</div>
+          <div class="seg" id="q1">
+            <label onclick="chon('q1',this,'mot')"><b>Không</b><small>Một giá cho mọi số lượng</small></label>
+            <label class="on" onclick="chon('q1',this,'muc')"><b>Có</b><small>Mua càng nhiều, mỗi cái càng rẻ</small></label>
+          </div>
+
+          <div class="q">Giá có khác nhau theo kích thước không?</div>
+          <div class="seg" id="q2">
+            <label class="on" onclick="chon('q2',this,'khong')"><b>Không</b><small>Một kích thước, hoặc mọi kích thước cùng giá</small></label>
+            <label onclick="chon('q2',this,'co')"><b>Có</b><small>Khách chọn cỡ khi đặt, mỗi cỡ một giá</small></label>
+          </div>
+          <div class="help hide" id="kt-help">Đây là các cỡ khách chọn khi đặt, khác với khổ thành phẩm ở bước 2 (khổ dùng để kiểm tra file và in).</div>
+        </section>
+
+        <section class="card" data-choice="gia-bang">
+          <h2 id="bang-tieu-de">Giá theo mức số lượng</h2>
+          <p class="sub" id="bang-mo-ta">Nhập trực tiếp vào từng dòng. Lưu ngay khi thao tác.</p>
+
+          <div id="bang-mot" class="hide">
+            <div class="muc">Giá mỗi cái <input class="in" value="1.500"> đ, áp dụng cho mọi số lượng</div>
+          </div>
+
+          <div id="bang-muc">
+            <div class="kt-chon hide" style="margin-bottom:8px">
+              <label class="t">Đang sửa giá cho cỡ</label>
+              <span class="chip on">5 × 3 cm</span><span class="chip">8 × 5 cm</span><span class="chip">+ Thêm kích thước</span>
+            </div>
+            <div class="muc">Từ <input class="in" value="20"> đến <input class="in" value="99"> cái → <input class="in" value="1.500"> đ/cái <button class="icon" aria-label="Xoá mức"><svg class="i" viewBox="0 0 24 24"><path d="M3 6h18M8 6V4h8v2M6 6l1 14h10l1-14"/></svg></button></div>
+            <div class="muc">Từ <input class="in" value="100"> đến <input class="in" value="499"> cái → <input class="in" value="1.000"> đ/cái <button class="icon" aria-label="Xoá mức"><svg class="i" viewBox="0 0 24 24"><path d="M3 6h18M8 6V4h8v2M6 6l1 14h10l1-14"/></svg></button></div>
+            <div class="muc">Từ <input class="in" value="500"> cái trở lên → <input class="in" value="700"> đ/cái <button class="icon" aria-label="Xoá mức"><svg class="i" viewBox="0 0 24 24"><path d="M3 6h18M8 6V4h8v2M6 6l1 14h10l1-14"/></svg></button></div>
+            <button class="btn" style="margin-top:10px">+ Thêm mức số lượng</button>
+          </div>
+        </section>
+
+        <section class="card" id="quick" data-choice="gia-dien-nhanh">
+          <h2>Điền nhanh</h2>
+          <p class="sub">Không muốn nhập từng dòng thì chọn một cách dưới đây.</p>
+          <div class="quick">
+            <button><b>Dùng bảng giá mẫu</b><small>Card visit, tem nhãn, tờ rơi...</small></button>
+            <button><b>Chép từ sản phẩm khác</b><small>Lấy nguyên bảng giá của sản phẩm tương tự</small></button>
+            <button><b>Dán từ Excel</b><small>Sao chép vùng trong Excel rồi dán vào</small></button>
+            <button><b>Tự giảm dần</b><small>100.000 đ, giảm 10% → 90.000 đ → 81.000 đ</small></button>
+          </div>
+        </section>
+
+        <section class="card" data-choice="gia-tinh-thu">
+          <h2>Tính thử giá khách trả</h2>
+          <p class="sub">Đúng cách hệ thống tính khi khách đặt, gồm cả phần cộng thêm.</p>
+          <div class="f">
+            <div><label class="t">Số lượng</label><input class="in w" value="500"></div>
+            <div><label class="t">Chất liệu</label><select class="in"><option>Decal nhựa (chống nước)</option></select></div>
+          </div>
+          <div class="kq">
+            <div class="row"><span>500 cái × 700 đ</span><span>350.000 đ</span></div>
+            <div class="row"><span>Decal nhựa: + 300 đ mỗi cái</span><span>150.000 đ</span></div>
+            <div class="row"><span>VAT 8%</span><span>40.000 đ</span></div>
+            <div class="row tong"><span>Khách trả</span><span>540.000 đ</span></div>
+          </div>
+          <div class="help">VAT của sản phẩm: <input class="in" style="width:60px" value="8"> % (để 0 thì theo mặc định của hệ thống).</div>
+        </section>
+      </div>
+
+      <!-- MAN LUA CHON -->
+      <div id="lc" class="hide">
+        <section class="card">
+          <h2>Lựa chọn cho khách</h2>
+          <p class="sub">Mỗi nhóm là một câu hỏi cho khách khi đặt hàng. Mỗi lựa chọn có thể cộng thêm tiền vào giá gốc.</p>
+
+          <div class="nhom" data-choice="lc-nhom">
+            <div class="nhom-h"><svg class="i" viewBox="0 0 24 24"><path d="m12 2 10 5-10 5L2 7z"/><path d="m2 12 10 5 10-5"/></svg><b>Chất liệu</b><span>Khách chọn 1 · Bắt buộc chọn</span><span style="flex:1"></span><button class="btn">Cài đặt nhóm</button></div>
+            <div class="cai">
+              <label><input type="radio" checked> Khách chọn 1</label>
+              <label><input type="radio"> Khách chọn nhiều</label>
+              <label><input type="checkbox" checked> Khách bắt buộc chọn</label>
+              <label>Hiển thị: <select class="in" style="width:auto"><option>Danh sách thả xuống</option><option>Ô màu</option></select></label>
+              <label><input type="checkbox"> Đổi ảnh xem trước theo lựa chọn</label>
+            </div>
+            <div class="lc" data-choice="lc-hang">
+              <div><b>Decal giấy</b><small>Từ kho vật liệu</small></div>
+              <div><select class="in"><option>Không cộng thêm</option><option>Tiền cho mỗi cái</option><option>Tiền cho cả đơn hàng</option><option>% trên giá gốc</option></select></div>
+              <div style="color:var(--mut);font-size:12px">—</div>
+              <div style="font-size:12.5px"><label><input type="radio" name="s" checked> Chọn sẵn</label></div>
+              <div style="font-size:12.5px"><span class="sw"></span> Đang bán</div>
+              <button class="icon" aria-label="Xoá"><svg class="i" viewBox="0 0 24 24"><path d="M3 6h18M8 6V4h8v2M6 6l1 14h10l1-14"/></svg></button>
+            </div>
+            <div class="lc">
+              <div><b>Decal nhựa (chống nước)</b><small>Từ kho vật liệu</small></div>
+              <div><select class="in"><option>Tiền cho mỗi cái</option></select></div>
+              <div><input class="in" style="width:70px" value="300"> đ</div>
+              <div style="font-size:12.5px"><label><input type="radio" name="s"> Chọn sẵn</label></div>
+              <div style="font-size:12.5px"><span class="sw"></span> Đang bán</div>
+              <button class="icon" aria-label="Xoá"><svg class="i" viewBox="0 0 24 24"><path d="M3 6h18M8 6V4h8v2M6 6l1 14h10l1-14"/></svg></button>
+            </div>
+            <div style="padding:10px 12px"><button class="btn">+ Thêm chất liệu từ kho</button></div>
+            <div class="thay" data-choice="lc-khach-thay"><b>Khách sẽ thấy:</b> <span class="chip on">Decal giấy</span><span class="chip">Decal nhựa (chống nước) + 300 đ/cái</span></div>
+          </div>
+
+          <div class="nhom">
+            <div class="nhom-h"><svg class="i" viewBox="0 0 24 24"><path d="m12 2 10 5-10 5L2 7z"/><path d="m2 12 10 5 10-5"/></svg><b>Cán màng</b><span>Khách chọn 1 · Không bắt buộc</span><span style="flex:1"></span><button class="btn">Cài đặt nhóm</button></div>
+            <div class="lc">
+              <div><input class="in w" value="Cán bóng"></div>
+              <div><select class="in"><option>Tiền cho cả đơn hàng</option></select></div>
+              <div><input class="in" style="width:70px" value="20.000"> đ</div>
+              <div style="font-size:12.5px"><label><input type="radio" name="c"> Chọn sẵn</label></div>
+              <div style="font-size:12.5px"><span class="sw off"></span> Tạm ẩn</div>
+              <button class="icon" aria-label="Xoá"><svg class="i" viewBox="0 0 24 24"><path d="M3 6h18M8 6V4h8v2M6 6l1 14h10l1-14"/></svg></button>
+            </div>
+            <div style="padding:10px 12px"><button class="btn">+ Thêm lựa chọn</button></div>
+            <div class="thay"><b>Khách sẽ thấy:</b> không có lựa chọn nào đang bán, nhóm này sẽ ẩn.</div>
+          </div>
+          <button class="btn pri">+ Thêm nhóm lựa chọn</button>
+        </section>
+      </div>
+    </main>
+
+    <aside class="pv">
+      <div style="font-size:12px;color:var(--mut);margin-bottom:6px">Xem trước như khách thấy</div>
+      <div class="img"></div>
+      <b>Tem nhãn tròn</b>
+      <div class="o"><span>Chất liệu</span><span>Decal giấy</span></div>
+      <div class="o"><span>Số lượng</span><span>500</span></div>
+      <div class="tong">378.000 đ</div>
+    </aside>
+  </div>
+</div>
+<script>
+function man(m,b){document.querySelectorAll('.switch button').forEach(x=>x.classList.remove('on'));b.classList.add('on');
+  document.getElementById('gia').classList.toggle('hide',m!=='gia');document.getElementById('lc').classList.toggle('hide',m!=='lc');
+  document.getElementById('s-gia').classList.toggle('on',m==='gia');document.getElementById('s-lc').classList.toggle('on',m==='lc');}
+function chon(q,el,v){document.querySelectorAll('#'+q+' label').forEach(x=>x.classList.remove('on'));el.classList.add('on');
+  if(q==='q1'){document.getElementById('bang-mot').classList.toggle('hide',v!=='mot');document.getElementById('bang-muc').classList.toggle('hide',v==='mot');
+    document.getElementById('bang-tieu-de').textContent=v==='mot'?'Giá bán':'Giá theo mức số lượng';}
+  if(q==='q2'){document.getElementById('kt-help').classList.toggle('hide',v!=='co');document.querySelectorAll('.kt-chon').forEach(x=>x.classList.toggle('hide',v!=='co'));}
+}
+</script>
+<script>
+// Ghi chu cho mockup tinh: o ghi chu moi phuong an + ghi chu chung, luu localStorage,
+// nut Copy gom lua chon + ghi chu de user dan vao chat cho Claude (trang tinh khong gui ve duoc).
+(function () {
+  var KEY = 'mockup-notes:' + location.pathname;
+  var saved = {};
+  try { saved = JSON.parse(localStorage.getItem(KEY) || '{}'); } catch (e) {}
+  function save() {
+    var d = { _chon: picked() };
+    document.querySelectorAll('textarea[data-note]').forEach(function (t) { d[t.dataset.note] = t.value; });
+    try { localStorage.setItem(KEY, JSON.stringify(d)); } catch (e) {}
+  }
+  function picked() {
+    return [].map.call(document.querySelectorAll('.selected[data-choice]'), function (o) { return o.dataset.choice.toUpperCase(); });
+  }
+  function area(id, ph) {
+    var t = document.createElement('textarea');
+    t.dataset.note = id; t.placeholder = ph; t.rows = 2; t.value = saved[id] || '';
+    t.style.cssText = 'width:100%;margin-top:8px;padding:8px;border-radius:6px;border:1px solid #8b949e66;background:transparent;color:inherit;font:13px system-ui;resize:vertical';
+    t.addEventListener('click', function (e) { e.stopPropagation(); }); // khong chon option khi bam vao o ghi chu
+    t.addEventListener('input', save);
+    return t;
+  }
+  var status = document.createElement('span');
+  function refresh() { var s = picked(); status.textContent = s.length ? 'Đã chọn: ' + s.join(', ') : 'Chưa chọn'; }
+
+  if (!window.toggleSelect) window.toggleSelect = function (el) {
+    var c = el.closest('.options') || el.closest('.cards'); var m = c && c.dataset.multiselect !== undefined;
+    if (c && !m) c.querySelectorAll('.option, .card').forEach(function (o) { o.classList.remove('selected'); });
+    m ? el.classList.toggle('selected') : el.classList.add('selected');
+  };
+  var orig = window.toggleSelect;
+  window.toggleSelect = function (el) { orig(el); refresh(); save(); };
+
+  document.querySelectorAll('[data-choice]').forEach(function (o) {
+    var id = o.dataset.choice;
+    (o.querySelector('.content, .card-body') || o).appendChild(area(id, 'Ghi chú cho phương án ' + id.toUpperCase() + '…'));
+    if ((saved._chon || []).indexOf(id.toUpperCase()) >= 0) o.classList.add('selected');
+  });
+
+  var bar = document.createElement('div');
+  bar.style.cssText = 'position:sticky;bottom:0;z-index:50;margin-top:24px;padding:12px;border-top:1px solid #8b949e66;background:var(--bg-primary,Canvas);display:flex;flex-direction:column;gap:8px';
+  var gen = area('chung', 'Ghi chú chung: muốn đổi gì, thêm gì…');
+  gen.style.marginTop = '0';
+  var row = document.createElement('div');
+  row.style.cssText = 'display:flex;gap:10px;align-items:center;flex-wrap:wrap;font:14px system-ui';
+  var btn = document.createElement('button');
+  btn.textContent = 'Copy để gửi Claude';
+  btn.style.cssText = 'padding:8px 16px;border-radius:6px;border:0;background:#2f81f7;color:#fff;font:600 14px system-ui;cursor:pointer';
+  btn.onclick = function () {
+    var lines = ['Mockup: ' + ((document.querySelector('h1, h2') || {}).textContent || document.title) + ' (' + location.href + ')', 'Chọn: ' + (picked().join(', ') || '(chưa chọn)')];
+    document.querySelectorAll('textarea[data-note]').forEach(function (t) {
+      if (t.value.trim()) lines.push((t.dataset.note === 'chung' ? 'Ghi chú chung' : 'Ghi chú ' + t.dataset.note.toUpperCase()) + ': ' + t.value.trim());
+    });
+    var txt = lines.join('\n');
+    var done = function () { btn.textContent = 'Đã copy — dán vào chat'; setTimeout(function () { btn.textContent = 'Copy để gửi Claude'; }, 2500); };
+    if (navigator.clipboard && window.isSecureContext) navigator.clipboard.writeText(txt).then(done, function () { prompt('Copy đoạn này:', txt); });
+    else prompt('Copy đoạn này:', txt);
+  };
+  row.appendChild(btn); row.appendChild(status);
+  bar.appendChild(gen); bar.appendChild(row);
+  (document.getElementById('frame-content') || document.body).appendChild(bar);
+  refresh();
+})();
+</script>
+</body>
+</html>
