@@ -1,0 +1,294 @@
+<!doctype html>
+<html lang="vi">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Mockup — Ngày đặc biệt trên lịch</title>
+<style>
+:root{--teal:#0F766E;--teal-soft:#CCFBF1;--ink:#0F172A;--soft:#64748B;--line:#E2E8F0;--bg:#F1F5F9}
+*{box-sizing:border-box}body{margin:0;font-family:system-ui,-apple-system,"Segoe UI",Roboto,sans-serif;color:var(--ink);background:var(--bg)}
+h1{font-size:22px;margin:0 0 4px}h2{font-size:17px;margin:0 0 10px}.sub{color:var(--soft);font-size:13px}
+.wrap{max-width:1180px;margin:0 auto;padding:20px}
+.sec{background:#fff;border-radius:20px;padding:18px;margin:18px 0;box-shadow:0 8px 30px -18px #0f172a55}
+.row{display:flex;gap:22px;flex-wrap:wrap;align-items:flex-start}
+.phone{width:375px;border:10px solid #0f172a;border-radius:38px;overflow:hidden;background:#fff;flex:none}
+.phone .scr{height:760px;overflow:auto}
+.top{display:flex;align-items:center;gap:8px;padding:12px 14px;border-bottom:1px solid var(--line);font-weight:600}
+.lich{margin:12px;border-radius:14px;background:linear-gradient(#fdf2e9,#fff);padding:12px;border:1px solid #f1e3d3}
+.lich .tt{font-weight:800;color:#7c4a1d;text-align:center;letter-spacing:.5px}
+.grid{display:grid;grid-template-columns:repeat(7,1fr);gap:2px;margin-top:6px}
+.grid .h{font-size:10px;text-align:center;color:#a16207;font-weight:700}
+.o{position:relative;height:38px;font-size:12px;text-align:center;padding-top:3px;font-weight:700;color:#3f2a14;cursor:pointer;border-radius:6px}
+.o:hover{background:#0f766e14}.o.cn{color:#dc2626}.o.trong{cursor:default}
+.o .so{position:relative;z-index:2;display:inline-grid;place-items:center;width:22px;height:22px}
+.o .ring{position:absolute;left:50%;top:3px;transform:translateX(-50%);width:24px;height:24px;border-radius:50%;border:2px solid;z-index:1}
+.o .ic{position:absolute;right:1px;top:1px;width:13px;height:13px;z-index:3}
+.o .nt{position:absolute;left:0;right:0;bottom:1px;font-size:7.5px;font-weight:600;line-height:1;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;padding:0 1px}
+.o .bg{position:absolute;inset:1px;border-radius:6px;opacity:.28;z-index:0}
+.nho{font-size:10px;color:#7c4a1d;margin-top:6px;border-top:1px dashed #e7cfb5;padding-top:5px;min-height:14px}
+.tabs{display:flex;gap:4px;padding:0 12px}.tab{flex:1;text-align:center;padding:9px 0;border-radius:12px;font-size:13px;font-weight:600;color:var(--soft)}
+.tab.on{background:var(--teal);color:#fff}
+.pn{padding:12px}
+.ev{display:flex;align-items:center;gap:10px;border:1px solid var(--line);border-radius:14px;padding:9px 10px;margin-bottom:8px}
+.ev .dot{width:30px;height:30px;border-radius:10px;display:grid;place-items:center;flex:none}
+.ev .t{flex:1;min-width:0}.ev .t b{display:block;font-size:13px}.ev .t span{font-size:11px;color:var(--soft)}
+.btn{border:0;border-radius:999px;padding:10px 14px;font-weight:600;font-size:14px;cursor:pointer;display:inline-flex;align-items:center;gap:6px}
+.btn.pri{background:var(--teal);color:#fff}.btn.ghost{background:#fff;border:1px solid var(--line)}
+.lb{font-size:12px;font-weight:600;margin:10px 0 5px;display:block}
+input[type=text],input[type=date],select{width:100%;border:1px solid var(--line);border-radius:12px;padding:9px 10px;font-size:14px}
+.seg{display:flex;background:var(--bg);border-radius:12px;padding:3px}.seg button{flex:1;border:0;background:none;padding:7px;border-radius:9px;font-size:13px;font-weight:600;color:var(--soft);cursor:pointer}
+.seg button.on{background:#fff;color:var(--ink);box-shadow:0 1px 3px #0002}
+.icons{display:grid;grid-template-columns:repeat(6,1fr);gap:6px}.icons button{border:1px solid var(--line);background:#fff;border-radius:12px;height:42px;display:grid;place-items:center;cursor:pointer}
+.icons button.on{border-color:var(--teal);box-shadow:0 0 0 2px var(--teal-soft)}
+.mau{display:flex;gap:8px}.mau button{width:28px;height:28px;border-radius:50%;border:2px solid #fff;box-shadow:0 0 0 1px var(--line);cursor:pointer}.mau button.on{box-shadow:0 0 0 2px var(--ink)}
+.hint{font-size:11px;color:var(--soft);margin-top:4px}
+.goi{background:#ecfdf5;border:1px solid #a7f3d0;color:#065f46;font-size:12px;border-radius:12px;padding:8px 10px;margin:8px 0}
+.options{display:grid;grid-template-columns:repeat(auto-fit,minmax(240px,1fr));gap:14px}
+.option{border:2px solid var(--line);border-radius:16px;padding:12px;cursor:pointer;background:#fff}.option.sel{border-color:var(--teal);box-shadow:0 0 0 3px var(--teal-soft)}
+.option .letter{display:inline-grid;place-items:center;width:26px;height:26px;border-radius:8px;background:var(--teal);color:#fff;font-weight:700;margin-right:6px}
+.demo{display:grid;grid-template-columns:repeat(7,1fr);gap:2px;margin-top:10px;background:#fdf6ee;padding:6px;border-radius:10px}
+/* admin */
+.admin{flex:1;min-width:520px}
+.trang{position:relative;width:100%;max-width:620px;aspect-ratio:3/4;border-radius:14px;overflow:hidden;background:linear-gradient(160deg,#fde7d5,#fff 60%);border:1px solid var(--line)}
+.trang .anh{position:absolute;left:6%;top:5%;width:88%;height:38%;border-radius:10px;background:linear-gradient(135deg,#d6c3a8,#a58a6b);display:grid;place-items:center;color:#fff;font-size:13px}
+.trang .thang{position:absolute;font-weight:800;color:#7c4a1d;font-size:14px}
+.gia{position:absolute;display:grid;grid-template-columns:repeat(7,1fr);font-size:11px;color:#5b3a1a;font-weight:700}
+.gia div{display:grid;place-items:center}
+.khung{position:absolute;border:2px solid var(--teal);background:#0f766e12;cursor:move}
+.khung .c{display:grid;grid-template-columns:repeat(7,1fr);height:100%}
+.khung .c div{border:1px dashed #0f766e88}
+.khung .tay{position:absolute;right:-7px;bottom:-7px;width:14px;height:14px;background:var(--teal);border-radius:4px;cursor:nwse-resize}
+.khung .nhan{position:absolute;left:0;top:-24px;background:var(--teal);color:#fff;font-size:11px;padding:3px 8px;border-radius:8px;white-space:nowrap}
+.form-admin{display:grid;grid-template-columns:1fr 1fr;gap:8px 12px;max-width:620px;margin-top:12px}
+.note{font-size:12px;color:var(--soft)}
+</style>
+</head>
+<body>
+<div class="wrap">
+  <h1>Ngày đặc biệt trên mẫu lịch — mockup</h1>
+  <div class="sub">Dữ liệu giả. Bấm thử: thêm ngày, đổi icon / màu, chọn dương / âm lịch, bấm vào ô ngày trên lịch. Phần admin: kéo / co giãn khung lưới.</div>
+
+  <div class="sec">
+    <h2>1. Màn khách (điện thoại) — tab "Ngày đặc biệt" trong Sửa nhanh</h2>
+    <div class="row">
+      <div class="phone"><div class="scr">
+        <div class="top"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="#0F766E" stroke-width="2"><path d="M12 20h9"/><path d="M16.5 3.5a2.1 2.1 0 0 1 3 3L7 19l-4 1 1-4Z"/></svg>Sửa nhanh <span style="margin-left:auto;font-size:12px;color:var(--soft)">Trang 5 / 7</span></div>
+        <div class="lich"><div class="tt">THÁNG 5 / 2027</div><div class="grid" id="g"></div><div class="nho" id="nho"></div></div>
+        <div class="tabs"><div class="tab">Ảnh</div><div class="tab">Chữ</div><div class="tab on">Ngày đặc biệt</div></div>
+        <div class="pn">
+          <div id="ds"></div>
+          <div class="goi" id="goi">Mẹo: bấm vào một ô ngày trên lịch để thêm nhanh.</div>
+          <div id="form" style="border:1px solid var(--line);border-radius:16px;padding:12px">
+            <b style="font-size:14px">Thêm ngày đặc biệt</b>
+            <span class="lb">Loại ngày</span>
+            <div class="seg" id="lich"><button class="on" data-v="duong">Dương lịch</button><button data-v="am">Âm lịch</button></div>
+            <span class="lb" id="lbngay">Ngày</span>
+            <div id="oduong"><input type="date" id="ngay" value="2027-05-12" min="2027-01-01" max="2027-12-31"></div>
+            <div id="oam" style="display:none;gap:8px"><select id="amd" style="width:48%"></select> <select id="amt" style="width:48%"></select>
+              <div class="hint" id="doi">Âm 10/3 → dương 16/4/2027 (tự tính theo năm của lịch)</div></div>
+            <span class="lb">Hiển thị</span>
+            <div class="seg" id="kieu"><button class="on" data-v="ca2">Icon + ghi chú</button><button data-v="icon">Chỉ icon</button><button data-v="note">Chỉ ghi chú</button></div>
+            <span class="lb">Icon</span>
+            <div class="icons" id="icons"></div>
+            <span class="lb">Màu</span>
+            <div class="mau" id="mau"></div>
+            <span class="lb">Ghi chú <span id="dem" style="color:var(--soft);font-weight:400">0/20</span></span>
+            <input type="text" id="note" maxlength="20" placeholder="VD: Sinh nhật Bé Na">
+            <div class="hint">Tối đa 5 ngày / tháng. Ô ngày nhỏ thì ghi chú gom xuống dòng "Ngày đáng nhớ" cuối tháng.</div>
+            <div style="display:flex;gap:8px;margin-top:12px"><button class="btn pri" id="them" style="flex:1;justify-content:center">Thêm vào lịch</button></div>
+          </div>
+          <div style="margin-top:12px;display:flex;align-items:center;gap:8px;font-size:12px;color:var(--soft)"><input type="checkbox" checked> Lưu danh sách vào tài khoản để dùng lại cho lịch năm sau</div>
+        </div>
+      </div></div>
+      <div style="flex:1;min-width:280px">
+        <h2>Cách hiện trên lịch — chọn 1 kiểu (mặc định)</h2>
+        <div class="options">
+          <div class="option" data-choice="A" onclick="chon(this)"><span class="letter">A</span><b>Vòng màu quanh số + icon góc ô + ghi chú dưới ô</b><div class="demo" id="dA"></div><div class="note" style="margin-top:6px">Như màn bên trái. Rõ nhất, không che số.</div></div>
+          <div class="option" data-choice="B" onclick="chon(this)"><span class="letter">B</span><b>Nền màu nhạt cả ô + icon, ghi chú gom dòng cuối tháng</b><div class="demo" id="dB"></div><div class="note" style="margin-top:6px">Ô sạch, hợp lịch ô nhỏ; đọc ghi chú ở dòng dưới.</div></div>
+          <div class="option" data-choice="C" onclick="chon(this)"><span class="letter">C</span><b>Chỉ icon lớn thay vòng (tim / bánh / sao), ghi chú dưới ô</b><div class="demo" id="dC"></div><div class="note" style="margin-top:6px">Vui mắt, hợp lịch gia đình / bé; số hơi bị che.</div></div>
+        </div>
+        <p class="note" style="margin-top:14px">Máy tính: cùng tab này nằm trong panel bên phải; bấm trực tiếp ô ngày trên bản xem trước để mở form với ngày đó.</p>
+      </div>
+    </div>
+  </div>
+
+  <div class="sec">
+    <h2>2. Màn admin — designer khai báo "Lưới lịch" (1 lần / mẫu)</h2>
+    <div class="row">
+      <div class="admin">
+        <div class="trang" id="trang">
+          <div class="anh">Ảnh trang trí</div>
+          <div class="thang" style="left:8%;top:47%">THÁNG 5 / 2027</div>
+          <div class="gia" id="gia" style="left:8%;top:52%;width:84%;height:40%"></div>
+          <div class="khung" id="khung" style="left:9%;top:56%;width:80%;height:34%"><div class="nhan">Tháng 5/2027 · T2 đầu tuần · 6 hàng</div><div class="c" id="kc"></div><div class="tay" id="tay"></div></div>
+        </div>
+        <div class="form-admin">
+          <div><span class="lb">Tháng</span><select id="at"></select></div>
+          <div><span class="lb">Năm</span><select><option>2027</option><option>2028</option></select></div>
+          <div><span class="lb">Ngày đầu tuần</span><select id="adau"><option value="1">Thứ 2</option><option value="0">Chủ nhật</option></select></div>
+          <div><span class="lb">Số hàng</span><select id="ahang"><option>5</option><option selected>6</option></select></div>
+          <div style="grid-column:1/3"><span class="lb">Vị trí dòng "Ngày đáng nhớ"</span><select><option>Ngay dưới lưới tháng</option><option>Vùng ghi chú designer chọn</option><option>Không hiện (chỉ icon)</option></select></div>
+          <div style="grid-column:1/3;display:flex;gap:8px"><button class="btn ghost">+ Thêm lưới tháng khác trên trang này</button><button class="btn pri">Lưu lưới lịch</button></div>
+        </div>
+      </div>
+      <div style="flex:1;min-width:260px" class="note">
+        <p><b style="color:var(--ink)">Cách dùng:</b> kéo khung xanh phủ đúng phần ô ngày, kéo góc dưới phải để co giãn. Lưới đứt nét chia sẵn 7 cột; khớp với số ngày bên dưới là xong.</p>
+        <p>Trang có 2 tháng (lịch để bàn) → thêm 2 khung.</p>
+        <p>Giai đoạn sau: hệ thống tự dò vị trí số 1..31 để đặt khung sẵn, designer chỉ chỉnh.</p>
+      </div>
+    </div>
+  </div>
+</div>
+
+<script>
+const ICON = {
+  tim:'<path d="M19 14c1.5-1.5 3-3.2 3-5.5A5.5 5.5 0 0 0 16.5 3c-1.8 0-3 .5-4.5 2-1.5-1.5-2.7-2-4.5-2A5.5 5.5 0 0 0 2 8.5c0 2.3 1.5 4 3 5.5l7 7Z"/>',
+  sao:'<path d="m12 2 3.1 6.3 6.9 1-5 4.9 1.2 6.8L12 17.8 5.8 21l1.2-6.8-5-4.9 6.9-1Z"/>',
+  banh:'<path d="M20 21v-8a2 2 0 0 0-2-2H6a2 2 0 0 0-2 2v8"/><path d="M4 16s.5-1 2-1 2.5 2 4 2 2.5-2 4-2 2.5 2 4 2 2-1 2-1"/><path d="M2 21h20"/><path d="M7 8v3M12 8v3M17 8v3"/><path d="M7 4h.01M12 4h.01M17 4h.01"/>',
+  qua:'<rect x="3" y="8" width="18" height="4" rx="1"/><path d="M12 8v13M19 12v7a2 2 0 0 1-2 2H7a2 2 0 0 1-2-2v-7"/><path d="M7.5 8a2.5 2.5 0 0 1 0-5C10 3 12 8 12 8s2-5 4.5-5a2.5 2.5 0 0 1 0 5"/>',
+  nhan:'<circle cx="12" cy="15" r="6"/><path d="m9 4 3 5 3-5-3-2Z"/>',
+  hoa:'<circle cx="12" cy="12" r="3"/><path d="M12 2a3 3 0 0 1 0 7 3 3 0 0 1 0-7ZM12 15a3 3 0 0 1 0 7 3 3 0 0 1 0-7ZM2 12a3 3 0 0 1 7 0 3 3 0 0 1-7 0ZM15 12a3 3 0 0 1 7 0 3 3 0 0 1-7 0Z"/>',
+  nen:'<path d="M12 2c1 2 3 3 3 6a3 3 0 0 1-6 0c0-3 2-4 3-6Z"/><rect x="9" y="11" width="6" height="11" rx="1"/>',
+  chuong:'<path d="M6 8a6 6 0 0 1 12 0c0 7 3 9 3 9H3s3-2 3-9"/><path d="M10.3 21a1.9 1.9 0 0 0 3.4 0"/>',
+  may:'<path d="M17.5 19H9a7 7 0 1 1 6.7-9h1.8a4.5 4.5 0 1 1 0 9Z"/>',
+  nha:'<path d="m3 10 9-7 9 7v10a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2Z"/><path d="M9 22V12h6v10"/>',
+  mattroi:'<circle cx="12" cy="12" r="4"/><path d="M12 2v2M12 20v2M4.9 4.9l1.4 1.4M17.7 17.7l1.4 1.4M2 12h2M20 12h2M4.9 19.1l1.4-1.4M17.7 6.3l1.4-1.4"/>',
+  co:'<path d="M4 15s1-1 4-1 5 2 8 2 4-1 4-1V3s-1 1-4 1-5-2-8-2-4 1-4 1Z"/><path d="M4 22v-7"/>'
+};
+const MAU = ['#E11D48','#0F766E','#D97706','#7C3AED','#2563EB','#0F172A'];
+const svg = (k,c,s=14,fill=false)=>`<svg width="${s}" height="${s}" viewBox="0 0 24 24" fill="${fill?c:'none'}" stroke="${c}" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">${ICON[k]}</svg>`;
+let ds = [
+  {d:12,icon:'banh',mau:'#E11D48',note:'Sinh nhật Bé Na',kieu:'ca2',am:false},
+  {d:20,icon:'nhan',mau:'#7C3AED',note:'Kỷ niệm cưới 10 năm',kieu:'ca2',am:false},
+  {d:28,icon:'nen',mau:'#D97706',note:'Giỗ ông nội',kieu:'ca2',am:'âm 23/4'},
+];
+let cur = {icon:'tim',mau:MAU[0],kieu:'ca2',am:false};
+const BAT_DAU = 5; // 1/5/2027 la thu 7 → cot thu 6 (T2 dau tuan)
+function veLich(el, style, nho){
+  const H = ['T2','T3','T4','T5','T6','T7','CN'];
+  let h = H.map(x=>`<div class="h">${x}</div>`).join('');
+  for(let i=0;i<BAT_DAU;i++) h+='<div class="o trong"></div>';
+  for(let d=1; d<=31; d++){
+    const e = ds.find(x=>x.d===d); const cn = (BAT_DAU+d-1)%7===6;
+    let inner = `<span class="so">${d}</span>`;
+    if(e){
+      const coIcon = e.kieu!=='note', coNote = e.kieu!=='icon';
+      if(style==='A'){ inner = `<span class="ring" style="border-color:${e.mau}"></span>`+inner; if(coIcon) inner+=`<span class="ic">${svg(e.icon,e.mau,13)}</span>`; if(coNote) inner+=`<span class="nt" style="color:${e.mau}">${e.note}</span>`; }
+      if(style==='B'){ inner = `<span class="bg" style="background:${e.mau}"></span>`+inner; if(coIcon) inner+=`<span class="ic">${svg(e.icon,e.mau,13)}</span>`; }
+      if(style==='C'){ inner = `<span style="position:absolute;left:50%;top:1px;transform:translateX(-50%);opacity:.35">${svg(coIcon?e.icon:'tim',e.mau,26,true)}</span>`+inner; if(coNote) inner+=`<span class="nt" style="color:${e.mau}">${e.note}</span>`; }
+    }
+    h+=`<div class="o ${cn?'cn':''}" data-d="${d}">${inner}</div>`;
+  }
+  el.innerHTML = h;
+  if(nho){ const ghi = ds.filter(x=>x.kieu!=='icon').map(x=>`${x.d}/5 ${x.note}${x.am?' ('+x.am+')':''}`); nho.innerHTML = ghi.length? '<b>Ngày đáng nhớ:</b> '+ghi.join(' · ') : ''; }
+}
+function veDs(){
+  document.getElementById('ds').innerHTML = ds.sort((a,b)=>a.d-b.d).map((e,i)=>`<div class="ev"><div class="dot" style="background:${e.mau}1a">${svg(e.icon,e.mau,18)}</div><div class="t"><b>${e.note||'(chỉ icon)'}</b><span>${e.d}/5/2027${e.am?' — '+e.am:''}</span></div><button class="btn ghost" style="padding:6px 10px" onclick="xoa(${e.d})" >Xoá</button></div>`).join('');
+  veLich(document.getElementById('g'),'A',document.getElementById('nho'));
+  ['A','B','C'].forEach(s=>veLich(document.getElementById('d'+s),s));
+  document.querySelectorAll('#g .o[data-d]').forEach(o=>o.onclick=()=>{document.getElementById('ngay').value='2027-05-'+String(o.dataset.d).padStart(2,'0');document.getElementById('note').focus();document.getElementById('goi').textContent='Đang thêm cho ngày '+o.dataset.d+'/5/2027';});
+}
+function xoa(d){ ds = ds.filter(x=>x.d!==d); veDs(); }
+document.getElementById('icons').innerHTML = Object.keys(ICON).map(k=>`<button data-k="${k}" class="${k==='tim'?'on':''}" aria-label="${k}">${svg(k,'#0F172A',20)}</button>`).join('');
+document.getElementById('icons').onclick = e=>{const b=e.target.closest('button'); if(!b) return; document.querySelectorAll('#icons button').forEach(x=>x.classList.remove('on')); b.classList.add('on'); cur.icon=b.dataset.k;};
+document.getElementById('mau').innerHTML = MAU.map((m,i)=>`<button style="background:${m}" class="${i?'':'on'}" data-m="${m}" aria-label="màu"></button>`).join('');
+document.getElementById('mau').onclick = e=>{const b=e.target.closest('button'); if(!b) return; document.querySelectorAll('#mau button').forEach(x=>x.classList.remove('on')); b.classList.add('on'); cur.mau=b.dataset.m;};
+function seg(id,cb){document.getElementById(id).onclick=e=>{const b=e.target.closest('button'); if(!b) return; [...b.parentNode.children].forEach(x=>x.classList.remove('on')); b.classList.add('on'); cb(b.dataset.v);};}
+seg('kieu',v=>cur.kieu=v);
+seg('lich',v=>{cur.am=v==='am'; document.getElementById('oduong').style.display=cur.am?'none':''; document.getElementById('oam').style.display=cur.am?'flex':'none'; document.getElementById('oam').style.flexWrap='wrap'; document.getElementById('lbngay').textContent=cur.am?'Ngày âm lịch (ngày / tháng)':'Ngày';});
+document.getElementById('amd').innerHTML = Array.from({length:30},(_,i)=>`<option ${i===9?'selected':''}>Ngày ${i+1}</option>`).join('');
+document.getElementById('amt').innerHTML = Array.from({length:12},(_,i)=>`<option ${i===2?'selected':''}>Tháng ${i+1}${i===0?' (Giêng)':i===11?' (Chạp)':''}</option>`).join('');
+const note = document.getElementById('note'); note.oninput=()=>document.getElementById('dem').textContent=note.value.length+'/20';
+document.getElementById('them').onclick=()=>{
+  let d;
+  if(cur.am){ d = 16; } else { const v=document.getElementById('ngay').value; if(!v.startsWith('2027-05')){alert('Mockup chỉ vẽ tháng 5/2027 — chọn ngày trong tháng 5');return;} d=+v.slice(8); }
+  if(ds.filter(x=>x.d!==d).length>=5){alert('Tối đa 5 ngày / tháng');return;}
+  ds = ds.filter(x=>x.d!==d); ds.push({d,icon:cur.icon,mau:cur.mau,note:note.value||'Ngày đặc biệt',kieu:cur.kieu,am:cur.am?'âm 10/3':false});
+  note.value=''; document.getElementById('dem').textContent='0/20'; veDs();
+};
+function chon(el){document.querySelectorAll('.option').forEach(o=>o.classList.remove('sel')); el.classList.add('sel');}
+veDs();
+// admin
+document.getElementById('at').innerHTML = Array.from({length:12},(_,i)=>`<option ${i===4?'selected':''}>Tháng ${i+1}</option>`).join('');
+function veAdmin(){
+  const hang=+document.getElementById('ahang').value, dau=+document.getElementById('adau').value;
+  document.getElementById('kc').style.gridTemplateRows=`repeat(${hang},1fr)`;
+  document.getElementById('kc').innerHTML='<div></div>'.repeat(7*hang);
+  const off = dau===1?5:6; let g=''; for(let i=0;i<off;i++) g+='<div></div>'; for(let d=1;d<=31;d++) g+=`<div>${d}</div>`;
+  const gia=document.getElementById('gia'); gia.style.gridTemplateRows='repeat(7,1fr)'; gia.innerHTML=['T2','T3','T4','T5','T6','T7','CN'].map(x=>`<div style="color:#a16207">${x}</div>`).join('')+g;
+  document.querySelector('.khung .nhan').textContent=`${document.getElementById('at').value}/2027 · ${dau?'T2':'CN'} đầu tuần · ${hang} hàng`;
+}
+['ahang','adau','at'].forEach(id=>document.getElementById(id).onchange=veAdmin); veAdmin();
+(function(){const k=document.getElementById('khung'),t=document.getElementById('trang'),tay=document.getElementById('tay');let m=null;
+k.addEventListener('pointerdown',e=>{m={kieu:e.target===tay?'co':'keo',x:e.clientX,y:e.clientY,l:k.offsetLeft,tp:k.offsetTop,w:k.offsetWidth,h:k.offsetHeight};k.setPointerCapture(e.pointerId);e.preventDefault();});
+k.addEventListener('pointermove',e=>{if(!m)return;const dx=e.clientX-m.x,dy=e.clientY-m.y,W=t.offsetWidth,H=t.offsetHeight;
+ if(m.kieu==='keo'){k.style.left=(m.l+dx)/W*100+'%';k.style.top=(m.tp+dy)/H*100+'%';}else{k.style.width=Math.max(60,m.w+dx)/W*100+'%';k.style.height=Math.max(40,m.h+dy)/H*100+'%';}});
+k.addEventListener('pointerup',()=>m=null);})();
+</script>
+<script>
+// Ghi chu cho mockup tinh: o ghi chu moi phuong an + ghi chu chung, luu localStorage,
+// nut Copy gom lua chon + ghi chu de user dan vao chat cho Claude (trang tinh khong gui ve duoc).
+(function () {
+  var KEY = 'mockup-notes:' + location.pathname;
+  var saved = {};
+  try { saved = JSON.parse(localStorage.getItem(KEY) || '{}'); } catch (e) {}
+  function save() {
+    var d = { _chon: picked() };
+    document.querySelectorAll('textarea[data-note]').forEach(function (t) { d[t.dataset.note] = t.value; });
+    try { localStorage.setItem(KEY, JSON.stringify(d)); } catch (e) {}
+  }
+  function picked() {
+    return [].map.call(document.querySelectorAll('.selected[data-choice]'), function (o) { return o.dataset.choice.toUpperCase(); });
+  }
+  function area(id, ph) {
+    var t = document.createElement('textarea');
+    t.dataset.note = id; t.placeholder = ph; t.rows = 2; t.value = saved[id] || '';
+    t.style.cssText = 'width:100%;margin-top:8px;padding:8px;border-radius:6px;border:1px solid #8b949e66;background:transparent;color:inherit;font:13px system-ui;resize:vertical';
+    t.addEventListener('click', function (e) { e.stopPropagation(); }); // khong chon option khi bam vao o ghi chu
+    t.addEventListener('input', save);
+    return t;
+  }
+  var status = document.createElement('span');
+  function refresh() { var s = picked(); status.textContent = s.length ? 'Đã chọn: ' + s.join(', ') : 'Chưa chọn'; }
+
+  if (!window.toggleSelect) window.toggleSelect = function (el) {
+    var c = el.closest('.options') || el.closest('.cards'); var m = c && c.dataset.multiselect !== undefined;
+    if (c && !m) c.querySelectorAll('.option, .card').forEach(function (o) { o.classList.remove('selected'); });
+    m ? el.classList.toggle('selected') : el.classList.add('selected');
+  };
+  var orig = window.toggleSelect;
+  window.toggleSelect = function (el) { orig(el); refresh(); save(); };
+
+  document.querySelectorAll('[data-choice]').forEach(function (o) {
+    var id = o.dataset.choice;
+    (o.querySelector('.content, .card-body') || o).appendChild(area(id, 'Ghi chú cho phương án ' + id.toUpperCase() + '…'));
+    if ((saved._chon || []).indexOf(id.toUpperCase()) >= 0) o.classList.add('selected');
+  });
+
+  var bar = document.createElement('div');
+  bar.style.cssText = 'position:sticky;bottom:0;z-index:50;margin-top:24px;padding:12px;border-top:1px solid #8b949e66;background:var(--bg-primary,Canvas);display:flex;flex-direction:column;gap:8px';
+  var gen = area('chung', 'Ghi chú chung: muốn đổi gì, thêm gì…');
+  gen.style.marginTop = '0';
+  var row = document.createElement('div');
+  row.style.cssText = 'display:flex;gap:10px;align-items:center;flex-wrap:wrap;font:14px system-ui';
+  var btn = document.createElement('button');
+  btn.textContent = 'Copy để gửi Claude';
+  btn.style.cssText = 'padding:8px 16px;border-radius:6px;border:0;background:#2f81f7;color:#fff;font:600 14px system-ui;cursor:pointer';
+  btn.onclick = function () {
+    var lines = ['Mockup: ' + ((document.querySelector('h1, h2') || {}).textContent || document.title) + ' (' + location.href + ')', 'Chọn: ' + (picked().join(', ') || '(chưa chọn)')];
+    document.querySelectorAll('textarea[data-note]').forEach(function (t) {
+      if (t.value.trim()) lines.push((t.dataset.note === 'chung' ? 'Ghi chú chung' : 'Ghi chú ' + t.dataset.note.toUpperCase()) + ': ' + t.value.trim());
+    });
+    var txt = lines.join('\n');
+    var done = function () { btn.textContent = 'Đã copy — dán vào chat'; setTimeout(function () { btn.textContent = 'Copy để gửi Claude'; }, 2500); };
+    if (navigator.clipboard && window.isSecureContext) navigator.clipboard.writeText(txt).then(done, function () { prompt('Copy đoạn này:', txt); });
+    else prompt('Copy đoạn này:', txt);
+  };
+  row.appendChild(btn); row.appendChild(status);
+  bar.appendChild(gen); bar.appendChild(row);
+  (document.getElementById('frame-content') || document.body).appendChild(bar);
+  refresh();
+})();
+</script>
+</body>
+</html>
