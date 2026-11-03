@@ -1,0 +1,297 @@
+<!doctype html>
+<html lang="vi">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Mockup — Tạo / sửa sản phẩm theo 8 bước</title>
+<style>
+  :root{--p:#0f6e70;--p2:#e6f3f3;--ink:#13292a;--mut:#5f7374;--bd:#dbe5e5;--bg:#f4f7f7;
+        --ok:#15803d;--okbg:#e8f6ec;--err:#c0262d;--errbg:#fdecec;--warn:#b45309;--warnbg:#fdf4e3;--gray:#94a3a4}
+  *{box-sizing:border-box}
+  body{margin:0;font:14px/1.45 system-ui,-apple-system,"Segoe UI",Roboto,sans-serif;color:var(--ink);background:var(--bg)}
+  svg.i{width:16px;height:16px;stroke:currentColor;fill:none;stroke-width:2;stroke-linecap:round;stroke-linejoin:round;flex:none}
+  .wrap{max-width:1360px;margin:0 auto;padding:16px}
+  .switch{display:flex;gap:8px;margin-bottom:12px;flex-wrap:wrap}
+  .switch button{border:1px solid var(--bd);background:#fff;border-radius:999px;padding:6px 14px;cursor:pointer;font:inherit}
+  .switch button.on{background:var(--p);color:#fff;border-color:var(--p)}
+  .note{font-size:12px;color:var(--mut);margin:0 0 12px}
+  /* top bar */
+  .top{position:sticky;top:0;z-index:5;background:rgba(255,255,255,.92);backdrop-filter:blur(8px);border:1px solid var(--bd);
+       border-radius:18px;padding:10px 14px;display:flex;align-items:center;gap:14px;flex-wrap:wrap}
+  .top h1{font-size:17px;margin:0}
+  .pill{display:inline-flex;align-items:center;gap:5px;border-radius:999px;padding:2px 10px;font-size:12px;font-weight:600}
+  .pill.nhap{background:var(--warnbg);color:var(--warn)} .pill.hien{background:var(--okbg);color:var(--ok)}
+  .prog{display:flex;align-items:center;gap:8px;font-size:12px;color:var(--mut)}
+  .bar{width:140px;height:6px;border-radius:9px;background:#e3eaea;overflow:hidden}.bar i{display:block;height:100%;background:var(--p)}
+  .saved{font-size:12px;color:var(--mut);display:inline-flex;gap:4px;align-items:center}
+  .sp{flex:1}
+  .btn{border:1px solid var(--bd);background:#fff;border-radius:999px;padding:7px 14px;font:inherit;font-weight:600;cursor:pointer;display:inline-flex;gap:6px;align-items:center}
+  .btn.pri{background:var(--p);color:#fff;border-color:var(--p)} .btn[disabled]{opacity:.45;cursor:not-allowed}
+  .btn.sm{padding:4px 10px;font-size:12px}
+  /* layout */
+  .grid{display:grid;grid-template-columns:250px 1fr 300px;gap:14px;margin-top:14px;align-items:start}
+  .steps{position:sticky;top:76px;background:#fff;border:1px solid var(--bd);border-radius:18px;padding:8px}
+  .step{display:flex;gap:10px;padding:9px 8px;border-radius:12px;cursor:pointer;align-items:flex-start}
+  .step:hover{background:var(--bg)} .step.on{background:var(--p2)}
+  .dot{width:24px;height:24px;border-radius:50%;display:flex;align-items:center;justify-content:center;font-size:12px;font-weight:700;flex:none;border:1.5px solid var(--gray);color:var(--gray)}
+  .dot.ok{background:var(--ok);border-color:var(--ok);color:#fff}
+  .dot.err{background:var(--err);border-color:var(--err);color:#fff}
+  .dot.warn{background:var(--warnbg);border-color:var(--warn);color:var(--warn)}
+  .step b{display:block;font-size:13px} .step small{display:block;color:var(--mut);font-size:11.5px}
+  .step small.err{color:var(--err)} .step small.warn{color:var(--warn)}
+  .card{background:#fff;border:1px solid var(--bd);border-radius:18px;padding:18px}
+  .card h2{margin:0 0 4px;font-size:16px} .card .sub{color:var(--mut);font-size:12.5px;margin:0 0 14px}
+  .row{display:grid;grid-template-columns:repeat(3,1fr);gap:12px}
+  label.f{display:block;font-size:12.5px;font-weight:600;margin-bottom:4px}
+  .in{width:100%;border:1px solid var(--bd);border-radius:12px;padding:8px 10px;font:inherit;background:#fff}
+  .in.bad{border-color:var(--err);background:#fffafa}
+  .help{font-size:11.5px;color:var(--mut);margin-top:3px} .help.err{color:var(--err)}
+  .seg{display:inline-flex;border:1px solid var(--bd);border-radius:999px;padding:2px;gap:2px}
+  .seg span{padding:4px 12px;border-radius:999px;font-size:12.5px;cursor:pointer} .seg span.on{background:var(--p);color:#fff}
+  .box{border:1px dashed var(--bd);border-radius:14px;padding:12px;margin-top:14px}
+  .alert{display:flex;gap:8px;border-radius:12px;padding:9px 12px;font-size:12.5px;align-items:flex-start;margin-bottom:12px}
+  .alert.err{background:var(--errbg);color:var(--err)} .alert.warn{background:var(--warnbg);color:var(--warn)} .alert.ok{background:var(--okbg);color:var(--ok)}
+  .kho{display:flex;gap:14px;align-items:center;margin-top:10px}
+  .kho .giay{width:130px;height:82px;border:2px solid var(--p);border-radius:6px;position:relative;background:#fff}
+  .kho .giay:before{content:"";position:absolute;inset:-7px;border:1.5px dashed #e08a8a;border-radius:8px}
+  /* preview */
+  .pv{position:sticky;top:76px;background:#fff;border:1px solid var(--bd);border-radius:18px;padding:12px}
+  .pv .img{height:150px;border-radius:12px;background:linear-gradient(135deg,#f6d9b7,#e9b48c);display:flex;align-items:center;justify-content:center;color:#7a4b2a;font-weight:700}
+  .pv h3{font-size:14px;margin:10px 0 2px} .pv .gia{color:var(--p);font-weight:700}
+  .pv .opt{font-size:12px;border:1px solid var(--bd);border-radius:10px;padding:6px 8px;margin-top:6px;display:flex;justify-content:space-between}
+  /* review */
+  .chk{border:1px solid var(--bd);border-radius:14px;margin-bottom:10px;overflow:hidden}
+  .chk .h{display:flex;align-items:center;gap:10px;padding:10px 12px;background:#fbfdfd;font-weight:600}
+  .chk ul{margin:0;padding:4px 12px 10px 46px;list-style:none}
+  .chk li{display:flex;gap:8px;align-items:center;padding:4px 0;font-size:13px}
+  .chk li .sp{flex:1}
+  .ok-t{color:var(--ok)} .err-t{color:var(--err)} .warn-t{color:var(--warn)}
+  table.mau{width:100%;border-collapse:collapse;font-size:12.5px} table.mau td,table.mau th{border-bottom:1px solid var(--bd);padding:6px 4px;text-align:left}
+  .tag{font-size:11px;border-radius:999px;padding:1px 8px;font-weight:600}
+  .tag.xb{background:var(--okbg);color:var(--ok)} .tag.cd{background:#e8eefc;color:#2848a8} .tag.nh{background:#eef1f1;color:var(--mut)}
+  .hide{display:none}
+  @media (max-width:1100px){.grid{grid-template-columns:1fr}.steps{position:static;display:flex;overflow-x:auto;gap:4px}
+    .step{min-width:170px}.pv{position:static}.row{grid-template-columns:1fr 1fr}}
+</style>
+</head>
+<body>
+<div class="wrap">
+  <div class="switch">
+    <button class="on" onclick="man('a',this)">Màn A — đang làm dở (bước 2)</button>
+    <button onclick="man('b',this)">Màn B — Xem lại &amp; đăng (bước 8)</button>
+  </div>
+  <p class="note">Dữ liệu giả. Bấm từng bước ở cột trái để chuyển màn. Mỗi lỗi có nút "Sửa" nhảy tới đúng ô.</p>
+
+  <!-- TOP BAR -->
+  <div class="top" data-choice="thanh-tren">
+    <svg class="i" viewBox="0 0 24 24"><path d="m15 18-6-6 6-6"/></svg>
+    <h1>Tem nhãn tròn 5 cm</h1>
+    <span class="pill nhap"><svg class="i" viewBox="0 0 24 24" style="width:13px;height:13px"><path d="M9.88 9.88a3 3 0 1 0 4.24 4.24"/><path d="M10.73 5.08A10.43 10.43 0 0 1 12 5c7 0 10 7 10 7a13.16 13.16 0 0 1-1.67 2.68"/><path d="M6.61 6.61A13.53 13.53 0 0 0 2 12s3 7 10 7a9.74 9.74 0 0 0 5.39-1.61"/><line x1="2" x2="22" y1="2" y2="22"/></svg>Bản nháp</span>
+    <div class="prog"><span id="tiendo">4 / 8 bước xong</span><div class="bar"><i id="thanh" style="width:50%"></i></div></div>
+    <span class="saved"><svg class="i" viewBox="0 0 24 24" style="width:13px;height:13px"><path d="M20 6 9 17l-5-5"/></svg>Đã lưu lúc 14:02</span>
+    <span class="sp"></span>
+    <span style="font-size:12px;color:var(--err)">Còn 3 mục bắt buộc</span>
+    <button class="btn pri" disabled title="Hoàn thiện mục bắt buộc trước"><svg class="i" viewBox="0 0 24 24"><path d="M4.5 16.5c-1.5 1.26-2 5-2 5s3.74-.5 5-2c.71-.84.7-2.13-.09-2.91a2.18 2.18 0 0 0-2.91-.09z"/><path d="m12 15-3-3a22 22 0 0 1 2-3.95A12.88 12.88 0 0 1 22 2c0 2.72-.78 7.5-6 11a22.35 22.35 0 0 1-4 2z"/></svg>Đăng</button>
+  </div>
+
+  <div class="grid">
+    <!-- STEPS -->
+    <nav class="steps" data-choice="danh-sach-buoc">
+      <div class="step" onclick="buoc(1)" id="s1"><span class="dot ok"><svg class="i" viewBox="0 0 24 24" style="width:13px"><path d="M20 6 9 17l-5-5"/></svg></span><div><b>Thông tin cơ bản</b><small>Tem decal · cái · có ảnh</small></div></div>
+      <div class="step on" onclick="buoc(2)" id="s2"><span class="dot err">1</span><div><b>Khổ &amp; mặt in</b><small class="err">Thiếu khổ thành phẩm</small></div></div>
+      <div class="step" onclick="buoc(3)" id="s3"><span class="dot warn">!</span><div><b>Tuỳ chọn cho khách</b><small class="warn">Chất liệu chưa gắn vật liệu</small></div></div>
+      <div class="step" onclick="buoc(4)" id="s4"><span class="dot ok"><svg class="i" viewBox="0 0 24 24" style="width:13px"><path d="M20 6 9 17l-5-5"/></svg></span><div><b>Giá</b><small>3 bậc · từ 1.200 đ/cái</small></div></div>
+      <div class="step" onclick="buoc(5)" id="s5"><span class="dot err">1</span><div><b>Mẫu thiết kế</b><small class="err">3 mẫu, chưa mẫu nào đang bán</small></div></div>
+      <div class="step" onclick="buoc(6)" id="s6"><span class="dot warn">!</span><div><b>Sản xuất (bình file)</b><small class="warn">Chưa có quy cách bình mặc định</small></div></div>
+      <div class="step" onclick="buoc(7)" id="s7"><span class="dot ok"><svg class="i" viewBox="0 0 24 24" style="width:13px"><path d="M20 6 9 17l-5-5"/></svg></span><div><b>Trang bán</b><small>Mô tả · 4 ảnh · 3 FAQ</small></div></div>
+      <div class="step" onclick="buoc(8)" id="s8"><span class="dot">8</span><div><b>Xem lại &amp; đăng</b><small>Còn 3 mục bắt buộc</small></div></div>
+    </nav>
+
+    <!-- CONTENT -->
+    <main>
+      <!-- B2 -->
+      <section class="card" id="p2" data-choice="buoc-2-kho">
+        <h2>2. Khổ &amp; mặt in</h2>
+        <p class="sub">Thông số sản xuất. Hệ thống dùng để kiểm tra file mẫu (khổ PDF có khớp không), hiện nhãn "5 × 5 cm" cho khách và tính bình file.</p>
+        <div class="alert err"><svg class="i" viewBox="0 0 24 24"><circle cx="12" cy="12" r="10"/><line x1="12" x2="12" y1="8" y2="12"/><line x1="12" x2="12.01" y1="16" y2="16"/></svg><div><b>Thiếu khổ thành phẩm</b> — bắt buộc trước khi đăng. 2 mẫu đang bị báo "khác khổ sản phẩm" vì SP chưa có khổ.</div></div>
+        <div class="row">
+          <div><label class="f">Rộng (mm) *</label><input class="in bad" placeholder="vd 50"><div class="help err">Nhập 5–2000 mm</div></div>
+          <div><label class="f">Cao (mm) *</label><input class="in bad" placeholder="vd 50"></div>
+          <div><label class="f">Tràn lề (mm)</label><input class="in" value="2"><div class="help">Phần nền in tràn ra ngoài để cắt không lộ viền trắng</div></div>
+        </div>
+        <div class="kho"><div class="giay"></div><div class="help">Khung xanh = thành phẩm, viền đỏ đứt = vùng tràn lề.<br>Hiển thị cho khách: <b>"? × ? cm"</b></div></div>
+        <div class="box">
+          <label class="f">Mặt in</label>
+          <div class="seg"><span class="on">1 mặt</span><span>2 mặt</span></div>
+          <div class="help">2 mặt: mỗi mẫu có trang mặt trước / mặt sau, giá cộng phụ thu mặt sau (cài ở bước Giá).</div>
+        </div>
+        <div class="row" style="margin-top:14px">
+          <div><label class="f">Số ngày in dự kiến *</label><input class="in" value="3"></div>
+        </div>
+        <div style="display:flex;justify-content:space-between;margin-top:16px">
+          <button class="btn" onclick="buoc(1)">Bước trước</button>
+          <button class="btn pri" onclick="buoc(3)">Tiếp: Tuỳ chọn cho khách</button>
+        </div>
+      </section>
+
+      <!-- B3 -->
+      <section class="card hide" id="p3">
+        <h2>3. Tuỳ chọn cho khách</h2>
+        <p class="sub">Những gì khách chọn khi đặt in. Mỗi lựa chọn có thể cộng phụ thu.</p>
+        <div class="alert warn"><svg class="i" viewBox="0 0 24 24"><path d="m21.73 18-8-14a2 2 0 0 0-3.48 0l-8 14A2 2 0 0 0 4 21h16a2 2 0 0 0 1.73-3"/><line x1="12" x2="12" y1="9" y2="13"/></svg><div>Nhóm <b>Chất liệu</b> có 1 lựa chọn chưa gắn vật liệu trong kho → bình file không biết khổ giấy. <a href="#">Gắn ngay</a></div></div>
+        <table class="mau"><tr><th>Nhóm</th><th>Lựa chọn</th><th>Phụ thu</th><th></th></tr>
+          <tr><td><b>Chất liệu</b> · bắt buộc</td><td>Decal giấy <span class="tag xb">vật liệu: Decal giấy 33×48</span><br>Decal nhựa trong <span class="tag nh" style="color:var(--warn)">chưa gắn vật liệu</span></td><td>0 đ<br>+300 đ/cái</td><td><button class="btn sm">Sửa</button></td></tr>
+          <tr><td><b>Cán màng</b></td><td>Không · Bóng · Mờ</td><td>0 / +100 / +100</td><td><button class="btn sm">Sửa</button></td></tr>
+          <tr><td><b>Bế</b></td><td>Bế tròn theo khuôn</td><td>+50 đ/cái</td><td><button class="btn sm">Sửa</button></td></tr>
+        </table>
+        <button class="btn sm" style="margin-top:10px">+ Thêm nhóm tuỳ chọn</button>
+      </section>
+
+      <!-- B4 -->
+      <section class="card hide" id="p4"><h2>4. Giá</h2><p class="sub">Giá cố định hoặc theo bậc số lượng (giữ 2 chế độ hiện có) + bảng tính thử.</p>
+        <div class="seg"><span>Giá cố định</span><span class="on">Theo bậc số lượng</span></div>
+        <table class="mau" style="margin-top:10px"><tr><th>Số lượng</th><th>Đơn giá</th></tr><tr><td>100 – 499</td><td>1.800 đ</td></tr><tr><td>500 – 999</td><td>1.500 đ</td></tr><tr><td>từ 1.000</td><td>1.200 đ</td></tr></table>
+        <div class="box"><b>Tính thử:</b> 500 cái · Decal nhựa trong · Cán bóng → <b>950.000 đ</b></div>
+      </section>
+
+      <!-- B5 -->
+      <section class="card hide" id="p5"><h2>5. Mẫu thiết kế</h2><p class="sub">Cần ≥ 1 mẫu đang bán để đăng. Gán / đổi sản phẩm dùng chung với trang mẫu.</p>
+        <div class="alert err"><svg class="i" viewBox="0 0 24 24"><circle cx="12" cy="12" r="10"/><line x1="12" x2="12" y1="8" y2="12"/><line x1="12" x2="12.01" y1="16" y2="16"/></svg><div>Chưa có mẫu đang bán. 1 mẫu chờ duyệt — <a href="#">mở để duyệt</a>.</div></div>
+        <table class="mau"><tr><th>Mẫu</th><th>Trạng thái</th><th>Bình / khuôn</th><th></th></tr>
+          <tr><td>Tem tròn hoa lá</td><td><span class="tag cd">Chờ duyệt</span></td><td class="ok-t">Đủ</td><td><button class="btn sm">Mở</button></td></tr>
+          <tr><td>Tem tròn tối giản</td><td><span class="tag nh">Nháp</span> thiếu ô sửa</td><td class="warn-t">Thiếu khuôn bế</td><td><button class="btn sm">Mở</button></td></tr>
+          <tr><td>Tem tròn quán cà phê</td><td><span class="tag nh">Nháp</span></td><td class="ok-t">Đủ</td><td><button class="btn sm">Mở</button></td></tr>
+        </table>
+        <div style="margin-top:10px;display:flex;gap:8px"><button class="btn sm">+ Tạo mẫu cho SP này</button><button class="btn sm">Gắn mẫu có sẵn</button></div>
+      </section>
+
+      <!-- B6 -->
+      <section class="card hide" id="p6" data-choice="buoc-6-san-xuat"><h2>6. Sản xuất (bình file)</h2><p class="sub">Quy cách bình mặc định cho mọi mẫu của SP; mẫu nào cài riêng sẽ ghi đè.</p>
+        <div class="alert warn"><svg class="i" viewBox="0 0 24 24"><path d="m21.73 18-8-14a2 2 0 0 0-3.48 0l-8 14A2 2 0 0 0 4 21h16a2 2 0 0 0 1.73-3"/><line x1="12" x2="12" y1="9" y2="13"/></svg><div>Chưa có quy cách bình mặc định — xưởng vẫn bình tay được, không chặn đăng.</div></div>
+        <div class="row"><div><label class="f">Kiểu cắt</label><div class="seg"><span>Xén dao</span><span class="on">Bế</span></div></div>
+          <div><label class="f">Máy in</label><select class="in"><option>Máy in số khổ 33×48</option></select></div>
+          <div><label class="f">Khoảng cách con (mm)</label><input class="in" value="3"></div></div>
+        <div class="box"><b>Xem thử:</b> khổ giấy 330×480 · 48 con / tờ · hao hụt 6% <span class="help">(tính từ khổ thành phẩm + vật liệu)</span></div>
+        <p class="sub" style="margin-top:12px">Mẫu thiếu khuôn bế: <b>Tem tròn tối giản</b> — <a href="#">tải khuôn</a></p>
+      </section>
+
+      <!-- B1 / B7 ngan gon -->
+      <section class="card hide" id="p1"><h2>1. Thông tin cơ bản</h2><p class="sub">Tên, danh mục, đơn vị, ảnh chính, mô tả ngắn (giữ form hiện có).</p><div class="alert ok"><svg class="i" viewBox="0 0 24 24"><path d="M20 6 9 17l-5-5"/></svg>Đủ thông tin bắt buộc.</div></section>
+      <section class="card hide" id="p7"><h2>7. Trang bán</h2><p class="sub">Mô tả dài, ảnh phụ, thông số, FAQ, vận chuyển (giữ form hiện có, chuyển từ mục "Khác").</p></section>
+
+      <!-- B8 REVIEW -->
+      <section class="card hide" id="p8" data-choice="buoc-8-xem-lai">
+        <h2>8. Xem lại &amp; đăng</h2>
+        <p class="sub">Đỏ = chặn đăng. Vàng = nên bổ sung, vẫn đăng được.</p>
+        <div class="alert err"><svg class="i" viewBox="0 0 24 24"><circle cx="12" cy="12" r="10"/><line x1="12" x2="12" y1="8" y2="12"/><line x1="12" x2="12.01" y1="16" y2="16"/></svg><div>Còn <b>3 mục bắt buộc</b> — nút Đăng mở khi xong.</div></div>
+        <div class="chk"><div class="h"><span class="dot ok"><svg class="i" viewBox="0 0 24 24" style="width:13px"><path d="M20 6 9 17l-5-5"/></svg></span>Thông tin cơ bản</div>
+          <ul><li class="ok-t"><svg class="i" viewBox="0 0 24 24"><path d="M20 6 9 17l-5-5"/></svg><span class="sp">Tên, danh mục, ảnh chính</span></li></ul></div>
+        <div class="chk"><div class="h"><span class="dot err">1</span>Khổ &amp; mặt in</div>
+          <ul><li class="err-t"><svg class="i" viewBox="0 0 24 24"><circle cx="12" cy="12" r="10"/><path d="m15 9-6 6M9 9l6 6"/></svg><span class="sp">Khổ thành phẩm (rộng × cao mm)</span><button class="btn sm" onclick="buoc(2)">Sửa</button></li>
+              <li class="ok-t"><svg class="i" viewBox="0 0 24 24"><path d="M20 6 9 17l-5-5"/></svg><span class="sp">Mặt in: 1 mặt · 3 ngày in</span></li></ul></div>
+        <div class="chk"><div class="h"><span class="dot warn">!</span>Tuỳ chọn cho khách</div>
+          <ul><li class="warn-t"><svg class="i" viewBox="0 0 24 24"><path d="m21.73 18-8-14a2 2 0 0 0-3.48 0l-8 14A2 2 0 0 0 4 21h16a2 2 0 0 0 1.73-3"/></svg><span class="sp">"Decal nhựa trong" chưa gắn vật liệu</span><button class="btn sm" onclick="buoc(3)">Sửa</button></li></ul></div>
+        <div class="chk"><div class="h"><span class="dot ok"><svg class="i" viewBox="0 0 24 24" style="width:13px"><path d="M20 6 9 17l-5-5"/></svg></span>Giá</div>
+          <ul><li class="ok-t"><svg class="i" viewBox="0 0 24 24"><path d="M20 6 9 17l-5-5"/></svg><span class="sp">3 bậc số lượng, giá &gt; 0</span></li></ul></div>
+        <div class="chk"><div class="h"><span class="dot err">2</span>Mẫu thiết kế</div>
+          <ul><li class="err-t"><svg class="i" viewBox="0 0 24 24"><circle cx="12" cy="12" r="10"/><path d="m15 9-6 6M9 9l6 6"/></svg><span class="sp">Chưa có mẫu đang bán (1 chờ duyệt)</span><button class="btn sm" onclick="buoc(5)">Sửa</button></li>
+              <li class="err-t"><svg class="i" viewBox="0 0 24 24"><circle cx="12" cy="12" r="10"/><path d="m15 9-6 6M9 9l6 6"/></svg><span class="sp">Chưa chọn mẫu mặc định</span><button class="btn sm" onclick="buoc(5)">Sửa</button></li></ul></div>
+        <div class="chk"><div class="h"><span class="dot warn">!</span>Sản xuất (bình file)</div>
+          <ul><li class="warn-t"><svg class="i" viewBox="0 0 24 24"><path d="m21.73 18-8-14a2 2 0 0 0-3.48 0l-8 14A2 2 0 0 0 4 21h16a2 2 0 0 0 1.73-3"/></svg><span class="sp">Chưa có quy cách bình mặc định</span><button class="btn sm" onclick="buoc(6)">Sửa</button></li>
+              <li class="warn-t"><svg class="i" viewBox="0 0 24 24"><path d="m21.73 18-8-14a2 2 0 0 0-3.48 0l-8 14A2 2 0 0 0 4 21h16a2 2 0 0 0 1.73-3"/></svg><span class="sp">1 mẫu thiếu khuôn bế</span><button class="btn sm" onclick="buoc(5)">Sửa</button></li></ul></div>
+        <div class="chk"><div class="h"><span class="dot ok"><svg class="i" viewBox="0 0 24 24" style="width:13px"><path d="M20 6 9 17l-5-5"/></svg></span>Trang bán</div>
+          <ul><li class="ok-t"><svg class="i" viewBox="0 0 24 24"><path d="M20 6 9 17l-5-5"/></svg><span class="sp">Mô tả, 4 ảnh phụ, 3 câu hỏi</span></li></ul></div>
+        <div style="display:flex;gap:8px;justify-content:flex-end;margin-top:6px">
+          <button class="btn">Gửi duyệt (designer)</button>
+          <button class="btn pri" disabled>Đăng (marketing)</button>
+        </div>
+      </section>
+    </main>
+
+    <!-- PREVIEW -->
+    <aside class="pv" data-choice="xem-truoc">
+      <div style="font-size:12px;color:var(--mut);margin-bottom:6px">Xem trước như khách thấy</div>
+      <div class="img">Ảnh sản phẩm</div>
+      <h3>Tem nhãn tròn 5 cm</h3>
+      <div class="gia">từ 1.200 đ/cái</div>
+      <div style="font-size:12px;color:var(--err)">Kích thước: chưa có khổ</div>
+      <div class="opt"><span>Chất liệu</span><span>Decal giấy</span></div>
+      <div class="opt"><span>Cán màng</span><span>Không</span></div>
+      <div class="opt"><span>Số lượng</span><span>500</span></div>
+    </aside>
+  </div>
+</div>
+<script>
+function buoc(n){
+  for(let i=1;i<=8;i++){document.getElementById('p'+i).classList.toggle('hide',i!==n);document.getElementById('s'+i).classList.toggle('on',i===n)}
+  window.scrollTo({top:0,behavior:'smooth'});
+}
+function man(m,b){document.querySelectorAll('.switch button').forEach(x=>x.classList.remove('on'));b.classList.add('on');buoc(m==='a'?2:8)}
+</script>
+<script>
+// Ghi chu cho mockup tinh: o ghi chu moi phuong an + ghi chu chung, luu localStorage,
+// nut Copy gom lua chon + ghi chu de user dan vao chat cho Claude (trang tinh khong gui ve duoc).
+(function () {
+  var KEY = 'mockup-notes:' + location.pathname;
+  var saved = {};
+  try { saved = JSON.parse(localStorage.getItem(KEY) || '{}'); } catch (e) {}
+  function save() {
+    var d = { _chon: picked() };
+    document.querySelectorAll('textarea[data-note]').forEach(function (t) { d[t.dataset.note] = t.value; });
+    try { localStorage.setItem(KEY, JSON.stringify(d)); } catch (e) {}
+  }
+  function picked() {
+    return [].map.call(document.querySelectorAll('.selected[data-choice]'), function (o) { return o.dataset.choice.toUpperCase(); });
+  }
+  function area(id, ph) {
+    var t = document.createElement('textarea');
+    t.dataset.note = id; t.placeholder = ph; t.rows = 2; t.value = saved[id] || '';
+    t.style.cssText = 'width:100%;margin-top:8px;padding:8px;border-radius:6px;border:1px solid #8b949e66;background:transparent;color:inherit;font:13px system-ui;resize:vertical';
+    t.addEventListener('click', function (e) { e.stopPropagation(); }); // khong chon option khi bam vao o ghi chu
+    t.addEventListener('input', save);
+    return t;
+  }
+  var status = document.createElement('span');
+  function refresh() { var s = picked(); status.textContent = s.length ? 'Đã chọn: ' + s.join(', ') : 'Chưa chọn'; }
+
+  if (!window.toggleSelect) window.toggleSelect = function (el) {
+    var c = el.closest('.options') || el.closest('.cards'); var m = c && c.dataset.multiselect !== undefined;
+    if (c && !m) c.querySelectorAll('.option, .card').forEach(function (o) { o.classList.remove('selected'); });
+    m ? el.classList.toggle('selected') : el.classList.add('selected');
+  };
+  var orig = window.toggleSelect;
+  window.toggleSelect = function (el) { orig(el); refresh(); save(); };
+
+  document.querySelectorAll('[data-choice]').forEach(function (o) {
+    var id = o.dataset.choice;
+    (o.querySelector('.content, .card-body') || o).appendChild(area(id, 'Ghi chú cho phương án ' + id.toUpperCase() + '…'));
+    if ((saved._chon || []).indexOf(id.toUpperCase()) >= 0) o.classList.add('selected');
+  });
+
+  var bar = document.createElement('div');
+  bar.style.cssText = 'position:sticky;bottom:0;z-index:50;margin-top:24px;padding:12px;border-top:1px solid #8b949e66;background:var(--bg-primary,Canvas);display:flex;flex-direction:column;gap:8px';
+  var gen = area('chung', 'Ghi chú chung: muốn đổi gì, thêm gì…');
+  gen.style.marginTop = '0';
+  var row = document.createElement('div');
+  row.style.cssText = 'display:flex;gap:10px;align-items:center;flex-wrap:wrap;font:14px system-ui';
+  var btn = document.createElement('button');
+  btn.textContent = 'Copy để gửi Claude';
+  btn.style.cssText = 'padding:8px 16px;border-radius:6px;border:0;background:#2f81f7;color:#fff;font:600 14px system-ui;cursor:pointer';
+  btn.onclick = function () {
+    var lines = ['Mockup: ' + ((document.querySelector('h1, h2') || {}).textContent || document.title) + ' (' + location.href + ')', 'Chọn: ' + (picked().join(', ') || '(chưa chọn)')];
+    document.querySelectorAll('textarea[data-note]').forEach(function (t) {
+      if (t.value.trim()) lines.push((t.dataset.note === 'chung' ? 'Ghi chú chung' : 'Ghi chú ' + t.dataset.note.toUpperCase()) + ': ' + t.value.trim());
+    });
+    var txt = lines.join('\n');
+    var done = function () { btn.textContent = 'Đã copy — dán vào chat'; setTimeout(function () { btn.textContent = 'Copy để gửi Claude'; }, 2500); };
+    if (navigator.clipboard && window.isSecureContext) navigator.clipboard.writeText(txt).then(done, function () { prompt('Copy đoạn này:', txt); });
+    else prompt('Copy đoạn này:', txt);
+  };
+  row.appendChild(btn); row.appendChild(status);
+  bar.appendChild(gen); bar.appendChild(row);
+  (document.getElementById('frame-content') || document.body).appendChild(bar);
+  refresh();
+})();
+</script>
+</body>
+</html>
