@@ -1,0 +1,191 @@
+<!doctype html>
+<html lang="vi"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">
+<title>Trang quét mã: 3 hướng thiết kế</title>
+<link rel="preconnect" href="https://fonts.googleapis.com"><link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Be+Vietnam+Pro:wght@400;500;600;700&family=Bricolage+Grotesque:opsz,wght@12..96,600;12..96,800&display=swap" rel="stylesheet">
+<style>
+:root{--giay:#eef1ee;--muc:#14211c;--mo:#5b6b64;--vien:#d5dcd7;--brand:#c2570c;
+ --tot:#0a6b4c;--can:#a54a06;--gia:#ad1f16;--sai:#46524d;--chua:#34508f}
+*{box-sizing:border-box}html{-webkit-text-size-adjust:100%}
+body{margin:0;background:var(--giay);color:var(--muc);font:400 15px/1.5 "Be Vietnam Pro",system-ui,sans-serif}
+h1,h2,h3,p{margin:0}
+.trang{max-width:1240px;margin:auto;padding:32px 20px 120px}
+.dau h1{font:800 clamp(28px,4vw,42px)/1.1 "Bricolage Grotesque",sans-serif;letter-spacing:-.01em}
+.dau p{margin-top:10px;max-width:62ch;color:var(--mo)}
+.dk{display:flex;flex-wrap:wrap;gap:20px 32px;margin:26px 0 28px;align-items:flex-end;position:sticky;top:0;background:var(--giay);padding:12px 0;z-index:5}
+.dk label{display:block;font-size:13px;color:var(--mo);margin-bottom:6px}
+.nhom{display:flex;flex-wrap:wrap;gap:6px}
+.nut{font:500 14px "Be Vietnam Pro",sans-serif;padding:8px 13px;min-height:40px;border:1px solid var(--vien);background:#fff;border-radius:999px;color:var(--muc);cursor:pointer}
+.nut[aria-pressed=true]{background:var(--muc);color:#fff;border-color:var(--muc)}
+.mau{width:40px;height:40px;border-radius:50%;border:3px solid #fff;outline:1px solid var(--vien);cursor:pointer;padding:0}
+.mau[aria-pressed=true]{outline:2px solid var(--muc)}
+:focus-visible{outline:3px solid #2563eb;outline-offset:2px}
+.luoi{display:grid;grid-template-columns:repeat(auto-fit,minmax(330px,1fr));gap:30px}
+.huong h2{font:800 22px/1.2 "Bricolage Grotesque",sans-serif}
+.huong>p{color:var(--mo);min-height:68px;margin:6px 0 14px;font-size:14px}
+.chon{margin-top:12px}
+.dt{width:min(360px,100%);height:740px;margin:auto;border-radius:38px;border:9px solid #1b2622;background:#fff;overflow:hidden;position:relative;display:flex;flex-direction:column}
+.cuon{flex:1;overflow-y:auto;scrollbar-width:none}.cuon::-webkit-scrollbar{display:none}
+/* Thanh hang */
+.thanh{display:flex;align-items:center;gap:9px;padding:13px 16px;font-weight:600;font-size:15px}
+.logo{width:28px;height:28px;border-radius:8px;background:var(--brand);display:grid;place-items:center;color:#fff}
+.nn{margin-left:auto;font-size:13px;font-weight:500;color:inherit;opacity:.75;background:none;border:0;padding:8px 4px}
+/* Trang thai */
+.s-tot{--tt:var(--tot)}.s-can{--tt:var(--can)}.s-gia{--tt:var(--gia)}.s-sai{--tt:var(--sai)}.s-chua{--tt:var(--chua)}
+.gui{position:absolute;inset:0;width:100%;height:100%;opacity:.26;pointer-events:none}
+.gui path{fill:none;stroke:#fff;stroke-width:.7}
+.xoay{transform-origin:50% 50%;animation:quay 90s linear infinite}
+@keyframes quay{to{transform:rotate(360deg)}}
+.dongho{font-variant-numeric:tabular-nums;font-weight:600}
+.dangsong{display:inline-block;width:8px;height:8px;border-radius:50%;background:#fff;margin-right:7px;animation:nhip 2s ease-in-out infinite}
+@keyframes nhip{50%{opacity:.25}}
+.anh{display:grid;place-items:center;background:#f3f1ec}
+/* Thong tin */
+.khoi{padding:18px 16px}
+.ten{font:800 21px/1.2 "Bricolage Grotesque",sans-serif}
+.phu{color:var(--mo);font-size:14px;margin-top:4px}
+.cap{display:grid;grid-template-columns:1fr 1fr;gap:1px;background:var(--vien);border-block:1px solid var(--vien);margin-top:16px}
+.cap div{background:#fff;padding:11px 0 11px 0}.cap div:nth-child(even){padding-left:14px}
+.cap small{display:block;color:var(--mo);font-size:12.5px}.cap b{font-weight:600;font-variant-numeric:tabular-nums;font-size:14.5px}
+details{border-bottom:1px solid var(--vien)}summary{cursor:pointer;padding:15px 16px;font-weight:600;list-style:none;display:flex;justify-content:space-between;min-height:48px}
+summary::-webkit-details-marker{display:none}summary svg{transition:transform .2s}details[open] summary svg{transform:rotate(180deg)}
+.dong{display:flex;justify-content:space-between;gap:14px;padding:7px 16px;font-size:14px}.dong span:first-child{color:var(--mo)}.dong span:last-child{font-weight:500;text-align:right}
+.hanh{padding:2px 16px 16px;margin:0;list-style:none}.hanh li{position:relative;padding:0 0 14px 20px;font-size:14px;border-left:2px solid var(--vien);margin-left:4px}
+.hanh li:before{content:"";position:absolute;left:-6px;top:5px;width:10px;height:10px;border-radius:50%;background:var(--tt)}.hanh small{display:block;color:var(--mo)}
+.day{padding:12px 14px 16px;background:#fff;border-top:1px solid var(--vien)}
+.cta{display:block;width:100%;min-height:50px;border:0;border-radius:14px;font:600 16px "Be Vietnam Pro",sans-serif;background:var(--tt);color:#fff;cursor:pointer}
+.chan{padding:14px 16px 20px;color:var(--mo);font-size:12.5px}
+.ghichu{margin:12px 16px 0;padding:10px 12px;background:#eef1f8;border-radius:10px;font-size:13px;color:#2c3f6d}
+/* A: Giay chung nhan */
+.a .vung{position:relative;overflow:hidden;background:var(--tt);color:#fff;padding:26px 18px 22px}
+.a .vung>*:not(.gui){position:relative}
+.a .dau-tt{width:56px;height:56px;border-radius:50%;background:#fff;color:var(--tt);display:grid;place-items:center;margin-bottom:14px}
+.a h3{font:800 31px/1.08 "Bricolage Grotesque",sans-serif;letter-spacing:-.01em}
+.a .mt{margin-top:8px;font-size:14.5px;max-width:30ch}
+.a .gio{margin-top:16px;padding-top:12px;border-top:1px solid rgba(255,255,255,.35);font-size:13.5px}
+.a .hang-sp{display:flex;gap:13px;align-items:center}.a .hang-sp .anh{width:82px;height:82px;border-radius:14px;flex:none}
+/* B: Anh san pham */
+.b .canh{position:relative;height:300px;background:#f3f1ec;display:grid;place-items:center}
+.b .tam{position:relative;margin:-30px 12px 0;border-radius:20px;background:var(--tt);color:#fff;padding:15px 16px;overflow:hidden;display:flex;gap:12px;align-items:center}
+.b .tam>*:not(.gui){position:relative}.b .tam h3{font:800 21px/1.15 "Bricolage Grotesque",sans-serif}
+.b .tam p{font-size:13px;margin-top:2px}.b .dau-tt{flex:none;color:#fff}
+.b .thanh{position:absolute;inset:0 0 auto 0;z-index:2}
+/* C: Mot cau */
+.c .man{position:relative;overflow:hidden;background:var(--tt);color:#fff;min-height:432px;display:flex;flex-direction:column}
+.c .man>*:not(.gui){position:relative}
+.c h3{font:800 66px/.94 "Bricolage Grotesque",sans-serif;letter-spacing:-.025em;margin:auto 18px 12px}
+.c .mt{margin:0 18px 8px;font-size:15px;max-width:30ch}.c .gio{margin:8px 18px 20px;font-size:13.5px}
+@media (prefers-reduced-motion:reduce){.xoay,.dangsong{animation:none}summary svg{transition:none}}
+</style></head><body>
+<main class="trang">
+<header class="dau"><h1>Trang người mua thấy khi quét tem</h1>
+<p>3 hướng cho cùng một nội dung. Đổi trạng thái để xem cả 5 kết quả quét, đổi màu để xem trang theo thương hiệu từng hãng. Màu kết quả luôn cố định, thương hiệu không ghi đè được. Trong mỗi điện thoại có thể cuộn. Hãng "Khóa An Phát" và mọi số liệu là dữ liệu mẫu.</p></header>
+<div class="dk">
+ <div><label id="l1">Kết quả quét</label><div class="nhom" role="group" aria-labelledby="l1" id="tt"></div></div>
+ <div><label id="l2">Màu thương hiệu</label><div class="nhom" role="group" aria-labelledby="l2" id="ms"></div></div>
+</div>
+<div class="luoi">
+ <section class="huong" data-choice="A"><h2>A. Giấy chứng nhận</h2><p>Kết quả và hoa văn bảo an ở trên, sản phẩm ngay dưới. Giống tờ chứng nhận, gọn và đáng tin. Tôi khuyên dùng hướng này.</p><div class="dt a" id="pa"></div><button class="nut chon" data-c="A">Chọn hướng A</button></section>
+ <section class="huong" data-choice="B"><h2>B. Sản phẩm trước</h2><p>Ảnh sản phẩm lớn để đối chiếu với hàng cầm trên tay, kết quả nằm đè lên ảnh. Hợp hãng có ảnh đẹp, kém hơn nếu ảnh xấu.</p><div class="dt b" id="pb"></div><button class="nut chon" data-c="B">Chọn hướng B</button></section>
+ <section class="huong" data-choice="C"><h2>C. Một câu trả lời</h2><p>Cả màn hình đầu chỉ để trả lời thật hay giả, đọc được ngay trong cửa hàng tối hoặc đứng xa. Muốn xem sản phẩm phải cuộn xuống.</p><div class="dt c" id="pc"></div><button class="nut chon" data-c="C">Chọn hướng C</button></section>
+</div>
+</main>
+<script>
+const I={ok:'<path d="M5 12.5l4.5 4.5L19 7.5"/>',can:'<path d="M12 4l9 16H3zM12 10v5M12 18h.01"/>',gia:'<path d="M6 6l12 12M18 6L6 18"/>',sai:'<circle cx="12" cy="12" r="9"/><path d="M9.5 9.5a2.5 2.5 0 114 2c-1 .7-1.5 1.2-1.5 2.5M12 17h.01"/>',chua:'<path d="M12 3l8 3v6c0 4.5-3.2 7.7-8 9-4.8-1.3-8-4.5-8-9V6z"/><path d="M12 8v5M12 16h.01"/>'};
+const ic=(k,s=26,w=2.4)=>`<svg width="${s}" height="${s}" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="${w}" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">${I[k]}</svg>`;
+const TT={
+ tot:{n:'Chính hãng',k:'ok',t:'Hàng chính hãng',c:'Hàng thật',m:'Khóa An Phát xác nhận mã này do hãng phát hành.',q:'Lần đầu được quét',cta:'Kích hoạt bảo hành'},
+ can:{n:'Đã quét ở máy khác',k:'can',t:'Cần kiểm tra lại',c:'Kiểm tra lại',m:'Mã này đã được quét trên máy khác ngày 12/10. Nếu bạn vừa mua, hãy hỏi lại nơi bán.',q:'3 lần, từ 2 máy',cta:'Liên hệ hãng'},
+ gia:{n:'Mã đã khóa',k:'gia',t:'Cảnh báo hàng giả',c:'Có thể là hàng giả',m:'Hãng đã khóa mã này. Đừng mua và đừng kích hoạt bảo hành.',q:'Hãng đã khóa',cta:'Báo hàng giả cho hãng'},
+ sai:{n:'Mã sai',k:'sai',t:'Không nhận ra mã này',c:'Mã không đúng',m:'Hãy quét lại. Nếu vẫn báo vậy, tem có thể không phải của hãng.',cta:'Quét lại'},
+ chua:{n:'Hãng chưa xác minh',k:'chua',t:'Mã hợp lệ',c:'Mã hợp lệ',m:'Mã do hệ thống phát hành. Thương hiệu của doanh nghiệp này chưa được xác minh.',q:'Lần đầu được quét',cta:'Đăng ký bảo hành'}};
+function gui(id){let d='';for(let r=0;r<34;r++){let p='';const R=12+r*5.2,a=5+(r%5);for(let i=0;i<=240;i++){const t=i/240*Math.PI*2,q=R+a*Math.sin(t*(9+r%4))*Math.cos(t*3);p+=(i?'L':'M')+(200+q*Math.cos(t)).toFixed(1)+' '+(200+q*Math.sin(t)).toFixed(1)}d+=`<path d="${p}"/>`}
+ return `<svg class="gui" viewBox="0 0 400 400" preserveAspectRatio="xMidYMid slice" aria-hidden="true"><g class="xoay">${d}</g></svg>`}
+const GUI=gui();
+const khoa=s=>`<svg width="${s}" height="${s}" viewBox="0 0 120 120" role="img" aria-label="Ảnh ổ khóa"><path d="M38 56V38a22 22 0 0144 0v18" fill="none" stroke="#8d969b" stroke-width="9"/><rect x="24" y="54" width="72" height="54" rx="9" fill="#c9a24e"/><rect x="24" y="54" width="72" height="11" rx="5" fill="#dcbc72"/><circle cx="60" cy="79" r="7" fill="#4c3c1a"/><rect x="57" y="82" width="6" height="14" rx="2" fill="#4c3c1a"/></svg>`;
+const gio=()=>new Date().toLocaleTimeString('vi-VN',{hour12:false});
+const dh=`<span class="dangsong"></span>Xác thực lúc <span class="dongho">${gio()}</span>`;
+const thanh=`<div class="thanh"><span class="logo"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" aria-hidden="true"><rect x="5" y="11" width="14" height="10" rx="2"/><path d="M8 11V8a4 4 0 018 0v3"/></svg></span>Khóa An Phát<button class="nn" aria-label="Đổi ngôn ngữ">VI / EN</button></div>`;
+const cap=x=>`<div class="cap"><div><small>Serial</small><b>APH00033133</b></div><div><small>Mã sản phẩm</small><b>12840</b></div><div><small>Đã quét</small><b>${x.q}</b></div><div><small>Bảo hành</small><b>${x.k==='gia'?'Không áp dụng':'12 tháng'}</b></div></div>`;
+const chevron='<svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M6 9l6 6 6-6"/></svg>';
+const them=`<details><summary>Thông số sản phẩm ${chevron}</summary><div class="dong"><span>Thân khóa</span><span>Hợp kim đồng</span></div><div class="dong"><span>Kích thước</span><span>83 x 58 x 19 mm</span></div><div class="dong"><span>Xuất xứ</span><span>Việt Nam</span></div><div class="dong" style="padding-bottom:14px"><span>Lô sản xuất</span><span>AP-2611</span></div></details>
+<details><summary>Hành trình sản phẩm ${chevron}</summary><ol class="hanh"><li>Sản xuất tại nhà máy<small>2/11/2026</small></li><li>Xuất kho về miền Bắc<small>4/11/2026</small></li><li>Giao đại lý tại Hà Nội<small>6/11/2026</small></li></ol></details>
+<div class="chan">Trang kiểm tra chính thức tại check.nhatanh.tech. Hãy nhìn đúng địa chỉ này trên thanh trình duyệt.</div>`;
+const gc=k=>k==='chua'?'<p class="ghichu">Thông tin bên dưới do doanh nghiệp tự khai, chưa được xác minh.</p>':'';
+const V={
+ a:(x,k)=>`<div class="cuon"><div>${thanh}</div><div class="vung">${GUI}<div class="dau-tt">${ic(x.k,32,2.6)}</div><h3>${x.t}</h3><p class="mt">${x.m}</p><p class="gio">${dh}</p></div>${k==='sai'?'':`${gc(k)}<div class="khoi"><div class="hang-sp"><div class="anh">${khoa(66)}</div><div><div class="ten">Ổ khóa đồng 58 mm</div><div class="phu">Khóa treo, 3 chìa</div></div></div>${cap(x)}</div>${them}`}${k==='sai'?'<div class="chan">Trang kiểm tra chính thức tại check.nhatanh.tech.</div>':''}</div><div class="day"><button class="cta">${x.cta}</button></div>`,
+ b:(x,k)=>`<div class="cuon">${k==='sai'?`<div style="position:relative;height:120px">${thanh}</div>`:`<div class="canh">${thanh}${khoa(190)}</div>`}<div class="tam" ${k==='sai'?'style="margin-top:0"':''}>${GUI}<span class="dau-tt">${ic(x.k,34,2.6)}</span><div><h3>${x.t}</h3><p>${dh}</p></div></div><div class="khoi"><p style="font-size:14.5px">${x.m}</p>${k==='sai'?'':`<div class="ten" style="margin-top:14px">Ổ khóa đồng 58 mm</div><div class="phu">Khóa treo, 3 chìa</div>${cap(x)}`}</div>${k==='sai'?'':gc(k)+them}</div><div class="day"><button class="cta">${x.cta}</button></div>`,
+ c:(x,k)=>`<div class="cuon"><div class="man">${GUI}<div>${thanh}</div><h3>${x.c}</h3><p class="mt">${x.m}</p><p class="gio">${dh}</p></div>${k==='sai'?'':`${gc(k)}<div class="khoi"><div class="ten">Ổ khóa đồng 58 mm</div><div class="phu">Khóa treo, 3 chìa</div><div class="anh" style="margin-top:12px;height:150px;border-radius:14px">${khoa(120)}</div>${cap(x)}</div>${them}`}</div><div class="day"><button class="cta">${x.cta}</button></div>`};
+let cur='tot';
+function ve(){for(const h of ['a','b','c']){const el=document.getElementById('p'+h);el.className='dt '+h+' s-'+cur;el.innerHTML=V[h](TT[cur],cur)}
+ document.querySelectorAll('#tt .nut').forEach(b=>b.setAttribute('aria-pressed',b.dataset.k===cur))}
+const ttEl=document.getElementById('tt');for(const k in TT){const b=document.createElement('button');b.className='nut';b.dataset.k=k;b.textContent=TT[k].n;b.onclick=()=>{cur=k;ve()};ttEl.append(b)}
+const ms=document.getElementById('ms');[['#c2570c','Cam'],['#1d4ed8','Xanh dương'],['#7e1d3a','Đỏ rượu'],['#14211c','Đen']].forEach(([c,n],i)=>{const b=document.createElement('button');b.className='mau';b.style.background=c;b.setAttribute('aria-label',n);b.setAttribute('aria-pressed',i===0);b.onclick=()=>{document.documentElement.style.setProperty('--brand',c);ms.querySelectorAll('.mau').forEach(m=>m.setAttribute('aria-pressed',m===b))};ms.append(b)});
+document.querySelectorAll('.chon').forEach(b=>b.onclick=()=>{document.querySelectorAll('.chon').forEach(o=>o.setAttribute('aria-pressed',o===b))});
+ve();setInterval(()=>document.querySelectorAll('.dongho').forEach(e=>e.textContent=gio()),1000);
+</script><script>
+// Ghi chu cho mockup tinh: o ghi chu moi phuong an + ghi chu chung, luu localStorage,
+// nut Copy gom lua chon + ghi chu de user dan vao chat cho Claude (trang tinh khong gui ve duoc).
+(function () {
+  var KEY = 'mockup-notes:' + location.pathname;
+  var saved = {};
+  try { saved = JSON.parse(localStorage.getItem(KEY) || '{}'); } catch (e) {}
+  function save() {
+    var d = { _chon: picked() };
+    document.querySelectorAll('textarea[data-note]').forEach(function (t) { d[t.dataset.note] = t.value; });
+    try { localStorage.setItem(KEY, JSON.stringify(d)); } catch (e) {}
+  }
+  function picked() {
+    return [].map.call(document.querySelectorAll('.selected[data-choice]'), function (o) { return o.dataset.choice.toUpperCase(); });
+  }
+  function area(id, ph) {
+    var t = document.createElement('textarea');
+    t.dataset.note = id; t.placeholder = ph; t.rows = 2; t.value = saved[id] || '';
+    t.style.cssText = 'width:100%;margin-top:8px;padding:8px;border-radius:6px;border:1px solid #8b949e66;background:transparent;color:inherit;font:13px system-ui;resize:vertical';
+    t.addEventListener('click', function (e) { e.stopPropagation(); }); // khong chon option khi bam vao o ghi chu
+    t.addEventListener('input', save);
+    return t;
+  }
+  var status = document.createElement('span');
+  function refresh() { var s = picked(); status.textContent = s.length ? 'Đã chọn: ' + s.join(', ') : 'Chưa chọn'; }
+
+  if (!window.toggleSelect) window.toggleSelect = function (el) {
+    var c = el.closest('.options') || el.closest('.cards'); var m = c && c.dataset.multiselect !== undefined;
+    if (c && !m) c.querySelectorAll('.option, .card').forEach(function (o) { o.classList.remove('selected'); });
+    m ? el.classList.toggle('selected') : el.classList.add('selected');
+  };
+  var orig = window.toggleSelect;
+  window.toggleSelect = function (el) { orig(el); refresh(); save(); };
+
+  document.querySelectorAll('[data-choice]').forEach(function (o) {
+    var id = o.dataset.choice;
+    (o.querySelector('.content, .card-body') || o).appendChild(area(id, 'Ghi chú cho phương án ' + id.toUpperCase() + '…'));
+    if ((saved._chon || []).indexOf(id.toUpperCase()) >= 0) o.classList.add('selected');
+  });
+
+  var bar = document.createElement('div');
+  bar.style.cssText = 'position:sticky;bottom:0;z-index:50;margin-top:24px;padding:12px;border-top:1px solid #8b949e66;background:var(--bg-primary,Canvas);display:flex;flex-direction:column;gap:8px';
+  var gen = area('chung', 'Ghi chú chung: muốn đổi gì, thêm gì…');
+  gen.style.marginTop = '0';
+  var row = document.createElement('div');
+  row.style.cssText = 'display:flex;gap:10px;align-items:center;flex-wrap:wrap;font:14px system-ui';
+  var btn = document.createElement('button');
+  btn.textContent = 'Copy để gửi Claude';
+  btn.style.cssText = 'padding:8px 16px;border-radius:6px;border:0;background:#2f81f7;color:#fff;font:600 14px system-ui;cursor:pointer';
+  btn.onclick = function () {
+    var lines = ['Mockup: ' + ((document.querySelector('h1, h2') || {}).textContent || document.title) + ' (' + location.href + ')', 'Chọn: ' + (picked().join(', ') || '(chưa chọn)')];
+    document.querySelectorAll('textarea[data-note]').forEach(function (t) {
+      if (t.value.trim()) lines.push((t.dataset.note === 'chung' ? 'Ghi chú chung' : 'Ghi chú ' + t.dataset.note.toUpperCase()) + ': ' + t.value.trim());
+    });
+    var txt = lines.join('\n');
+    var done = function () { btn.textContent = 'Đã copy — dán vào chat'; setTimeout(function () { btn.textContent = 'Copy để gửi Claude'; }, 2500); };
+    if (navigator.clipboard && window.isSecureContext) navigator.clipboard.writeText(txt).then(done, function () { prompt('Copy đoạn này:', txt); });
+    else prompt('Copy đoạn này:', txt);
+  };
+  row.appendChild(btn); row.appendChild(status);
+  bar.appendChild(gen); bar.appendChild(row);
+  (document.getElementById('frame-content') || document.body).appendChild(bar);
+  refresh();
+})();
+</script>
+</body></html>
