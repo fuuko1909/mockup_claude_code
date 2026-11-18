@@ -1,0 +1,242 @@
+<!doctype html>
+<html lang="vi">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>SenStudio - chọn logo</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Be+Vietnam+Pro:wght@400;500;700;800&display=swap" rel="stylesheet">
+<style>
+  :root { --teal:#0E7A73; --navy:#1F3A68; --ice:#A9D3DB; --ivory:#F2EEE6; --ink:#1d2427; --muted:#5b6466; --char:#36383A; }
+  * { box-sizing: border-box; }
+  body { margin:0; font-family:"Be Vietnam Pro",system-ui,sans-serif; background:#f6f7f6; color:var(--ink); }
+  header.top { max-width:1120px; margin:0 auto; padding:32px 20px 8px; }
+  h1 { font-size:28px; margin:0 0 6px; }
+  p.lead { color:var(--muted); margin:0; max-width:760px; line-height:1.55; }
+  .grid { max-width:1120px; margin:24px auto 60px; padding:0 20px; display:grid; grid-template-columns:repeat(auto-fill,minmax(340px,1fr)); gap:18px; }
+  .opt { background:#fff; border:2px solid #e3e7e6; border-radius:18px; padding:16px; cursor:pointer; transition:border-color .15s, box-shadow .15s; }
+  .opt:hover { border-color:#b9cfcc; }
+  .opt.sel { border-color:var(--teal); box-shadow:0 0 0 4px rgba(14,122,115,.15); }
+  .opt h2 { font-size:17px; margin:0 0 2px; display:flex; gap:8px; align-items:center; }
+  .opt h2 .k { display:inline-grid; place-items:center; width:26px; height:26px; border-radius:8px; background:var(--teal); color:#fff; font-size:14px; }
+  .opt .d { color:var(--muted); font-size:13.5px; margin:0 0 12px; line-height:1.45; }
+  .stage { border-radius:12px; display:flex; align-items:center; justify-content:center; height:112px; margin-bottom:8px; }
+  .light { background:var(--ivory); }
+  .dark { background:var(--teal); }
+  .row { display:flex; gap:10px; align-items:center; margin:10px 0 8px; }
+  .row span.s { font-size:12px; color:var(--muted); }
+  .bar { display:flex; align-items:center; gap:14px; background:rgba(255,255,255,.75); border:1px solid #e6ebea; border-radius:12px; padding:8px 12px; font-size:12.5px; color:var(--muted); }
+  .bar .search { flex:1; height:26px; border-radius:99px; background:#eef2f1; }
+  .wm { display:flex; align-items:center; gap:10px; font-weight:500; letter-spacing:-.01em; }
+  .wm b { font-weight:800; }
+  .badge { font-size:12.5px; margin-left:auto; }
+  footer { max-width:1120px; margin:0 auto 40px; padding:0 20px; color:var(--muted); font-size:13px; }
+  .bud-i { position:relative; display:inline-block; }
+  .bud-i svg { position:absolute; left:50%; transform:translateX(-50%); }
+</style>
+</head>
+<body>
+<svg width="0" height="0" style="position:absolute">
+  <defs>
+    <!-- canh sen dung chung (giong icon hien tai) -->
+    <path id="petal" d="M12 20C8.6 15.4 9.2 8.6 12 3.6C14.8 8.6 15.4 15.4 12 20Z"/>
+    <path id="petalS" d="M12 20C9.4 16.8 9.8 12.4 12 9C14.2 12.4 14.6 16.8 12 20Z"/>
+    <symbol id="lotus" viewBox="0 0 24 24">
+      <use href="#petalS" transform="rotate(-72 12 20)" opacity=".7"/>
+      <use href="#petalS" transform="rotate(72 12 20)" opacity=".7"/>
+      <use href="#petal" transform="rotate(-38 12 20)"/>
+      <use href="#petal" transform="rotate(38 12 20)"/>
+      <use href="#petal"/>
+    </symbol>
+    <pattern id="layersT" width="4" height="2.2" patternUnits="userSpaceOnUse"><rect width="4" height="1.45" fill="#0E7A73"/></pattern>
+    <pattern id="layersW" width="4" height="2.2" patternUnits="userSpaceOnUse"><rect width="4" height="1.45" fill="#fff"/></pattern>
+    <path id="bud" d="M12 21.5C6.2 17.6 6.6 10.2 12 3.2C17.4 10.2 17.8 17.6 12 21.5Z"/>
+    <clipPath id="lotusClip"><use href="#petal"/><use href="#petal" transform="rotate(-38 12 20)"/><use href="#petal" transform="rotate(38 12 20)"/><use href="#petalS" transform="rotate(-72 12 20)"/><use href="#petalS" transform="rotate(72 12 20)"/></clipPath>
+    <symbol id="lotusLayers" viewBox="0 0 24 24"><rect x="0" y="0" width="24" height="24" fill="url(#layersT)" clip-path="url(#lotusClip)"/></symbol>
+    <symbol id="lotusLayersW" viewBox="0 0 24 24"><rect x="0" y="0" width="24" height="24" fill="url(#layersW)" clip-path="url(#lotusClip)"/></symbol>
+  </defs>
+</svg>
+
+<header class="top">
+  <h1>SenStudio: chọn logo</h1>
+  <p class="lead">Sáu hướng logo cho SenStudio, giữ nhận diện hoa sen và màu xanh sen #0E7A73, không dùng hồng, vàng, tím. Mỗi hướng có bản trên nền sáng, nền xanh, cỡ icon nhỏ (48, 32, 16 px như favicon) và cách hiện trên thanh đầu trang. Bấm chọn một hướng, ghi chú nếu muốn chỉnh, rồi bấm "Copy để gửi Claude" và dán vào chat.</p>
+</header>
+
+<main class="grid">
+
+  <!-- A -->
+  <section class="opt" data-choice="a" onclick="pick(this)">
+    <h2><span class="k">A</span>Sen nở (làm gọn bản hiện tại)</h2>
+    <p class="d">Hoa sen 5 cánh như logo đang dùng, chữ "Sen" thường và "Studio" đậm. Ít thay đổi nhất, khách quen nhận ra ngay.</p>
+    <div class="stage light"><div class="wm" style="font-size:34px;color:var(--ink)"><svg width="44" height="44" style="color:var(--teal);fill:currentColor"><use href="#lotus"/></svg><span>Sen<b>Studio</b></span></div></div>
+    <div class="stage dark"><div class="wm" style="font-size:34px;color:#fff"><svg width="44" height="44" style="fill:#fff"><use href="#lotus"/></svg><span>Sen<b>Studio</b></span></div></div>
+    <div class="row">
+      <svg width="48" height="48" viewBox="0 0 24 24"><rect width="24" height="24" rx="5.5" fill="#0E7A73"/><use href="#lotus" x="2" y="2" width="20" height="20" style="fill:#fff"/></svg>
+      <svg width="32" height="32" viewBox="0 0 24 24"><rect width="24" height="24" rx="5.5" fill="#0E7A73"/><use href="#lotus" x="2" y="2" width="20" height="20" style="fill:#fff"/></svg>
+      <svg width="16" height="16" viewBox="0 0 24 24"><rect width="24" height="24" rx="5.5" fill="#0E7A73"/><use href="#lotus" x="2" y="2" width="20" height="20" style="fill:#fff"/></svg>
+      <span class="s">icon 48 / 32 / 16 px</span>
+    </div>
+    <div class="bar"><div class="wm" style="font-size:16px;color:var(--ink)"><svg width="22" height="22" style="fill:var(--teal)"><use href="#lotus"/></svg><span>Sen<b>Studio</b></span></div><div class="search"></div><span class="badge">Giỏ hàng</span></div>
+  </section>
+
+  <!-- B -->
+  <section class="opt" data-choice="b" onclick="pick(this)">
+    <h2><span class="k">B</span>Lớp in</h2>
+    <p class="d">Cánh sen ghép từ các vạch ngang như lớp nhựa in 3D: vừa là sen, vừa nói đúng việc shop làm. Ở cỡ 16 px vạch nhòe thành khối đặc, vẫn đọc được.</p>
+    <div class="stage light"><div class="wm" style="font-size:34px;color:var(--ink)"><svg width="46" height="46" style="color:var(--teal)"><use href="#lotusLayers"/></svg><span>Sen<b style="color:var(--teal)">Studio</b></span></div></div>
+    <div class="stage dark"><div class="wm" style="font-size:34px;color:#fff"><svg width="46" height="46"><use href="#lotusLayersW"/></svg><span>Sen<b>Studio</b></span></div></div>
+    <div class="row">
+      <svg width="48" height="48" viewBox="0 0 24 24"><rect width="24" height="24" rx="5.5" fill="#0E7A73"/><svg x="2" y="2" width="20" height="20"><use href="#lotusLayersW"/></svg></svg>
+      <svg width="32" height="32" viewBox="0 0 24 24"><rect width="24" height="24" rx="5.5" fill="#0E7A73"/><svg x="2" y="2" width="20" height="20"><use href="#lotusLayersW"/></svg></svg>
+      <svg width="16" height="16" viewBox="0 0 24 24"><rect width="24" height="24" rx="5.5" fill="#0E7A73"/><use href="#lotus" x="2" y="2" width="20" height="20" style="fill:#fff"/></svg>
+      <span class="s">16 px dùng bản đặc</span>
+    </div>
+    <div class="bar"><div class="wm" style="font-size:16px;color:var(--ink)"><svg width="22" height="22" style="color:var(--teal)"><use href="#lotusLayers"/></svg><span>Sen<b style="color:var(--teal)">Studio</b></span></div><div class="search"></div><span class="badge">Giỏ hàng</span></div>
+  </section>
+
+  <!-- C -->
+  <section class="opt" data-choice="c" onclick="pick(this)">
+    <h2><span class="k">C</span>Chữ S trong ô</h2>
+    <p class="d">Ô vuông bo góc chứa chữ S đậm, một cánh sen màu xanh băng nhô lên ở góc. Mạnh khi làm icon app, tem dán hộp, avatar mạng xã hội.</p>
+    <div class="stage light"><div class="wm" style="font-size:34px;color:var(--ink)">
+      <svg width="48" height="48" viewBox="0 0 48 48"><rect width="48" height="48" rx="12" fill="#0E7A73"/><text x="22" y="37" text-anchor="middle" font-family="Be Vietnam Pro" font-weight="800" font-size="34" fill="#fff">S</text><use href="#petal" transform="translate(28 2) scale(.75) rotate(28 12 20)" fill="#A9D3DB"/></svg>
+      <span>Sen<b>Studio</b></span></div></div>
+    <div class="stage dark"><div class="wm" style="font-size:34px;color:#fff">
+      <svg width="48" height="48" viewBox="0 0 48 48"><rect width="48" height="48" rx="12" fill="#fff"/><text x="22" y="37" text-anchor="middle" font-family="Be Vietnam Pro" font-weight="800" font-size="34" fill="#0E7A73">S</text><use href="#petal" transform="translate(28 2) scale(.75) rotate(28 12 20)" fill="#1F3A68"/></svg>
+      <span>Sen<b>Studio</b></span></div></div>
+    <div class="row">
+      <svg width="48" height="48" viewBox="0 0 48 48"><rect width="48" height="48" rx="12" fill="#0E7A73"/><text x="22" y="37" text-anchor="middle" font-family="Be Vietnam Pro" font-weight="800" font-size="34" fill="#fff">S</text><use href="#petal" transform="translate(28 2) scale(.75) rotate(28 12 20)" fill="#A9D3DB"/></svg>
+      <svg width="32" height="32" viewBox="0 0 48 48"><rect width="48" height="48" rx="12" fill="#0E7A73"/><text x="22" y="37" text-anchor="middle" font-family="Be Vietnam Pro" font-weight="800" font-size="34" fill="#fff">S</text><use href="#petal" transform="translate(28 2) scale(.75) rotate(28 12 20)" fill="#A9D3DB"/></svg>
+      <svg width="16" height="16" viewBox="0 0 48 48"><rect width="48" height="48" rx="12" fill="#0E7A73"/><text x="24" y="37" text-anchor="middle" font-family="Be Vietnam Pro" font-weight="800" font-size="36" fill="#fff">S</text></svg>
+      <span class="s">16 px bỏ cánh sen</span>
+    </div>
+    <div class="bar"><div class="wm" style="font-size:16px;color:var(--ink)"><svg width="24" height="24" viewBox="0 0 48 48"><rect width="48" height="48" rx="12" fill="#0E7A73"/><text x="22" y="37" text-anchor="middle" font-family="Be Vietnam Pro" font-weight="800" font-size="34" fill="#fff">S</text><use href="#petal" transform="translate(28 2) scale(.75) rotate(28 12 20)" fill="#A9D3DB"/></svg><span>Sen<b>Studio</b></span></div><div class="search"></div><span class="badge">Giỏ hàng</span></div>
+  </section>
+
+  <!-- D -->
+  <section class="opt" data-choice="d" onclick="pick(this)">
+    <h2><span class="k">D</span>Nụ sen trên chữ i</h2>
+    <p class="d">Chỉ dùng chữ, viết thường "senstudio"; dấu chấm của chữ i thay bằng một nụ sen. Gọn, hiện đại, hợp in nổi trên sản phẩm. Icon nhỏ dùng riêng nụ sen.</p>
+    <div class="stage light"><div style="font-size:40px;font-weight:800;color:var(--ink);letter-spacing:-.02em">senstud<span class="bud-i">ı<svg width="26" height="28" viewBox="0 0 24 24" style="top:-12px;fill:var(--teal)"><use href="#bud"/></svg></span>o</div></div>
+    <div class="stage dark"><div style="font-size:40px;font-weight:800;color:#fff;letter-spacing:-.02em">senstud<span class="bud-i">ı<svg width="26" height="28" viewBox="0 0 24 24" style="top:-12px;fill:var(--ice)"><use href="#bud"/></svg></span>o</div></div>
+    <div class="row">
+      <svg width="48" height="48" viewBox="0 0 24 24"><rect width="24" height="24" rx="5.5" fill="#0E7A73"/><use href="#bud" transform="translate(2.6 1.2) scale(.78)" fill="#fff"/></svg>
+      <svg width="32" height="32" viewBox="0 0 24 24"><rect width="24" height="24" rx="5.5" fill="#0E7A73"/><use href="#bud" transform="translate(2.6 1.2) scale(.78)" fill="#fff"/></svg>
+      <svg width="16" height="16" viewBox="0 0 24 24"><rect width="24" height="24" rx="5.5" fill="#0E7A73"/><use href="#bud" transform="translate(2.6 1.2) scale(.78)" fill="#fff"/></svg>
+      <span class="s">icon: một nụ sen</span>
+    </div>
+    <div class="bar"><div style="font-size:19px;font-weight:800;color:var(--ink);letter-spacing:-.02em">senstud<span class="bud-i">ı<svg width="13" height="14" viewBox="0 0 24 24" style="top:-6px;fill:var(--teal)"><use href="#bud"/></svg></span>o</div><div class="search"></div><span class="badge">Giỏ hàng</span></div>
+  </section>
+
+  <!-- E -->
+  <section class="opt" data-choice="e" onclick="pick(this)">
+    <h2><span class="k">E</span>Bàn in và hoa sen</h2>
+    <p class="d">Hoa sen đứng trên một vạch như mặt bàn in, đặt trong khung bo góc; bên phải là tên kèm dòng phụ "In 3D quà mang tên". Hợp làm biển hiệu, tem hộp, chân email.</p>
+    <div class="stage light"><div class="wm" style="color:var(--ink)">
+      <svg width="54" height="54" viewBox="0 0 24 24"><rect x=".6" y=".6" width="22.8" height="22.8" rx="5.5" fill="none" stroke="#0E7A73" stroke-width="1.2"/><use href="#lotus" x="3.5" y="2.2" width="17" height="17" style="fill:#0E7A73"/><rect x="5" y="19.4" width="14" height="1.5" rx=".75" fill="#1F3A68"/></svg>
+      <span style="display:flex;flex-direction:column;line-height:1.05"><span style="font-size:30px">Sen<b>Studio</b></span><span style="font-size:12px;color:var(--muted);letter-spacing:.08em;text-transform:uppercase;margin-top:4px">In 3D quà mang tên</span></span></div></div>
+    <div class="stage dark"><div class="wm" style="color:#fff">
+      <svg width="54" height="54" viewBox="0 0 24 24"><rect x=".6" y=".6" width="22.8" height="22.8" rx="5.5" fill="none" stroke="#fff" stroke-width="1.2"/><use href="#lotus" x="3.5" y="2.2" width="17" height="17" style="fill:#fff"/><rect x="5" y="19.4" width="14" height="1.5" rx=".75" fill="#A9D3DB"/></svg>
+      <span style="display:flex;flex-direction:column;line-height:1.05"><span style="font-size:30px">Sen<b>Studio</b></span><span style="font-size:12px;color:#d6efeb;letter-spacing:.08em;text-transform:uppercase;margin-top:4px">In 3D quà mang tên</span></span></div></div>
+    <div class="row">
+      <svg width="48" height="48" viewBox="0 0 24 24"><rect width="24" height="24" rx="5.5" fill="#0E7A73"/><use href="#lotus" x="3.5" y="2" width="17" height="17" style="fill:#fff"/><rect x="5" y="19.4" width="14" height="1.6" rx=".8" fill="#A9D3DB"/></svg>
+      <svg width="32" height="32" viewBox="0 0 24 24"><rect width="24" height="24" rx="5.5" fill="#0E7A73"/><use href="#lotus" x="3.5" y="2" width="17" height="17" style="fill:#fff"/><rect x="5" y="19.4" width="14" height="1.6" rx=".8" fill="#A9D3DB"/></svg>
+      <svg width="16" height="16" viewBox="0 0 24 24"><rect width="24" height="24" rx="5.5" fill="#0E7A73"/><use href="#lotus" x="3.5" y="2" width="17" height="17" style="fill:#fff"/><rect x="5" y="19.4" width="14" height="1.6" rx=".8" fill="#A9D3DB"/></svg>
+      <span class="s">gần icon web hiện tại</span>
+    </div>
+    <div class="bar"><div class="wm" style="font-size:16px;color:var(--ink)"><svg width="24" height="24" viewBox="0 0 24 24"><rect width="24" height="24" rx="5.5" fill="#0E7A73"/><use href="#lotus" x="3.5" y="2" width="17" height="17" style="fill:#fff"/><rect x="5" y="19.4" width="14" height="1.6" rx=".8" fill="#A9D3DB"/></svg><span>Sen<b>Studio</b></span></div><div class="search"></div><span class="badge">Giỏ hàng</span></div>
+  </section>
+
+  <!-- F -->
+  <section class="opt" data-choice="f" onclick="pick(this)">
+    <h2><span class="k">F</span>Huy hiệu tròn</h2>
+    <p class="d">Vòng tròn có hoa sen ở giữa, chữ "SENSTUDIO · IN 3D TẠI VIỆT NAM" chạy quanh viền. Dùng làm tem dán, dấu in nổi trên đế sản phẩm; trên web vẫn dùng kèm tên chữ ngang.</p>
+    <div class="stage light"><div class="wm" style="font-size:30px;color:var(--ink)">
+      <svg width="86" height="86" viewBox="0 0 100 100"><circle cx="50" cy="50" r="47" fill="#0E7A73"/><circle cx="50" cy="50" r="33" fill="none" stroke="#A9D3DB" stroke-width="1.2"/><path id="ringA" d="M50 50 m-39 0 a39 39 0 1 1 78 0 a39 39 0 1 1 -78 0" fill="none"/><text font-family="Be Vietnam Pro" font-weight="700" font-size="8.6" letter-spacing="1.6" fill="#fff"><textPath href="#ringA" startOffset="0">SENSTUDIO · IN 3D TẠI VIỆT NAM ·</textPath></text><use href="#lotus" x="31" y="29" width="38" height="38" style="fill:#fff"/></svg>
+      <span>Sen<b>Studio</b></span></div></div>
+    <div class="stage dark"><div class="wm" style="font-size:30px;color:#fff">
+      <svg width="86" height="86" viewBox="0 0 100 100"><circle cx="50" cy="50" r="47" fill="#fff"/><circle cx="50" cy="50" r="33" fill="none" stroke="#0E7A73" stroke-width="1.2"/><path id="ringB" d="M50 50 m-39 0 a39 39 0 1 1 78 0 a39 39 0 1 1 -78 0" fill="none"/><text font-family="Be Vietnam Pro" font-weight="700" font-size="8.6" letter-spacing="1.6" fill="#0E7A73"><textPath href="#ringB">SENSTUDIO · IN 3D TẠI VIỆT NAM ·</textPath></text><use href="#lotus" x="31" y="29" width="38" height="38" style="fill:#0E7A73"/></svg>
+      <span>Sen<b>Studio</b></span></div></div>
+    <div class="row">
+      <svg width="48" height="48" viewBox="0 0 100 100"><circle cx="50" cy="50" r="48" fill="#0E7A73"/><use href="#lotus" x="20" y="18" width="60" height="60" style="fill:#fff"/></svg>
+      <svg width="32" height="32" viewBox="0 0 100 100"><circle cx="50" cy="50" r="48" fill="#0E7A73"/><use href="#lotus" x="20" y="18" width="60" height="60" style="fill:#fff"/></svg>
+      <svg width="16" height="16" viewBox="0 0 100 100"><circle cx="50" cy="50" r="48" fill="#0E7A73"/><use href="#lotus" x="20" y="18" width="60" height="60" style="fill:#fff"/></svg>
+      <span class="s">icon tròn, bỏ chữ viền</span>
+    </div>
+    <div class="bar"><div class="wm" style="font-size:16px;color:var(--ink)"><svg width="24" height="24" viewBox="0 0 100 100"><circle cx="50" cy="50" r="48" fill="#0E7A73"/><use href="#lotus" x="20" y="18" width="60" height="60" style="fill:#fff"/></svg><span>Sen<b>Studio</b></span></div><div class="search"></div><span class="badge">Giỏ hàng</span></div>
+  </section>
+
+</main>
+<footer>Màu: xanh sen #0E7A73 (chính), xanh navy #1F3A68 và xanh băng #A9D3DB (phụ), nền trắng ngà #F2EEE6. Phông chữ Be Vietnam Pro (đang dùng trên web). Chọn xong tôi sẽ vẽ lại bản chính thức dạng SVG, thay logo, favicon, ảnh chia sẻ link và khung kết video.</footer>
+<script>
+  function pick(el) {
+    document.querySelectorAll('.opt').forEach(o => o.classList.toggle('sel', o === el));
+  }
+</script>
+<script>
+// Ghi chu cho mockup tinh: o ghi chu moi phuong an + ghi chu chung, luu localStorage,
+// nut Copy gom lua chon + ghi chu de user dan vao chat cho Claude (trang tinh khong gui ve duoc).
+(function () {
+  var KEY = 'mockup-notes:' + location.pathname;
+  var saved = {};
+  try { saved = JSON.parse(localStorage.getItem(KEY) || '{}'); } catch (e) {}
+  function save() {
+    var d = { _chon: picked() };
+    document.querySelectorAll('textarea[data-note]').forEach(function (t) { d[t.dataset.note] = t.value; });
+    try { localStorage.setItem(KEY, JSON.stringify(d)); } catch (e) {}
+  }
+  function picked() {
+    return [].map.call(document.querySelectorAll('.selected[data-choice]'), function (o) { return o.dataset.choice.toUpperCase(); });
+  }
+  function area(id, ph) {
+    var t = document.createElement('textarea');
+    t.dataset.note = id; t.placeholder = ph; t.rows = 2; t.value = saved[id] || '';
+    t.style.cssText = 'width:100%;margin-top:8px;padding:8px;border-radius:6px;border:1px solid #8b949e66;background:transparent;color:inherit;font:13px system-ui;resize:vertical';
+    t.addEventListener('click', function (e) { e.stopPropagation(); }); // khong chon option khi bam vao o ghi chu
+    t.addEventListener('input', save);
+    return t;
+  }
+  var status = document.createElement('span');
+  function refresh() { var s = picked(); status.textContent = s.length ? 'Đã chọn: ' + s.join(', ') : 'Chưa chọn'; }
+
+  if (!window.toggleSelect) window.toggleSelect = function (el) {
+    var c = el.closest('.options') || el.closest('.cards'); var m = c && c.dataset.multiselect !== undefined;
+    if (c && !m) c.querySelectorAll('.option, .card').forEach(function (o) { o.classList.remove('selected'); });
+    m ? el.classList.toggle('selected') : el.classList.add('selected');
+  };
+  var orig = window.toggleSelect;
+  window.toggleSelect = function (el) { orig(el); refresh(); save(); };
+
+  document.querySelectorAll('[data-choice]').forEach(function (o) {
+    var id = o.dataset.choice;
+    (o.querySelector('.content, .card-body') || o).appendChild(area(id, 'Ghi chú cho phương án ' + id.toUpperCase() + '…'));
+    if ((saved._chon || []).indexOf(id.toUpperCase()) >= 0) o.classList.add('selected');
+  });
+
+  var bar = document.createElement('div');
+  bar.style.cssText = 'position:sticky;bottom:0;z-index:50;margin-top:24px;padding:12px;border-top:1px solid #8b949e66;background:var(--bg-primary,Canvas);display:flex;flex-direction:column;gap:8px';
+  var gen = area('chung', 'Ghi chú chung: muốn đổi gì, thêm gì…');
+  gen.style.marginTop = '0';
+  var row = document.createElement('div');
+  row.style.cssText = 'display:flex;gap:10px;align-items:center;flex-wrap:wrap;font:14px system-ui';
+  var btn = document.createElement('button');
+  btn.textContent = 'Copy để gửi Claude';
+  btn.style.cssText = 'padding:8px 16px;border-radius:6px;border:0;background:#2f81f7;color:#fff;font:600 14px system-ui;cursor:pointer';
+  btn.onclick = function () {
+    var lines = ['Mockup: ' + ((document.querySelector('h1, h2') || {}).textContent || document.title) + ' (' + location.href + ')', 'Chọn: ' + (picked().join(', ') || '(chưa chọn)')];
+    document.querySelectorAll('textarea[data-note]').forEach(function (t) {
+      if (t.value.trim()) lines.push((t.dataset.note === 'chung' ? 'Ghi chú chung' : 'Ghi chú ' + t.dataset.note.toUpperCase()) + ': ' + t.value.trim());
+    });
+    var txt = lines.join('\n');
+    var done = function () { btn.textContent = 'Đã copy — dán vào chat'; setTimeout(function () { btn.textContent = 'Copy để gửi Claude'; }, 2500); };
+    if (navigator.clipboard && window.isSecureContext) navigator.clipboard.writeText(txt).then(done, function () { prompt('Copy đoạn này:', txt); });
+    else prompt('Copy đoạn này:', txt);
+  };
+  row.appendChild(btn); row.appendChild(status);
+  bar.appendChild(gen); bar.appendChild(row);
+  (document.getElementById('frame-content') || document.body).appendChild(bar);
+  refresh();
+})();
+</script>
+</body>
+</html>
