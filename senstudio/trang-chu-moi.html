@@ -1,0 +1,255 @@
+<!doctype html>
+<html lang="vi">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Mockup trang chủ SenStudio (plan nội dung N1-N8)</title>
+<link href="https://fonts.googleapis.com/css2?family=Be+Vietnam+Pro:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+<style>
+:root{--sen:#0E7A73;--sen-d:#0a5c56;--ink:#1d2b2a;--muted:#5b6b69;--line:#e3e8e6;--bg:#faf8f3;--card:#fff;--warm:#fff4e5}
+*{box-sizing:border-box}body{margin:0;font-family:"Be Vietnam Pro",system-ui,sans-serif;color:var(--ink);background:var(--bg);line-height:1.55}
+a{color:inherit}img{max-width:100%;display:block}
+.wrap{max-width:1120px;margin:0 auto;padding:0 20px}
+.note{background:#1d2b2a;color:#fff;font-size:13px;padding:8px 20px;text-align:center}
+header{position:sticky;top:0;background:#fffffff0;backdrop-filter:blur(6px);border-bottom:1px solid var(--line);z-index:5}
+.nav{display:flex;align-items:center;gap:22px;height:64px}
+.logo{font-weight:800;font-size:20px;display:flex;align-items:center;gap:8px;text-decoration:none}
+.logo b{color:var(--sen)}
+.nav nav{display:flex;gap:18px;font-size:15px;font-weight:500;flex:1}
+.nav nav a{text-decoration:none;color:var(--muted)}.nav nav a:hover{color:var(--sen)}
+.btn{display:inline-flex;align-items:center;gap:8px;border-radius:14px;padding:13px 20px;font-weight:700;text-decoration:none;border:2px solid var(--sen);font-size:16px}
+.btn.p{background:var(--sen);color:#fff}.btn.o{background:#fff;color:var(--sen)}
+.btn.s{padding:9px 14px;font-size:14px}
+.hero{display:grid;grid-template-columns:1.05fr 1fr;gap:40px;align-items:center;padding:44px 0 30px}
+h1{font-size:44px;line-height:1.12;margin:0 0 14px;letter-spacing:-.5px}
+h2{font-size:30px;margin:0 0 8px;letter-spacing:-.3px}
+.lead{font-size:18px;color:var(--muted);margin:0 0 22px}
+.chips{display:flex;flex-wrap:wrap;gap:10px;margin-top:20px}
+.chip{display:flex;align-items:center;gap:7px;background:#fff;border:1px solid var(--line);border-radius:999px;padding:7px 13px;font-size:14px;font-weight:600}
+.chip svg{color:var(--sen)}
+.ba{display:grid;grid-template-columns:1fr auto 1fr;gap:12px;align-items:center;background:#fff;border-radius:26px;padding:18px;border:1px solid var(--line);box-shadow:0 18px 40px -24px #0e7a7340}
+.ba figure{margin:0;text-align:center;font-size:13px;color:var(--muted);font-weight:600}
+.ba img{border-radius:16px;aspect-ratio:1;object-fit:contain;background:#fdfdfd;border:1px solid var(--line);margin-bottom:6px}
+section{padding:46px 0}
+.sub{color:var(--muted);margin:0 0 26px;font-size:17px}
+.steps{display:grid;grid-template-columns:repeat(3,1fr);gap:18px}
+.step{background:#fff;border:1px solid var(--line);border-radius:22px;padding:22px}
+.step .n{width:38px;height:38px;border-radius:12px;background:var(--sen);color:#fff;display:grid;place-items:center;font-weight:800;margin-bottom:12px}
+.step h3{margin:0 0 6px;font-size:19px}.step p{margin:0;color:var(--muted);font-size:15px}
+.demo{display:grid;grid-template-columns:repeat(6,1fr);gap:10px}
+.demo img{border-radius:14px;background:#fff;border:1px solid var(--line);aspect-ratio:1;object-fit:contain}
+.price{display:grid;grid-template-columns:repeat(3,1fr);gap:18px}
+.pc{background:#fff;border:1px solid var(--line);border-radius:22px;padding:22px;position:relative}
+.pc.hl{border:2px solid var(--sen)}
+.pc .tag{position:absolute;top:-12px;left:20px;background:var(--sen);color:#fff;font-size:12px;font-weight:700;padding:4px 10px;border-radius:999px}
+.pc h3{margin:0 0 4px}.pc .d{color:var(--muted);font-size:14px;margin:0 0 14px}
+.pc table{width:100%;border-collapse:collapse;font-size:15px}.pc td{padding:7px 0;border-top:1px solid var(--line)}.pc td:last-child{text-align:right;font-weight:700}
+.small{font-size:13px;color:var(--muted)}
+.get{display:grid;grid-template-columns:1fr 1fr;gap:30px;align-items:center}
+.list{list-style:none;padding:0;margin:0;display:grid;gap:12px}
+.list li{display:flex;gap:12px;align-items:flex-start;font-size:16px}.list svg{flex:none;color:var(--sen);margin-top:2px}
+.trust{display:grid;grid-template-columns:repeat(3,1fr);gap:16px}
+.tr{background:#fff;border:1px solid var(--line);border-radius:20px;padding:18px;display:flex;gap:12px}
+.tr svg{flex:none;color:var(--sen)}.tr b{display:block;margin-bottom:2px}.tr span{color:var(--muted);font-size:14px}
+.faq details{background:#fff;border:1px solid var(--line);border-radius:16px;padding:14px 18px;margin-bottom:10px}
+.faq summary{font-weight:700;cursor:pointer}.faq p{margin:8px 0 0;color:var(--muted)}
+.cta{background:var(--sen);color:#fff;border-radius:28px;padding:36px;display:flex;justify-content:space-between;align-items:center;gap:20px}
+.cta h2{color:#fff}.cta .btn.o{border-color:#fff}
+footer{padding:36px 0 80px;color:var(--muted);font-size:14px;border-top:1px solid var(--line);margin-top:40px}
+.zalo{position:fixed;right:18px;bottom:18px;background:#0068ff;color:#fff;border-radius:999px;padding:12px 18px;font-weight:700;text-decoration:none;display:flex;gap:8px;align-items:center;box-shadow:0 10px 24px -8px #0068ff90;z-index:9}
+.lbl{display:inline-block;background:var(--warm);color:#9a5b00;font-size:12px;font-weight:700;padding:3px 9px;border-radius:8px;margin-bottom:10px}
+@media (max-width:820px){.hero,.get{grid-template-columns:1fr}.steps,.price,.trust{grid-template-columns:1fr}.demo{grid-template-columns:repeat(3,1fr)}
+ h1{font-size:32px}.nav nav{display:none}.cta{flex-direction:column;align-items:flex-start}}
+</style>
+</head>
+<body>
+<div class="note">Mockup theo plan docs/KE_HOACH_NOI_DUNG_WEB.md. Ảnh lấy từ senstudio.vn. Giá bản màu đang chờ tính theo Snapmaker U1.</div>
+
+<header><div class="wrap nav">
+  <a class="logo" href="#"><svg width="26" height="26" viewBox="0 0 24 24" fill="none" stroke="#0E7A73" stroke-width="2"><path d="M12 21c-4 0-7-3-7-7 3 0 5 1 7 3 2-2 4-3 7-3 0 4-3 7-7 7Z"/><path d="M12 17c-2-3-2-7 0-11 2 4 2 8 0 11Z"/></svg>Sen<b>Studio</b></a>
+  <nav><a href="#">Mô hình từ tranh</a><a href="#">Thời khóa biểu 3D</a><a href="#">Mẫu có sẵn</a><a href="#gia">Bảng giá</a><a href="#hoi">Hỏi đáp</a></nav>
+  <a class="btn o s" href="#">Theo dõi đơn</a>
+</div></header>
+
+<main class="wrap">
+<!-- N2.1 dau trang -->
+<div class="hero" data-choice="dau-trang">
+  <div>
+    <span class="lbl">Thiết kế riêng cho từng bé, in 3D tại Hà Nội</span>
+    <h1>Tranh bé vẽ thành mô hình in 3D</h1>
+    <p class="lead">Bé vẽ hoặc bố mẹ chụp tranh. AI gợi ý mẫu mô hình giống tranh, bé chọn màu và xem 3D. SenStudio in bằng nhựa PLA rồi giao tận nhà.</p>
+    <div style="display:flex;gap:12px;flex-wrap:wrap">
+      <a class="btn p" href="#">Làm mô hình từ tranh
+        <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4"><path d="M5 12h14M13 6l6 6-6 6"/></svg></a>
+      <a class="btn o" href="#">Làm thời khóa biểu 3D</a>
+    </div>
+    <div class="chips">
+      <span class="chip"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2"><path d="M20.6 13.4 13.4 20.6a2 2 0 0 1-2.8 0L3 13V3h10l7.6 7.6a2 2 0 0 1 0 2.8Z"/><circle cx="7.5" cy="7.5" r="1.5"/></svg>Từ 99.000đ</span>
+      <span class="chip"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2"><path d="M21 16V8l-9-5-9 5v8l9 5 9-5Z"/><path d="m3.3 7 8.7 5 8.7-5M12 22V12"/></svg>Xem 3D trước khi trả tiền</span>
+      <span class="chip"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2"><path d="M1 3h15v13H1zM16 8h4l3 3v5h-7"/><circle cx="5.5" cy="18.5" r="2.5"/><circle cx="18.5" cy="18.5" r="2.5"/></svg>Làm 1–2 ngày, giao 1–3 ngày</span>
+    </div>
+  </div>
+  <div class="ba">
+    <figure><img src="https://senstudio.vn/samples/v2/khung-long-tranh.webp" alt="Tranh bé vẽ khủng long">Tranh của bé</figure>
+    <svg width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="#0E7A73" stroke-width="2.4"><path d="M5 12h14M13 6l6 6-6 6"/></svg>
+    <figure><img src="https://senstudio.vn/samples/v2/khung-long-goi-y.webp" alt="Mô hình khủng long">Mô hình in 3D (xoay được trên web thật)</figure>
+  </div>
+</div>
+
+<!-- N2.2 3 buoc -->
+<section data-choice="cach-lam">
+  <h2>Làm mô hình trong 3 bước</h2>
+  <p class="sub">Không cần biết vẽ 3D. Cả nhà làm trên điện thoại khoảng 5 phút.</p>
+  <div class="steps">
+    <div class="step"><div class="n">1</div><h3>Vẽ hoặc chụp tranh</h3><p>Bé vẽ ngay trên điện thoại, máy tính bảng, hoặc bố mẹ chụp tranh trên giấy. Chọn "Bé vẽ gì?" để AI hiểu đúng.</p></div>
+    <div class="step"><div class="n">2</div><h3>Chọn mẫu, màu và cỡ</h3><p>AI gợi ý 2 mẫu. Chọn bản trắng để bé tự tô hoặc bản in màu, chọn cỡ 6, 9 hay 12 cm, khắc tên bé trên đế. Xoay xem 3D mọi phía.</p></div>
+    <div class="step"><div class="n">3</div><h3>Thanh toán, xưởng in, giao tận nhà</h3><p>Chuyển khoản bằng mã QR. Xưởng in trong 1–2 ngày, bạn xem camera lúc máy in đơn của mình. Giao toàn quốc 1–3 ngày.</p></div>
+  </div>
+</section>
+
+<!-- N2.3 demo -->
+<section data-choice="vi-du">
+  <h2>Ví dụ thật từ tranh của các bé</h2>
+  <p class="sub">Bấm một tranh để xem mẫu AI gợi ý và mô hình 3D (trên web thật).</p>
+  <div class="demo">
+    <img src="https://senstudio.vn/samples/v2/ten-lua-goi-y.webp" alt="Tên lửa">
+    <img src="https://senstudio.vn/samples/v2/robot-goi-y.webp" alt="Robot">
+    <img src="https://senstudio.vn/samples/v2/xe-o-to-goi-y.webp" alt="Xe ô tô">
+    <img src="https://senstudio.vn/samples/v2/den-ong-sao-goi-y.webp" alt="Đèn ông sao">
+    <img src="https://senstudio.vn/samples/v2/thuyen-buom-goi-y.webp" alt="Thuyền buồm">
+    <img src="https://senstudio.vn/samples/v2/meo-goi-y.webp" alt="Mèo">
+  </div>
+  <p class="small" style="margin-top:10px">Mẫu demo sẽ thay bằng kết quả bộ thử mới (đang chạy).</p>
+</section>
+
+<!-- N2.4 bang gia -->
+<section id="gia" data-choice="bang-gia">
+  <h2>Bảng giá</h2>
+  <p class="sub">Giá đã gồm thiết kế bằng AI, in và hộp. Phí giao theo địa chỉ (GHN), hiện khi đặt hàng.</p>
+  <div class="price">
+    <div class="pc hl"><span class="tag">Rẻ nhất</span><h3>Bản trắng, bé tự tô</h3><p class="d">In nhựa trắng, bé tự tô bằng màu hoặc bút acrylic.</p>
+      <table><tr><td>Cỡ S, cao khoảng 6 cm</td><td>99.000đ</td></tr><tr><td>Cỡ M, khoảng 9 cm</td><td>149.000đ</td></tr><tr><td>Cỡ L, khoảng 12 cm</td><td>229.000đ</td></tr><tr><td>Kèm bộ bút tô</td><td>+69.000đ</td></tr></table></div>
+    <div class="pc"><h3>Bản in màu</h3><p class="d">Máy in sẵn đúng màu như mẫu, tối đa 4 màu.</p>
+      <table><tr><td>Cỡ S</td><td>đang tính</td></tr><tr><td>Cỡ M</td><td>đang tính</td></tr><tr><td>Cỡ L</td><td>đang tính</td></tr></table>
+      <p class="small">Giá mới theo máy in 4 đầu Snapmaker U1.</p></div>
+    <div class="pc"><h3>Thời khóa biểu 3D</h3><p class="d">Bảng có thẻ môn cắm chốt, đổi lịch chỉ cần rút ra cắm lại.</p>
+      <table><tr><td>Bảng + thẻ môn</td><td>499.000đ</td></tr><tr><td>Hộp cắm bút kèm</td><td>+79.000đ</td></tr></table></div>
+  </div>
+  <p class="small" style="margin-top:12px">Lỗi in hoặc mô hình khác ảnh gợi ý quá nhiều: làm lại miễn phí một lần trong 7 ngày.</p>
+</section>
+
+<!-- N2.5 nhan duoc gi -->
+<section class="get" data-choice="nhan-duoc-gi">
+  <div><img src="https://senstudio.vn/products/toy-tu-tranh-card.webp" alt="Tranh và mô hình" style="border-radius:24px;border:1px solid var(--line)"></div>
+  <div>
+    <h2>Bạn nhận được gì</h2>
+    <ul class="list">
+      <li><svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2"><path d="M20 6 9 17l-5-5"/></svg>Mô hình liền khối, đứng vững trên đế tròn, tên bé khắc nổi trên đế.</li>
+      <li><svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2"><path d="M20 6 9 17l-5-5"/></svg>Nhựa PLA làm từ tinh bột ngô, in tại xưởng SenStudio ở Hà Nội.</li>
+      <li><svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2"><path d="M20 6 9 17l-5-5"/></svg>Mỗi mô hình qua kiểm tra in tự động: đủ dày, không chi tiết dễ gãy.</li>
+      <li><svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2"><path d="M20 6 9 17l-5-5"/></svg>Hộp giấy kèm thiệp, có thể gói quà và ghi lời nhắn.</li>
+    </ul>
+    <p class="small">Ảnh chụp sản phẩm in thật sẽ thay ảnh minh họa khi có.</p>
+  </div>
+</section>
+
+<!-- N2.7 vi sao yen tam -->
+<section data-choice="yen-tam">
+  <h2>Vì sao bố mẹ yên tâm</h2>
+  <div class="trust">
+    <div class="tr"><svg width="26" height="26" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M23 7 16 12l7 5V7z"/><rect x="1" y="5" width="15" height="14" rx="2"/></svg><div><b>Xem camera lúc in</b><span>Trang đơn hàng mở camera máy in khi đến lượt đơn của bạn.</span></div></div>
+    <div class="tr"><svg width="26" height="26" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/></svg><div><b>Ảnh của bé được bảo vệ</b><span>Ảnh tranh chỉ dùng để làm mô hình, tự xóa sau 30 ngày nếu chưa đặt.</span></div></div>
+    <div class="tr"><svg width="26" height="26" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M3 12a9 9 0 1 0 3-6.7L3 8"/><path d="M3 3v5h5"/></svg><div><b>Làm lại miễn phí</b><span>Lỗi in hoặc khác ảnh gợi ý quá nhiều: làm lại một lần trong 7 ngày.</span></div></div>
+    <div class="tr"><svg width="26" height="26" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="3" y="3" width="7" height="7"/><rect x="14" y="3" width="7" height="7"/><rect x="3" y="14" width="7" height="7"/><path d="M14 14h3v3h-3zM20 14v7M14 20h3"/></svg><div><b>Thanh toán QR, xác nhận tự động</b><span>Chuyển khoản ngân hàng, đơn tự xác nhận khi tiền về.</span></div></div>
+    <div class="tr"><svg width="26" height="26" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z"/></svg><div><b>Hỏi qua Zalo</b><span>0912 365 561, trả lời trong giờ làm việc.</span></div></div>
+    <div class="tr"><svg width="26" height="26" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 2v20M2 12h20"/></svg><div><b>Xem 3D trước khi trả tiền</b><span>Không ưng mẫu thì tạo thêm hoặc sửa bằng lời, không mất phí.</span></div></div>
+  </div>
+</section>
+
+<!-- N2.8 hoi dap -->
+<section id="hoi" class="faq" data-choice="hoi-dap">
+  <h2>Hỏi đáp</h2>
+  <details open><summary>Tranh thế nào thì ra mô hình đẹp?</summary><p>Một nhân vật hoặc đồ vật, nét rõ, nền trắng. Chụp đủ sáng, giấy phẳng. Chọn "Bé vẽ gì?" giúp AI hiểu đúng.</p></details>
+  <details><summary>Mô hình có giống hệt tranh không?</summary><p>Mô hình phỏng theo tranh, tối đa 4 màu nhựa nên chi tiết nhỏ có thể khác. Bạn xem 3D trước khi đặt.</p></details>
+  <details><summary>Bé mấy tuổi chơi được?</summary><p>Từ 3 tuổi. Mô hình liền khối, nhưng chi tiết nhỏ như tai, sừng có thể gãy nếu bé cắn hoặc ném mạnh.</p></details>
+  <details><summary>Bản trắng tô bằng gì?</summary><p>Màu acrylic hoặc bút acrylic. Shop có bán kèm bộ bút tô.</p></details>
+  <details><summary>Bao lâu thì nhận được?</summary><p>Xưởng làm 1–2 ngày, giao 1–3 ngày tùy địa chỉ.</p></details>
+  <details><summary>Có nhận thanh toán khi nhận hàng không?</summary><p>Chưa. Mỗi mô hình làm riêng theo tranh của bé nên shop nhận chuyển khoản QR trước khi in.</p></details>
+  <details><summary>Không ưng thì sao?</summary><p>Trước khi đặt: tạo thêm mẫu hoặc sửa bằng lời. Sau khi nhận: lỗi in hoặc khác ảnh gợi ý quá nhiều thì làm lại miễn phí một lần trong 7 ngày.</p></details>
+</section>
+
+<div class="cta" data-choice="loi-moi">
+  <div><h2>Biến tranh của bé thành mô hình</h2><p style="margin:0;opacity:.9">Thử miễn phí: xem mẫu và 3D trước, chỉ trả tiền khi đặt in.</p></div>
+  <div style="display:flex;gap:12px;flex-wrap:wrap"><a class="btn o" href="#">Làm mô hình từ tranh</a><a class="btn p" style="border-color:#fff" href="#">Thời khóa biểu 3D</a></div>
+</div>
+</main>
+
+<footer><div class="wrap">SenStudio · Mô hình in 3D từ tranh bé vẽ và thời khóa biểu 3D, in tại Hà Nội · Zalo, điện thoại 0912 365 561<br>Sắp ra mắt: quà mang tên (móc khóa, bảng tên, đèn ảnh).</div></footer>
+<a class="zalo" href="#"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4"><path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z"/></svg>Hỏi qua Zalo</a>
+<script>
+// Ghi chu cho mockup tinh: o ghi chu moi phuong an + ghi chu chung, luu localStorage,
+// nut Copy gom lua chon + ghi chu de user dan vao chat cho Claude (trang tinh khong gui ve duoc).
+(function () {
+  var KEY = 'mockup-notes:' + location.pathname;
+  var saved = {};
+  try { saved = JSON.parse(localStorage.getItem(KEY) || '{}'); } catch (e) {}
+  function save() {
+    var d = { _chon: picked() };
+    document.querySelectorAll('textarea[data-note]').forEach(function (t) { d[t.dataset.note] = t.value; });
+    try { localStorage.setItem(KEY, JSON.stringify(d)); } catch (e) {}
+  }
+  function picked() {
+    return [].map.call(document.querySelectorAll('.selected[data-choice]'), function (o) { return o.dataset.choice.toUpperCase(); });
+  }
+  function area(id, ph) {
+    var t = document.createElement('textarea');
+    t.dataset.note = id; t.placeholder = ph; t.rows = 2; t.value = saved[id] || '';
+    t.style.cssText = 'width:100%;margin-top:8px;padding:8px;border-radius:6px;border:1px solid #8b949e66;background:transparent;color:inherit;font:13px system-ui;resize:vertical';
+    t.addEventListener('click', function (e) { e.stopPropagation(); }); // khong chon option khi bam vao o ghi chu
+    t.addEventListener('input', save);
+    return t;
+  }
+  var status = document.createElement('span');
+  function refresh() { var s = picked(); status.textContent = s.length ? 'Đã chọn: ' + s.join(', ') : 'Chưa chọn'; }
+
+  if (!window.toggleSelect) window.toggleSelect = function (el) {
+    var c = el.closest('.options') || el.closest('.cards'); var m = c && c.dataset.multiselect !== undefined;
+    if (c && !m) c.querySelectorAll('.option, .card').forEach(function (o) { o.classList.remove('selected'); });
+    m ? el.classList.toggle('selected') : el.classList.add('selected');
+  };
+  var orig = window.toggleSelect;
+  window.toggleSelect = function (el) { orig(el); refresh(); save(); };
+
+  document.querySelectorAll('[data-choice]').forEach(function (o) {
+    var id = o.dataset.choice;
+    (o.querySelector('.content, .card-body') || o).appendChild(area(id, 'Ghi chú cho phương án ' + id.toUpperCase() + '…'));
+    if ((saved._chon || []).indexOf(id.toUpperCase()) >= 0) o.classList.add('selected');
+  });
+
+  var bar = document.createElement('div');
+  bar.style.cssText = 'position:sticky;bottom:0;z-index:50;margin-top:24px;padding:12px;border-top:1px solid #8b949e66;background:var(--bg-primary,Canvas);display:flex;flex-direction:column;gap:8px';
+  var gen = area('chung', 'Ghi chú chung: muốn đổi gì, thêm gì…');
+  gen.style.marginTop = '0';
+  var row = document.createElement('div');
+  row.style.cssText = 'display:flex;gap:10px;align-items:center;flex-wrap:wrap;font:14px system-ui';
+  var btn = document.createElement('button');
+  btn.textContent = 'Copy để gửi Claude';
+  btn.style.cssText = 'padding:8px 16px;border-radius:6px;border:0;background:#2f81f7;color:#fff;font:600 14px system-ui;cursor:pointer';
+  btn.onclick = function () {
+    var lines = ['Mockup: ' + ((document.querySelector('h1, h2') || {}).textContent || document.title) + ' (' + location.href + ')', 'Chọn: ' + (picked().join(', ') || '(chưa chọn)')];
+    document.querySelectorAll('textarea[data-note]').forEach(function (t) {
+      if (t.value.trim()) lines.push((t.dataset.note === 'chung' ? 'Ghi chú chung' : 'Ghi chú ' + t.dataset.note.toUpperCase()) + ': ' + t.value.trim());
+    });
+    var txt = lines.join('\n');
+    var done = function () { btn.textContent = 'Đã copy — dán vào chat'; setTimeout(function () { btn.textContent = 'Copy để gửi Claude'; }, 2500); };
+    if (navigator.clipboard && window.isSecureContext) navigator.clipboard.writeText(txt).then(done, function () { prompt('Copy đoạn này:', txt); });
+    else prompt('Copy đoạn này:', txt);
+  };
+  row.appendChild(btn); row.appendChild(status);
+  bar.appendChild(gen); bar.appendChild(row);
+  (document.getElementById('frame-content') || document.body).appendChild(bar);
+  refresh();
+})();
+</script>
+</body>
+</html>
