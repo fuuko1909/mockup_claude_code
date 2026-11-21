@@ -1,0 +1,325 @@
+<!doctype html>
+<html lang="vi">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>SMV - Làm nét ảnh bằng AI: hiệu ứng chờ</title>
+<style>
+:root{--teal:#0d9488;--teal2:#14b8a6;--ink:#0f172a;--mut:#64748b;--line:#e2e8f0;--cam:#ea580c}
+*{box-sizing:border-box}
+body{margin:0;font-family:system-ui,-apple-system,"Segoe UI",Roboto,sans-serif;background:linear-gradient(160deg,#f0fdfa,#f8fafc 50%,#ecfeff);color:var(--ink)}
+.wrap{max-width:1040px;margin:0 auto;padding:24px 16px 60px}
+h1{font-size:22px;margin:0 0 4px}
+.sub{color:var(--mut);font-size:14px;margin:0 0 20px}
+.grid{display:grid;grid-template-columns:1.2fr 1fr;gap:20px}
+@media(max-width:820px){.grid{grid-template-columns:1fr}}
+.card{background:rgba(255,255,255,.75);backdrop-filter:blur(12px);border:1px solid rgba(255,255,255,.9);border-radius:18px;box-shadow:0 8px 30px rgba(15,23,42,.06);padding:18px}
+.o-anh{position:relative;border-radius:14px;overflow:hidden;aspect-ratio:4/3;background:#0f172a;user-select:none}
+.o-anh img{position:absolute;inset:0;width:100%;height:100%;object-fit:cover}
+#anhGoc{filter:none;transition:filter .4s}
+.dang-lam #anhGoc{filter:blur(2px) saturate(.8) brightness(.85)}
+#anhNet{clip-path:inset(0 0 100% 0)}
+.o-anh.canh-bao{outline:3px solid var(--cam);outline-offset:-3px}
+.vet{position:absolute;left:0;right:0;height:3px;top:0;background:linear-gradient(90deg,transparent,#5eead4,#fff,#5eead4,transparent);box-shadow:0 0 18px 6px rgba(45,212,191,.55);opacity:0;transition:top .5s linear}
+.dang-lam .vet{opacity:1}
+.luoi{position:absolute;inset:0;display:grid;opacity:0;transition:opacity .3s}
+.dang-lam .luoi{opacity:1}
+.luoi i{border:1px solid rgba(94,234,212,.12)}
+.luoi i.dang{background:rgba(45,212,191,.18);animation:nhay 1s ease-in-out infinite}
+.luoi i.xong{border-color:transparent}
+@keyframes nhay{50%{background:rgba(45,212,191,.35)}}
+.nhan{position:absolute;left:10px;top:10px;font-size:12px;font-weight:600;padding:5px 9px;border-radius:999px;background:rgba(255,255,255,.9);display:flex;gap:6px;align-items:center}
+.nhan.cam{color:var(--cam)}
+.hien-xong #anhNet{animation:ro .6s ease-out forwards}
+@keyframes ro{from{filter:blur(6px)}to{filter:none}}
+.thanh-keo{position:absolute;top:0;bottom:0;width:2px;background:#fff;left:50%;display:none;box-shadow:0 0 0 1px rgba(0,0,0,.2)}
+.thanh-keo b{position:absolute;top:50%;left:50%;transform:translate(-50%,-50%);width:34px;height:34px;border-radius:50%;background:#fff;box-shadow:0 2px 10px rgba(0,0,0,.3);display:grid;place-items:center}
+.so-sanh .thanh-keo{display:block}
+.so-sanh #anhNet{animation:none;filter:none}
+.chu-tren{position:absolute;bottom:10px;font-size:11px;font-weight:700;color:#fff;background:rgba(15,23,42,.6);padding:3px 8px;border-radius:6px;display:none}
+.so-sanh .chu-tren{display:block}
+.btn{border:0;border-radius:12px;padding:11px 16px;font-weight:600;font-size:14px;cursor:pointer;display:inline-flex;gap:8px;align-items:center}
+.btn-chinh{background:linear-gradient(135deg,var(--teal),var(--teal2));color:#fff;box-shadow:0 6px 18px rgba(13,148,136,.35)}
+.btn-phu{background:#fff;color:var(--ink);border:1px solid var(--line)}
+.btn:disabled{opacity:.5;cursor:default}
+.hang{display:flex;gap:10px;flex-wrap:wrap;margin-top:14px;align-items:center}
+.canh{display:flex;gap:10px;align-items:flex-start;background:#fff7ed;border:1px solid #fed7aa;color:#9a3412;padding:10px 12px;border-radius:12px;font-size:13px;margin-top:12px}
+.tien-do{display:flex;gap:16px;align-items:center}
+.vong{width:72px;height:72px;flex:none;position:relative}
+.vong svg{transform:rotate(-90deg)}
+.vong span{position:absolute;inset:0;display:grid;place-items:center;font-weight:700;font-size:16px}
+.buoc{list-style:none;margin:16px 0 0;padding:0}
+.buoc li{display:flex;gap:10px;align-items:center;padding:7px 0;color:var(--mut);font-size:14px}
+.buoc li .dot{width:22px;height:22px;border-radius:50%;border:2px solid var(--line);display:grid;place-items:center;flex:none}
+.buoc li.dang{color:var(--ink);font-weight:600}
+.buoc li.dang .dot{border-color:var(--teal);border-top-color:transparent;animation:xoay .8s linear infinite}
+.buoc li.xong{color:var(--teal)}
+.buoc li.xong .dot{background:var(--teal);border-color:var(--teal)}
+.buoc li.an{display:none}
+@keyframes xoay{to{transform:rotate(360deg)}}
+.eta{color:var(--mut);font-size:13px;margin-top:2px}
+.toast{position:fixed;right:16px;bottom:16px;background:var(--ink);color:#fff;padding:12px 16px;border-radius:12px;font-size:14px;display:flex;gap:10px;align-items:center;transform:translateY(140%);transition:transform .35s}
+.toast.hien{transform:none}
+.ghi{font-size:13px;color:var(--mut);line-height:1.55}
+.ghi b{color:var(--ink)}
+label.chk{font-size:13px;display:flex;gap:6px;align-items:center;color:var(--mut)}
+@media (prefers-reduced-motion:reduce){
+  .vet,.luoi{display:none}.luoi i.dang,.buoc li.dang .dot{animation:none}
+  .hien-xong #anhNet{animation:none}#anhNet{transition:none}
+}
+.sr{position:absolute;width:1px;height:1px;overflow:hidden;clip:rect(0 0 0 0)}
+</style>
+</head>
+<body>
+<div class="wrap">
+  <h1>Làm nét ảnh bằng AI: hiệu ứng chờ (mockup)</h1>
+  <p class="sub">Mô phỏng ô ảnh khách trên trang sản phẩm. Thời gian, số ô và các bước giống worker Jetson báo về thật (RealESRGAN x2plus, khoảng 1,2 s/MP). Ảnh là ảnh mẫu công khai, không phải ảnh khách.</p>
+
+  <div class="grid">
+    <div class="card">
+      <div class="o-anh canh-bao" id="o">
+        <img id="anhGoc" src="ai-lam-net-anh/esr_0014__dau_vao.webp" alt="Ảnh khách tải lên">
+        <img id="anhNet" src="ai-lam-net-anh/esr_0014__esrgan_x2plus.webp" alt="Ảnh sau khi làm nét">
+        <div class="luoi" id="luoi"></div>
+        <div class="vet" id="vet"></div>
+        <div class="nhan cam" id="nhan">
+          <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4"><path d="M12 9v4M12 17h.01"/><path d="M10.3 3.9 1.8 18a2 2 0 0 0 1.7 3h17a2 2 0 0 0 1.7-3L13.7 3.9a2 2 0 0 0-3.4 0z"/></svg>
+          <span>112 ppi - có thể mờ khi in</span>
+        </div>
+        <span class="chu-tren" style="left:10px">Ảnh gốc</span>
+        <span class="chu-tren" style="right:10px">Ảnh AI</span>
+        <div class="thanh-keo" id="keo"><b><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="#0f172a" stroke-width="2.4"><path d="m9 18-6-6 6-6M15 6l6 6-6 6"/></svg></b></div>
+      </div>
+
+      <div class="canh" id="canh">
+        <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="10"/><path d="M12 8v4M12 16h.01"/></svg>
+        <div>Ảnh nhỏ so với khung in 15 x 11 cm (cần khoảng 300 ppi). AI có thể làm nét, ảnh gốc vẫn được giữ.</div>
+      </div>
+
+      <div class="hang" id="hangNut">
+        <button class="btn btn-chinh" id="nutAi">
+          <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="m12 3-1.9 5.8a2 2 0 0 1-1.3 1.3L3 12l5.8 1.9a2 2 0 0 1 1.3 1.3L12 21l1.9-5.8a2 2 0 0 1 1.3-1.3L21 12l-5.8-1.9a2 2 0 0 1-1.3-1.3z"/></svg>
+          Làm nét bằng AI
+        </button>
+        <label class="chk"><input type="checkbox" id="giuMat"> Giữ nguyên khuôn mặt</label>
+      </div>
+      <div class="hang" id="hangChon" style="display:none">
+        <button class="btn btn-chinh" id="nutDung">Dùng ảnh AI</button>
+        <button class="btn btn-phu" id="nutGiu">Giữ ảnh gốc</button>
+        <span class="ghi">Kéo thanh giữa ảnh để so sánh</span>
+      </div>
+    </div>
+
+    <div class="card">
+      <div class="tien-do">
+        <div class="vong" role="progressbar" aria-valuemin="0" aria-valuemax="100" aria-valuenow="0" id="vong">
+          <svg width="72" height="72"><circle cx="36" cy="36" r="31" stroke="#e2e8f0" stroke-width="7" fill="none"/>
+            <circle id="cung" cx="36" cy="36" r="31" stroke="url(#g)" stroke-width="7" fill="none" stroke-linecap="round" stroke-dasharray="194.8" stroke-dashoffset="194.8" style="transition:stroke-dashoffset .4s"/>
+            <defs><linearGradient id="g"><stop offset="0" stop-color="#0d9488"/><stop offset="1" stop-color="#2dd4bf"/></linearGradient></defs></svg>
+          <span id="pt">0%</span>
+        </div>
+        <div>
+          <div style="font-weight:700" id="tieuDe">Sẵn sàng</div>
+          <div class="eta" id="eta">Bấm "Làm nét bằng AI" để bắt đầu</div>
+        </div>
+      </div>
+      <ul class="buoc" id="buoc">
+        <li data-b="gui"><span class="dot"></span>Đang gửi ảnh</li>
+        <li data-b="hang"><span class="dot"></span><span>Đang xếp hàng</span></li>
+        <li data-b="net"><span class="dot"></span><span>Đang làm nét chi tiết</span></li>
+        <li data-b="mat"><span class="dot"></span>Đang tinh chỉnh khuôn mặt</li>
+        <li data-b="xong"><span class="dot"></span>Xong</li>
+      </ul>
+      <div class="hang"><button class="btn btn-phu" id="nutNen" style="display:none">Làm việc khác, báo khi xong</button></div>
+      <p class="ghi" style="margin-top:16px">
+        <b>Nguyên tắc:</b> % là tiến độ thật (số ô ảnh worker đã xử lý / tổng số ô), không chạy giả. Thời gian còn lại = MP ảnh ra x 1,2 s, trừ dần.
+        Trên 10 s hiện nút làm việc khác. Lỗi thì ảnh gốc vẫn dùng được. Máy bật "giảm chuyển động" thì bỏ vệt quét, chỉ còn tiến độ.
+      </p>
+      <div class="hang">
+        <button class="btn btn-phu" id="nutLai">Chạy lại mô phỏng</button>
+        <button class="btn btn-phu" id="nutLoi">Mô phỏng lỗi</button>
+      </div>
+    </div>
+  </div>
+</div>
+<div class="toast" id="toast" role="status"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="#5eead4" stroke-width="2.4"><path d="M20 6 9 17l-5-5"/></svg><span id="toastChu">Ảnh đã được làm nét. Bấm để xem.</span></div>
+<div class="sr" aria-live="polite" id="sr"></div>
+
+<script>
+const $ = (id) => document.getElementById(id);
+const COT = 4, HANG = 3, TONG = COT * HANG;
+const o = $("o"), luoi = $("luoi");
+luoi.style.gridTemplateColumns = `repeat(${COT},1fr)`;
+luoi.style.gridTemplateRows = `repeat(${HANG},1fr)`;
+for (let i = 0; i < TONG; i++) luoi.appendChild(document.createElement("i"));
+const o_luoi = [...luoi.children];
+let hen = [], chay = false;
+
+function datBuoc(b, chu) {
+  const ds = [...$("buoc").children], i = ds.findIndex((li) => li.dataset.b === b);
+  ds.forEach((li, k) => li.className = k < i ? "xong" : k === i ? "dang" : (li.classList.contains("an") ? "an" : ""));
+  if (chu) ds[i].querySelector("span:last-child").textContent = chu;
+  $("sr").textContent = chu || ds[i].textContent;
+}
+function datPt(p, eta) {
+  $("cung").style.strokeDashoffset = 194.8 * (1 - p / 100);
+  $("pt").textContent = Math.round(p) + "%";
+  $("vong").setAttribute("aria-valuenow", Math.round(p));
+  if (eta !== undefined) $("eta").textContent = eta;
+}
+const sau = (ms, f) => hen.push(setTimeout(f, ms));
+
+function datLai() {
+  hen.forEach(clearTimeout); hen = []; chay = false;
+  o.className = "o-anh canh-bao";
+  $("anhNet").style.clipPath = "inset(0 0 100% 0)"; $("vet").style.top = "0";
+  o_luoi.forEach((x) => x.className = "");
+  [...$("buoc").children].forEach((li) => li.className = "");
+  $("buoc").children[1].querySelector("span:last-child").textContent = "Đang xếp hàng";
+  $("buoc").children[2].querySelector("span:last-child").textContent = "Đang làm nét chi tiết";
+  $("nhan").style.display = ""; $("canh").style.display = "";
+  $("hangNut").style.display = ""; $("hangChon").style.display = "none"; $("nutAi").disabled = false;
+  $("nutNen").style.display = "none"; $("toast").classList.remove("hien");
+  $("tieuDe").textContent = "Sẵn sàng"; datPt(0, 'Bấm "Làm nét bằng AI" để bắt đầu');
+  $("keo").style.left = "50%";
+}
+
+function batDau(loi) {
+  datLai(); chay = true;
+  const coMat = !$("giuMat").checked;
+  $("buoc").children[3].classList.toggle("an", !coMat);
+  $("nutAi").disabled = true; o.classList.add("dang-lam"); o.classList.remove("canh-bao");
+  $("nhan").style.display = "none"; $("canh").style.display = "none";
+  $("tieuDe").textContent = "Đang làm nét ảnh";
+  datBuoc("gui"); datPt(0, "Khoảng 16 giây");
+  sau(900, () => datBuoc("hang", "Đang xếp hàng (còn 1 ảnh trước)"));
+  sau(2600, () => datBuoc("hang", "Đang xếp hàng (đến lượt bạn)"));
+  const t0 = 3200, moiO = 950;
+  sau(t0, () => datBuoc("net", `Đang làm nét chi tiết 0/${TONG}`));
+  sau(t0 + 2500, () => { if (chay) $("nutNen").style.display = ""; });
+  for (let i = 0; i < TONG; i++) {
+    sau(t0 + i * moiO, () => { o_luoi[i].className = "dang"; });
+    sau(t0 + (i + 1) * moiO, () => {
+      if (loi && i === 6) return baoLoi();
+      o_luoi[i].className = "xong";
+      const hang_xong = Math.floor((i + 1) / COT), phan = ((i + 1) % COT) / COT;
+      const den = Math.min(100, ((hang_xong + (phan > 0 ? 1 : 0)) / HANG) * 100);
+      $("anhNet").style.clipPath = `inset(0 0 ${100 - Math.min(100, ((i + 1) / TONG) * 100)}% 0)`;
+      $("vet").style.top = `calc(${((i + 1) / TONG) * 100}% - 2px)`;
+      const pt = ((i + 1) / TONG) * (coMat ? 88 : 100);
+      const con = Math.max(1, Math.round((TONG - i - 1) * moiO / 1000 + (coMat ? 1.5 : 0)));
+      datPt(pt, `Khoảng ${con} giây nữa`);
+      $("buoc").children[2].querySelector("span:last-child").textContent = `Đang làm nét chi tiết ${i + 1}/${TONG}`;
+    });
+  }
+  if (loi) return;
+  const tN = t0 + TONG * moiO;
+  if (coMat) { sau(tN, () => { datBuoc("mat"); datPt(94, "Gần xong"); }); sau(tN + 1500, xong); }
+  else sau(tN + 200, xong);
+}
+
+function xong() {
+  chay = false;
+  datBuoc("xong"); [...$("buoc").children].at(-1).className = "xong";
+  datPt(100, "Hoàn tất - so sánh rồi chọn ảnh bên trái");
+  $("tieuDe").textContent = "Đã làm nét: 112 → 305 ppi";
+  $("sr").textContent = "Đã làm nét xong. So sánh và chọn ảnh.";
+  o.classList.remove("dang-lam"); o.classList.add("hien-xong");
+  $("anhNet").style.clipPath = "inset(0 0 0 0)";
+  setTimeout(() => { o.classList.add("so-sanh"); keoToi(50); }, 700);
+  $("hangNut").style.display = "none"; $("hangChon").style.display = ""; $("nutNen").style.display = "none";
+  if ($("toast").dataset.cho === "1") { $("toast").classList.add("hien"); $("toast").dataset.cho = ""; }
+}
+function baoLoi() {
+  hen.forEach(clearTimeout); hen = []; chay = false;
+  o.className = "o-anh"; $("anhNet").style.clipPath = "inset(0 0 100% 0)";
+  $("tieuDe").textContent = "Chưa làm nét được";
+  datPt(0, "Ảnh gốc vẫn dùng được. Bạn có thể thử lại.");
+  $("sr").textContent = "Chưa làm nét được, ảnh gốc vẫn dùng được.";
+  $("nutAi").disabled = false; $("nutAi").lastChild.textContent = " Thử lại"; $("nutNen").style.display = "none";
+}
+function keoToi(pt) {
+  $("keo").style.left = pt + "%";
+  $("anhNet").style.clipPath = `inset(0 0 0 ${pt}%)`;
+}
+let dangKeo = false;
+o.addEventListener("pointerdown", (e) => { if (o.classList.contains("so-sanh")) { dangKeo = true; o.setPointerCapture(e.pointerId); diChuyen(e); } });
+o.addEventListener("pointermove", (e) => dangKeo && diChuyen(e));
+o.addEventListener("pointerup", () => dangKeo = false);
+function diChuyen(e) { const r = o.getBoundingClientRect(); keoToi(Math.max(0, Math.min(100, ((e.clientX - r.left) / r.width) * 100))); }
+
+$("nutAi").onclick = () => batDau(false);
+$("nutLoi").onclick = () => batDau(true);
+$("nutLai").onclick = datLai;
+$("nutNen").onclick = () => { $("toast").dataset.cho = "1"; $("nutNen").style.display = "none"; $("eta").textContent += " - sẽ báo khi xong"; };
+$("toast").onclick = () => $("toast").classList.remove("hien");
+$("nutDung").onclick = () => { o.classList.remove("so-sanh"); $("anhNet").style.clipPath = "inset(0 0 0 0)"; $("hangChon").style.display = "none"; $("tieuDe").textContent = "Đang dùng ảnh AI (305 ppi)"; $("eta").textContent = "Ảnh gốc vẫn lưu trong thư viện của bạn"; };
+$("nutGiu").onclick = () => { o.classList.remove("so-sanh"); $("anhNet").style.clipPath = "inset(0 0 100% 0)"; $("hangChon").style.display = "none"; $("tieuDe").textContent = "Đang dùng ảnh gốc"; $("eta").textContent = "Có thể làm nét lại bất cứ lúc nào"; };
+</script>
+<script>
+// Ghi chu cho mockup tinh: o ghi chu moi phuong an + ghi chu chung, luu localStorage,
+// nut Copy gom lua chon + ghi chu de user dan vao chat cho Claude (trang tinh khong gui ve duoc).
+(function () {
+  var KEY = 'mockup-notes:' + location.pathname;
+  var saved = {};
+  try { saved = JSON.parse(localStorage.getItem(KEY) || '{}'); } catch (e) {}
+  function save() {
+    var d = { _chon: picked() };
+    document.querySelectorAll('textarea[data-note]').forEach(function (t) { d[t.dataset.note] = t.value; });
+    try { localStorage.setItem(KEY, JSON.stringify(d)); } catch (e) {}
+  }
+  function picked() {
+    return [].map.call(document.querySelectorAll('.selected[data-choice]'), function (o) { return o.dataset.choice.toUpperCase(); });
+  }
+  function area(id, ph) {
+    var t = document.createElement('textarea');
+    t.dataset.note = id; t.placeholder = ph; t.rows = 2; t.value = saved[id] || '';
+    t.style.cssText = 'width:100%;margin-top:8px;padding:8px;border-radius:6px;border:1px solid #8b949e66;background:transparent;color:inherit;font:13px system-ui;resize:vertical';
+    t.addEventListener('click', function (e) { e.stopPropagation(); }); // khong chon option khi bam vao o ghi chu
+    t.addEventListener('input', save);
+    return t;
+  }
+  var status = document.createElement('span');
+  function refresh() { var s = picked(); status.textContent = s.length ? 'Đã chọn: ' + s.join(', ') : 'Chưa chọn'; }
+
+  if (!window.toggleSelect) window.toggleSelect = function (el) {
+    var c = el.closest('.options') || el.closest('.cards'); var m = c && c.dataset.multiselect !== undefined;
+    if (c && !m) c.querySelectorAll('.option, .card').forEach(function (o) { o.classList.remove('selected'); });
+    m ? el.classList.toggle('selected') : el.classList.add('selected');
+  };
+  var orig = window.toggleSelect;
+  window.toggleSelect = function (el) { orig(el); refresh(); save(); };
+
+  document.querySelectorAll('[data-choice]').forEach(function (o) {
+    var id = o.dataset.choice;
+    (o.querySelector('.content, .card-body') || o).appendChild(area(id, 'Ghi chú cho phương án ' + id.toUpperCase() + '…'));
+    if ((saved._chon || []).indexOf(id.toUpperCase()) >= 0) o.classList.add('selected');
+  });
+
+  var bar = document.createElement('div');
+  bar.style.cssText = 'position:sticky;bottom:0;z-index:50;margin-top:24px;padding:12px;border-top:1px solid #8b949e66;background:var(--bg-primary,Canvas);display:flex;flex-direction:column;gap:8px';
+  var gen = area('chung', 'Ghi chú chung: muốn đổi gì, thêm gì…');
+  gen.style.marginTop = '0';
+  var row = document.createElement('div');
+  row.style.cssText = 'display:flex;gap:10px;align-items:center;flex-wrap:wrap;font:14px system-ui';
+  var btn = document.createElement('button');
+  btn.textContent = 'Copy để gửi Claude';
+  btn.style.cssText = 'padding:8px 16px;border-radius:6px;border:0;background:#2f81f7;color:#fff;font:600 14px system-ui;cursor:pointer';
+  btn.onclick = function () {
+    var lines = ['Mockup: ' + ((document.querySelector('h1, h2') || {}).textContent || document.title) + ' (' + location.href + ')', 'Chọn: ' + (picked().join(', ') || '(chưa chọn)')];
+    document.querySelectorAll('textarea[data-note]').forEach(function (t) {
+      if (t.value.trim()) lines.push((t.dataset.note === 'chung' ? 'Ghi chú chung' : 'Ghi chú ' + t.dataset.note.toUpperCase()) + ': ' + t.value.trim());
+    });
+    var txt = lines.join('\n');
+    var done = function () { btn.textContent = 'Đã copy — dán vào chat'; setTimeout(function () { btn.textContent = 'Copy để gửi Claude'; }, 2500); };
+    if (navigator.clipboard && window.isSecureContext) navigator.clipboard.writeText(txt).then(done, function () { prompt('Copy đoạn này:', txt); });
+    else prompt('Copy đoạn này:', txt);
+  };
+  row.appendChild(btn); row.appendChild(status);
+  bar.appendChild(gen); bar.appendChild(row);
+  (document.getElementById('frame-content') || document.body).appendChild(bar);
+  refresh();
+})();
+</script>
+</body>
+</html>
