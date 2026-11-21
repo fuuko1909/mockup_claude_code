@@ -1,0 +1,360 @@
+<!doctype html>
+<html lang="vi">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Mockup trang chủ TechQR - 3 hướng</title>
+<style>
+*{box-sizing:border-box}html{scroll-behavior:smooth}
+body{margin:0;font-family:system-ui,-apple-system,"Segoe UI",Roboto,sans-serif;background:var(--bg);color:var(--ink);line-height:1.55;transition:background .3s,color .3s}
+/* Huong A: kinh sang (tham khao SenStudio) */
+body[data-theme="a"]{--bg:#f7fbfb;--ink:#1b2621;--muted:#55656a;--card:rgba(255,255,255,.62);--line:rgba(20,70,70,.12);--acc:#0e7a73;--acc-ink:#fff;--soft:rgba(14,122,115,.08);--alt:transparent;--r:20px;--blur:blur(14px);--shadow:0 1px 2px rgba(0,0,0,.04),0 8px 24px rgba(31,29,26,.06);--h:700;--ls:-.01em;--ok:#16a34a}
+/* Huong B: toi cong nghe */
+body[data-theme="b"]{--bg:#0b1220;--ink:#e6edf7;--muted:#8fa1bf;--card:#111a2e;--line:#1f2a44;--acc:#22d3ee;--acc-ink:#04202a;--soft:rgba(34,211,238,.08);--alt:#0e1728;--r:16px;--blur:none;--shadow:0 0 0 1px rgba(34,211,238,.04),0 10px 30px rgba(0,0,0,.35);--h:700;--ls:-.01em;--ok:#34d399}
+/* Huong C: toi gian doanh nghiep */
+body[data-theme="c"]{--bg:#fff;--ink:#0f172a;--muted:#5b6475;--card:#fff;--line:#e5e7eb;--acc:#4f46e5;--acc-ink:#fff;--soft:#eef2ff;--alt:#f6f7fb;--r:12px;--blur:none;--shadow:0 1px 3px rgba(15,23,42,.06);--h:800;--ls:-.025em;--ok:#16a34a}
+.nen{position:fixed;inset:0;z-index:-1;pointer-events:none;opacity:0;transition:opacity .4s}
+body[data-theme="a"] .nen-a{opacity:1;background:radial-gradient(40% 35% at 10% 10%,rgba(14,122,115,.16),transparent 70%),radial-gradient(35% 30% at 90% 20%,rgba(56,189,248,.14),transparent 70%),radial-gradient(40% 40% at 70% 90%,rgba(245,200,75,.12),transparent 70%)}
+body[data-theme="b"] .nen-b{opacity:1;background:linear-gradient(rgba(34,211,238,.06) 1px,transparent 1px) 0 0/44px 44px,linear-gradient(90deg,rgba(34,211,238,.06) 1px,transparent 1px) 0 0/44px 44px,radial-gradient(50% 40% at 70% 10%,rgba(34,211,238,.18),transparent 70%)}
+.chon{position:fixed;bottom:14px;left:50%;transform:translateX(-50%);z-index:100;display:flex;gap:6px;padding:6px;border-radius:999px;background:#111827;box-shadow:0 8px 24px rgba(0,0,0,.25)}
+.chon button{border:0;border-radius:999px;padding:8px 14px;font:600 13px system-ui;white-space:nowrap;background:transparent;color:#cbd5e1;cursor:pointer}
+.chon button.on{background:#fff;color:#111827}
+.wrap{max-width:1120px;margin:0 auto;padding:0 20px}
+a{color:var(--acc);text-decoration:none}
+.card{background:var(--card);border:1px solid var(--line);border-radius:var(--r);box-shadow:var(--shadow);backdrop-filter:var(--blur);-webkit-backdrop-filter:var(--blur)}
+.btn{display:inline-flex;align-items:center;justify-content:center;gap:8px;border-radius:calc(var(--r) - 6px);padding:12px 20px;font-weight:600;font-size:15px;border:1px solid transparent;cursor:pointer;transition:transform .15s,box-shadow .2s,background .2s}
+.btn:hover{transform:translateY(-1px)}
+.btn-p{background:var(--acc);color:var(--acc-ink)}
+body[data-theme="b"] .btn-p{box-shadow:0 0 24px rgba(34,211,238,.35)}
+.btn-s{background:transparent;color:var(--ink);border-color:var(--line)}
+h1,h2,h3{font-weight:var(--h);letter-spacing:var(--ls);margin:0}
+h2{font-size:clamp(26px,3.4vw,36px);text-align:center}
+.phu{color:var(--muted);text-align:center;max-width:620px;margin:10px auto 0}
+section{padding:72px 0}
+section.alt{background:var(--alt)}
+svg.i{width:24px;height:24px;stroke:currentColor;fill:none;stroke-width:1.8;stroke-linecap:round;stroke-linejoin:round;flex-shrink:0}
+/* header */
+header{position:sticky;top:0;z-index:50;background:color-mix(in srgb,var(--bg) 80%,transparent);backdrop-filter:blur(12px);border-bottom:1px solid var(--line)}
+.hd{display:flex;align-items:center;gap:24px;height:64px;margin-top:0}
+.logo{display:flex;align-items:center;gap:8px;font-weight:800;font-size:19px;color:var(--ink)}
+.logo .m{width:30px;height:30px;border-radius:8px;background:var(--acc);display:grid;place-items:center}
+.logo .m svg{width:18px;height:18px;stroke:var(--acc-ink);fill:none;stroke-width:2.2}
+nav.menu{display:flex;gap:22px;font-size:14.5px}nav.menu a{color:var(--muted)}nav.menu a:hover{color:var(--ink)}
+.hd .phai{margin-left:auto;display:flex;gap:12px;align-items:center;font-size:14.5px}
+.hd .phai .btn{padding:9px 16px;font-size:14px}
+/* hero */
+.hero{padding:56px 0 64px}
+.hero .g{display:grid;grid-template-columns:1.1fr .9fr;gap:48px;align-items:center}
+.pill{display:inline-block;padding:6px 12px;border-radius:999px;background:var(--soft);color:var(--acc);font-size:13px;font-weight:600}
+.hero h1{font-size:clamp(32px,5vw,54px);line-height:1.1;margin:16px 0}
+.hero p.lead{font-size:17.5px;color:var(--muted);max-width:560px}
+.hero .nut{display:flex;gap:12px;flex-wrap:wrap;margin:26px 0 22px}
+.tick{display:flex;flex-wrap:wrap;gap:10px 20px;font-size:14px;color:var(--muted)}
+.tick span{display:flex;align-items:center;gap:6px}.tick svg{width:18px;height:18px;color:var(--ok)}
+.dt{width:290px;margin:0 auto;padding:12px;border-radius:40px;background:#0f172a;box-shadow:0 30px 60px rgba(2,6,23,.25)}
+body[data-theme="b"] .dt{background:#020617;box-shadow:0 0 0 1px #1f2a44,0 0 60px rgba(34,211,238,.25)}
+.mh{border-radius:30px;background:#f8fafc;padding:22px 16px 18px;min-height:520px;color:#0f172a;position:relative;overflow:hidden}
+.mh .tt{font-size:12px;color:#64748b;text-align:center}
+.qr{position:relative;width:170px;height:170px;margin:18px auto;display:grid;grid-template-columns:repeat(21,1fr);background:#fff;padding:8px;border-radius:10px;box-shadow:0 2px 8px rgba(0,0,0,.08)}
+.qr i{display:block}.qr i.d{background:#0f172a}
+.quet{position:absolute;left:8px;right:8px;height:3px;top:8px;background:var(--acc);box-shadow:0 0 12px var(--acc);animation:quet 2.4s ease-in-out infinite}
+@keyframes quet{0%,100%{top:8px}50%{top:calc(100% - 11px)}}
+.kq{margin-top:8px;padding:16px;border-radius:16px;background:#ecfdf5;border:1px solid #bbf7d0;animation:len .8s .4s both}
+@keyframes len{from{opacity:0;transform:translateY(16px)}to{opacity:1;transform:none}}
+.kq .h{display:flex;align-items:center;gap:10px;font-weight:700;color:#166534}
+.kq .h .o{width:34px;height:34px;border-radius:50%;background:#16a34a;display:grid;place-items:center}
+.kq .h .o svg{stroke:#fff;width:20px;height:20px}
+.kq p{margin:8px 0 0;font-size:13.5px;color:#334155}
+/* kiem tra */
+.kt{display:grid;grid-template-columns:1fr 1.2fr;gap:24px;align-items:center;padding:24px 28px}
+.kt h3{font-size:20px}.kt p{margin:4px 0 0;color:var(--muted);font-size:14.5px}
+.kt form{display:flex;gap:10px;flex-wrap:wrap}
+.kt input{flex:1;min-width:180px;padding:12px 14px;border-radius:calc(var(--r) - 6px);border:1px solid var(--line);background:var(--bg);color:var(--ink);font-size:15px}
+.kt .cam{font-size:14px;display:inline-flex;align-items:center;gap:6px;margin-top:8px}
+/* giai phap */
+.luoi{display:grid;grid-template-columns:repeat(4,1fr);gap:16px;margin-top:40px}
+.gp{padding:22px;transition:transform .2s,border-color .2s}
+.gp:hover{transform:translateY(-3px);border-color:var(--acc)}
+.gp .ic{width:44px;height:44px;border-radius:12px;background:var(--soft);color:var(--acc);display:grid;place-items:center;margin-bottom:14px}
+.gp h3{font-size:16.5px}.gp p{margin:6px 0 0;font-size:14px;color:var(--muted)}
+/* buoc */
+.buoc{display:grid;grid-template-columns:repeat(4,1fr);gap:20px;margin-top:44px;position:relative}
+.buoc::before{content:"";position:absolute;top:22px;left:12%;right:12%;height:2px;background:var(--line)}
+.b{position:relative;text-align:center;padding:0 6px}
+.b .so{width:46px;height:46px;border-radius:50%;margin:0 auto 14px;display:grid;place-items:center;font-weight:800;background:var(--acc);color:var(--acc-ink);position:relative}
+.b h3{font-size:16.5px}.b p{color:var(--muted);font-size:14px;margin:6px 0 0}
+/* tem 2 lop */
+.hai{display:grid;grid-template-columns:1fr 1fr;gap:48px;align-items:center}
+.hai h2{text-align:left}
+.dong{display:flex;gap:14px;margin-top:22px}.dong .ic{width:40px;height:40px;border-radius:10px;background:var(--soft);color:var(--acc);display:grid;place-items:center;flex-shrink:0}
+.dong h3{font-size:16px}.dong p{margin:4px 0 0;color:var(--muted);font-size:14.5px}
+.tem{width:min(360px,100%);aspect-ratio:5/3;margin:0 auto;border-radius:14px;background:#fff;border:2px solid #e2e8f0;box-shadow:var(--shadow);display:grid;grid-template-columns:1fr 1fr;gap:16px;padding:18px;color:#0f172a;position:relative}
+.tem .ten{position:absolute;top:8px;left:18px;font-size:11px;font-weight:700;color:#64748b;letter-spacing:.06em}
+.tem .o{display:flex;flex-direction:column;align-items:center;justify-content:center;gap:6px;font-size:11px;color:#64748b}
+.tem .q{width:92px;height:92px;display:grid;grid-template-columns:repeat(13,1fr)}
+.tem .q i.d{background:#0f172a}
+.cao{position:relative;width:92px;height:92px;border-radius:8px;overflow:hidden}
+.cao .phu-cao{position:absolute;inset:0;background:repeating-linear-gradient(135deg,#a8b0bd 0 6px,#c3c9d3 6px 12px);clip-path:polygon(0 0,100% 0,100% 45%,55% 100%,0 100%)}
+/* bao mat */
+.bm{display:grid;grid-template-columns:repeat(4,1fr);gap:16px;margin-top:36px}
+.bm .card{padding:20px;display:flex;gap:12px;align-items:flex-start;font-size:14.5px}
+.bm .card svg{color:var(--acc)}
+/* gia */
+.gia{display:grid;grid-template-columns:repeat(3,1fr);gap:18px;margin-top:40px;align-items:stretch}
+.goi{padding:28px;display:flex;flex-direction:column;position:relative}
+.goi.noi{border:2px solid var(--acc)}
+.goi .badge{position:absolute;top:-12px;left:28px;background:var(--acc);color:var(--acc-ink);font-size:12px;font-weight:700;padding:4px 10px;border-radius:999px}
+.goi h3{font-size:19px}.goi .so{font-size:28px;font-weight:800;margin:10px 0 4px}
+.goi ul{list-style:none;padding:0;margin:14px 0 24px;display:grid;gap:10px;font-size:14.5px}
+.goi li{display:flex;gap:8px}.goi li svg{width:18px;height:18px;color:var(--ok)}
+.goi .btn{margin-top:auto}
+.ghi{text-align:center;color:var(--muted);font-size:13.5px;margin-top:18px}
+/* faq */
+.faq{max-width:760px;margin:36px auto 0;display:grid;gap:12px}
+.faq details{padding:16px 20px}.faq summary{cursor:pointer;font-weight:600;list-style:none;display:flex;justify-content:space-between;gap:12px}
+.faq summary::after{content:"+";color:var(--acc);font-size:20px;line-height:1}.faq details[open] summary::after{content:"-"}
+.faq p{margin:10px 0 0;color:var(--muted)}
+/* cta */
+.cta{padding:44px;text-align:center;background:var(--acc);color:var(--acc-ink);border-radius:calc(var(--r) + 6px)}
+.cta h2{color:inherit}.cta .nut{display:flex;gap:12px;justify-content:center;flex-wrap:wrap;margin-top:22px}
+.cta .btn-p{background:var(--acc-ink);color:var(--acc)}.cta .btn-s{color:var(--acc-ink);border-color:color-mix(in srgb,var(--acc-ink) 40%,transparent)}
+/* footer */
+footer{border-top:1px solid var(--line);padding:48px 0 24px;margin-top:72px;font-size:14px}
+.ft{display:grid;grid-template-columns:1.5fr 1fr 1fr 1.2fr;gap:28px}
+.ft h4{margin:0 0 12px;font-size:14px}.ft ul{list-style:none;padding:0;margin:0;display:grid;gap:8px}.ft ul a,.ft p{color:var(--muted)}
+.cuoi{display:flex;justify-content:space-between;gap:12px;flex-wrap:wrap;border-top:1px solid var(--line);margin-top:32px;padding-top:18px;color:var(--muted);font-size:13px}
+.cuoi a{font-weight:700}
+@media (max-width:900px){
+ nav.menu,.hd .phai .dn{display:none}
+ .hero .g,.kt,.hai{grid-template-columns:1fr}
+ .luoi,.bm{grid-template-columns:1fr 1fr}
+ .buoc{grid-template-columns:1fr;gap:26px;text-align:left}.buoc::before{display:none}
+ .b{display:grid;grid-template-columns:46px 1fr;gap:4px 14px;text-align:left}.b .so{margin:0;grid-row:span 2}
+ .gia,.ft{grid-template-columns:1fr}
+ section{padding:52px 0}
+}
+@media (max-width:560px){.chon button{padding:8px 10px;font-size:12px}.luoi,.bm{grid-template-columns:1fr}.cta{padding:32px 20px}}
+@media (prefers-reduced-motion:reduce){*{animation:none!important;transition:none!important}html{scroll-behavior:auto}}
+</style>
+</head>
+<body data-theme="a">
+<div class="nen nen-a"></div><div class="nen nen-b"></div>
+<div class="chon" role="group" aria-label="Chọn hướng giao diện">
+ <button data-choice="a" class="on">A. Kính sáng</button>
+ <button data-choice="b">B. Tối công nghệ</button>
+ <button data-choice="c">C. Tối giản doanh nghiệp</button>
+</div>
+
+<header><div class="wrap hd">
+ <a class="logo" href="#"><span class="m"><svg viewBox="0 0 24 24"><rect x="3" y="3" width="7" height="7" rx="1"/><rect x="14" y="3" width="7" height="7" rx="1"/><rect x="3" y="14" width="7" height="7" rx="1"/><path d="M14 14h3v3M21 14v7h-7"/></svg></span>TechQR</a>
+ <nav class="menu"><a href="#giai-phap">Giải pháp</a><a href="#cach-hoat-dong">Cách hoạt động</a><a href="#bang-gia">Bảng giá</a><a href="#hoi-dap">Hỏi đáp</a></nav>
+ <div class="phai"><a class="dn" href="#">Đăng nhập</a><a class="btn btn-p" href="#">Dùng thử miễn phí</a></div>
+</div></header>
+
+<main>
+<section class="hero"><div class="wrap g">
+ <div>
+  <span class="pill">Nền tảng số hóa sản phẩm bằng mã QR định danh</span>
+  <h1>Mỗi sản phẩm một mã QR. Khách quét là biết thật hay giả.</h1>
+  <p class="lead">Tạo mã QR không trùng cho từng sản phẩm, in lên tem, theo dõi từng lượt quét. Thêm bảo hành điện tử, quản lý đại lý và quay số trúng thưởng trên cùng một con tem.</p>
+  <div class="nut"><a class="btn btn-p" href="#">Dùng thử miễn phí</a><a class="btn btn-s" href="#cach-hoat-dong">Xem cách hoạt động</a></div>
+  <div class="tick">
+   <span><svg class="i" viewBox="0 0 24 24"><path d="M20 6 9 17l-5-5"/></svg>Mã ký HMAC, không đoán được</span>
+   <span><svg class="i" viewBox="0 0 24 24"><path d="M20 6 9 17l-5-5"/></svg>Dữ liệu trên máy chủ riêng</span>
+   <span><svg class="i" viewBox="0 0 24 24"><path d="M20 6 9 17l-5-5"/></svg>Triển khai trong 1 ngày</span>
+  </div>
+ </div>
+ <div class="dt"><div class="mh">
+  <div class="tt">check.nhatanh.tech</div>
+  <div class="qr" id="qr"><span class="quet"></span></div>
+  <div class="kq">
+   <div class="h"><span class="o"><svg class="i" viewBox="0 0 24 24"><path d="M20 6 9 17l-5-5"/></svg></span>Sản phẩm chính hãng</div>
+   <p>Ổ khóa đồng 48 mm<br>Lô 0152M - quét lần đầu lúc 09:42</p>
+  </div>
+ </div></div>
+</div></section>
+
+<div class="wrap"><div class="card kt">
+ <div><h3>Bạn là người mua hàng?</h3><p>Quét mã QR trên tem bằng camera điện thoại, hoặc nhập mã in dưới QR.</p></div>
+ <div><form onsubmit="return false"><input placeholder="Nhập mã trên tem" aria-label="Mã trên tem"><button class="btn btn-p">Kiểm tra</button></form>
+ <a class="cam" href="#"><svg class="i" viewBox="0 0 24 24" style="width:18px;height:18px"><path d="M3 7V5a2 2 0 0 1 2-2h2M17 3h2a2 2 0 0 1 2 2v2M21 17v2a2 2 0 0 1-2 2h-2M7 21H5a2 2 0 0 1-2-2v-2M7 12h10"/></svg>Mở camera quét</a></div>
+</div></div>
+
+<section id="giai-phap"><div class="wrap">
+ <h2>Một con tem, nhiều giải pháp</h2>
+ <p class="phu">Bật tính năng nào dùng tính năng đó, không cần nhiều hệ thống rời rạc.</p>
+ <div class="luoi">
+  <div class="card gp"><div class="ic"><svg class="i" viewBox="0 0 24 24"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/><path d="m9 12 2 2 4-4"/></svg></div><h3>Chống hàng giả</h3><p>Mã ngẫu nhiên có chữ ký số, phát hiện tem bị sao chép khi quét từ nhiều thiết bị.</p></div>
+  <div class="card gp"><div class="ic"><svg class="i" viewBox="0 0 24 24"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/><path d="M14 2v6h6M9 15l2 2 4-4"/></svg></div><h3>Bảo hành điện tử</h3><p>Khách cào lớp phủ, quét mã bí mật để kích hoạt bảo hành, không cần phiếu giấy.</p></div>
+  <div class="card gp"><div class="ic"><svg class="i" viewBox="0 0 24 24"><path d="M3 9l1-5h16l1 5M3 9h18v11H3zM9 20v-6h6v6"/></svg></div><h3>Quản lý đại lý</h3><p>Đại lý quét nhập kho, bán ra; công ty biết hàng đang nằm ở đâu.</p></div>
+  <div class="card gp"><div class="ic"><svg class="i" viewBox="0 0 24 24"><path d="M12 21s-7-6.3-7-12a7 7 0 0 1 14 0c0 5.7-7 12-7 12z"/><circle cx="12" cy="9" r="2.5"/></svg></div><h3>Chống tràn tuyến</h3><p>Gán mã theo vùng, cảnh báo khi hàng bị bán sai khu vực.</p></div>
+  <div class="card gp"><div class="ic"><svg class="i" viewBox="0 0 24 24"><path d="M8 21h8M12 17v4M7 4h10v5a5 5 0 0 1-10 0zM17 5h3v2a3 3 0 0 1-3 3M7 5H4v2a3 3 0 0 0 3 3"/></svg></div><h3>Quay số trúng thưởng</h3><p>Trúng ngay khi quét hoặc mã dự thưởng quay theo đợt, kết quả kiểm chứng được.</p></div>
+  <div class="card gp"><div class="ic"><svg class="i" viewBox="0 0 24 24"><rect x="3" y="8" width="18" height="13" rx="2"/><path d="M12 8v13M3 12h18M12 8S10 3 7.5 4 9 8 12 8zM12 8s2-5 4.5-4S15 8 12 8z"/></svg></div><h3>Tích điểm khách hàng</h3><p>Mỗi lượt quét hợp lệ cộng điểm, đổi quà ngay trên điện thoại.</p></div>
+  <div class="card gp"><div class="ic"><svg class="i" viewBox="0 0 24 24"><circle cx="6" cy="19" r="2"/><circle cx="18" cy="5" r="2"/><path d="M8 19h8a4 4 0 0 0 0-8H8a4 4 0 0 1 0-8h8"/></svg></div><h3>Truy xuất nguồn gốc</h3><p>Hiện hành trình sản xuất, lô, hạn dùng cho người tiêu dùng.</p></div>
+  <div class="card gp"><div class="ic"><svg class="i" viewBox="0 0 24 24"><circle cx="12" cy="12" r="9"/><path d="M3 12h18M12 3a14 14 0 0 1 0 18M12 3a14 14 0 0 0 0 18"/></svg></div><h3>Tên miền thương hiệu</h3><p>Trang tra cứu chạy trên tên miền của doanh nghiệp, có chứng chỉ SSL tự động.</p></div>
+ </div>
+</div></section>
+
+<section id="cach-hoat-dong" class="alt"><div class="wrap">
+ <h2>Bắt đầu trong 4 bước</h2>
+ <p class="phu">Từ lúc tạo sản phẩm tới lúc khách quét mã, mọi bước làm trên trình duyệt.</p>
+ <div class="buoc">
+  <div class="b"><div class="so">1</div><h3>Tạo sản phẩm và lô</h3><p>Nhập thông tin, ảnh, hạn dùng.</p></div>
+  <div class="b"><div class="so">2</div><h3>Sinh mã và xuất file in</h3><p>Hàng triệu mã trong vài phút, xuất PDF bình trang sẵn cho máy in.</p></div>
+  <div class="b"><div class="so">3</div><h3>In và dán tem</h3><p>In tại xưởng của bạn hoặc xưởng đối tác, có thể thêm lớp cào.</p></div>
+  <div class="b"><div class="so">4</div><h3>Khách quét, bạn theo dõi</h3><p>Bảng điều khiển hiện lượt quét, bản đồ và cảnh báo nghi ngờ.</p></div>
+ </div>
+</div></section>
+
+<section><div class="wrap hai">
+ <div>
+  <h2>Tem 2 lớp: một mã cho đại lý, một mã cho khách</h2>
+  <div class="dong"><div class="ic"><svg class="i" viewBox="0 0 24 24"><path d="M3 7V5a2 2 0 0 1 2-2h2M17 3h2a2 2 0 0 1 2 2v2M21 17v2a2 2 0 0 1-2 2h-2M7 21H5a2 2 0 0 1-2-2v-2M7 12h10"/></svg></div><div><h3>QR bên ngoài</h3><p>Ai cũng quét được để xác thực. Đại lý quét để nhập kho, bán ra.</p></div></div>
+  <div class="dong"><div class="ic"><svg class="i" viewBox="0 0 24 24"><rect x="3" y="11" width="18" height="10" rx="2"/><path d="M7 11V7a5 5 0 0 1 10 0v4"/></svg></div><div><h3>QR dưới lớp cào</h3><p>Chỉ người mua mới thấy, dùng để kích hoạt bảo hành và nhận thưởng.</p></div></div>
+ </div>
+ <div class="tem"><span class="ten">TEM CHỐNG GIẢ</span>
+  <div class="o"><div class="q" id="q1"></div>Mã đại lý</div>
+  <div class="o"><div class="cao"><div class="q" id="q2"></div><div class="phu-cao"></div></div>Cào để kích hoạt</div>
+ </div>
+</div></section>
+
+<section class="alt"><div class="wrap">
+ <h2>An tâm về bảo mật và dữ liệu</h2>
+ <div class="bm">
+  <div class="card"><svg class="i" viewBox="0 0 24 24"><path d="M21 2l-2 2m-7.6 7.6a5.5 5.5 0 1 1-7.8 7.8 5.5 5.5 0 0 1 7.8-7.8zM15.5 7.5l3 3L22 7l-3-3"/></svg>Chữ ký HMAC-SHA256 trên từng mã</div>
+  <div class="card"><svg class="i" viewBox="0 0 24 24"><rect x="3" y="3" width="7" height="7"/><rect x="14" y="3" width="7" height="7"/><rect x="3" y="14" width="7" height="7"/><rect x="14" y="14" width="7" height="7"/></svg>Tách dữ liệu từng doanh nghiệp bằng Row-Level Security</div>
+  <div class="card"><svg class="i" viewBox="0 0 24 24"><ellipse cx="12" cy="5" rx="8" ry="3"/><path d="M4 5v14c0 1.7 3.6 3 8 3s8-1.3 8-3V5M4 12c0 1.7 3.6 3 8 3s8-1.3 8-3"/></svg>Sao lưu tự động hằng ngày</div>
+  <div class="card"><svg class="i" viewBox="0 0 24 24"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/></svg>Tuân thủ Nghị định 13/2023 về dữ liệu cá nhân</div>
+ </div>
+</div></section>
+
+<section id="bang-gia"><div class="wrap">
+ <h2>Bảng giá</h2>
+ <p class="phu">Tính theo sản lượng mã, chỉ trả cho phần dùng.</p>
+ <div class="gia">
+  <div class="card goi"><h3>Khởi đầu</h3><div class="so">Liên hệ</div><p style="color:var(--muted);margin:0">Cho doanh nghiệp nhỏ bắt đầu chống giả.</p>
+   <ul><li><svg class="i" viewBox="0 0 24 24"><path d="M20 6 9 17l-5-5"/></svg>Chống giả</li><li><svg class="i" viewBox="0 0 24 24"><path d="M20 6 9 17l-5-5"/></svg>Bảo hành điện tử</li><li><svg class="i" viewBox="0 0 24 24"><path d="M20 6 9 17l-5-5"/></svg>Tối đa 100.000 mã/tháng</li></ul>
+   <a class="btn btn-s" href="#">Nhận báo giá</a></div>
+  <div class="card goi noi"><span class="badge">Phổ biến</span><h3>Doanh nghiệp</h3><div class="so">Liên hệ</div><p style="color:var(--muted);margin:0">Đủ công cụ cho kênh phân phối.</p>
+   <ul><li><svg class="i" viewBox="0 0 24 24"><path d="M20 6 9 17l-5-5"/></svg>Mọi tính năng</li><li><svg class="i" viewBox="0 0 24 24"><path d="M20 6 9 17l-5-5"/></svg>Quản lý đại lý và vùng</li><li><svg class="i" viewBox="0 0 24 24"><path d="M20 6 9 17l-5-5"/></svg>Quay số và tích điểm</li><li><svg class="i" viewBox="0 0 24 24"><path d="M20 6 9 17l-5-5"/></svg>Tên miền riêng</li></ul>
+   <a class="btn btn-p" href="#">Nhận báo giá</a></div>
+  <div class="card goi"><h3>Tùy chỉnh</h3><div class="so">Liên hệ</div><p style="color:var(--muted);margin:0">Cho nhãn hàng lớn, sản lượng cao.</p>
+   <ul><li><svg class="i" viewBox="0 0 24 24"><path d="M20 6 9 17l-5-5"/></svg>Tích hợp ERP qua API</li><li><svg class="i" viewBox="0 0 24 24"><path d="M20 6 9 17l-5-5"/></svg>Hỗ trợ in ấn trọn gói</li><li><svg class="i" viewBox="0 0 24 24"><path d="M20 6 9 17l-5-5"/></svg>Cam kết dịch vụ</li></ul>
+   <a class="btn btn-s" href="#">Nhận báo giá</a></div>
+ </div>
+ <p class="ghi">Giá theo sản lượng mã, chưa gồm chi phí in tem.</p>
+</div></section>
+
+<section id="hoi-dap" class="alt"><div class="wrap">
+ <h2>Hỏi đáp</h2>
+ <div class="faq">
+  <details class="card" open><summary>Khách hàng có cần cài ứng dụng không?</summary><p>Không. Chỉ cần camera điện thoại, trang kiểm tra mở ngay trên trình duyệt.</p></details>
+  <details class="card"><summary>Tem giả chụp lại mã QR thì sao?</summary><p>Mỗi mã chỉ có một chủ. Khi một mã bị quét từ nhiều thiết bị lạ, hệ thống đánh dấu nghi ngờ và báo doanh nghiệp.</p></details>
+  <details class="card"><summary>Tôi có dùng máy in hiện có được không?</summary><p>Được. Hệ thống xuất file PDF bình trang theo khổ giấy và máy in của bạn.</p></details>
+  <details class="card"><summary>Dữ liệu lưu ở đâu?</summary><p>Trên máy chủ tại Việt Nam do nhatanh.tech vận hành, sao lưu hằng ngày.</p></details>
+ </div>
+</div></section>
+
+<section><div class="wrap"><div class="cta">
+ <h2>Bảo vệ thương hiệu từ con tem đầu tiên</h2>
+ <p style="margin:10px 0 0;opacity:.85">Dùng thử với dữ liệu thật của bạn, không cần thẻ thanh toán.</p>
+ <div class="nut"><a class="btn btn-p" href="#">Dùng thử miễn phí</a><a class="btn btn-s" href="#">Gọi tư vấn</a></div>
+</div></div></section>
+</main>
+
+<footer><div class="wrap">
+ <div class="ft">
+  <div><a class="logo" href="#"><span class="m"><svg viewBox="0 0 24 24"><rect x="3" y="3" width="7" height="7" rx="1"/><rect x="14" y="3" width="7" height="7" rx="1"/><rect x="3" y="14" width="7" height="7" rx="1"/><path d="M14 14h3v3M21 14v7h-7"/></svg></span>TechQR</a><p>TechQR - nền tảng số hóa sản phẩm bằng mã QR định danh: chống giả, bảo hành, đại lý, khuyến mại.</p></div>
+  <div><h4>Giải pháp</h4><ul><li><a href="#">Chống hàng giả</a></li><li><a href="#">Bảo hành điện tử</a></li><li><a href="#">Quản lý đại lý</a></li><li><a href="#">Quay số trúng thưởng</a></li></ul></div>
+  <div><h4>Hỗ trợ</h4><ul><li><a href="#">Hướng dẫn đại lý</a></li><li><a href="#">Kiểm tra sản phẩm</a></li><li><a href="#">Đăng nhập</a></li></ul></div>
+  <div><h4>Liên hệ</h4><ul><li><a href="#">lienhe@example.vn</a></li><li><a href="#">0900 000 000</a></li></ul></div>
+ </div>
+ <div class="cuoi"><span>© 2026 TechQR</span><span>Một sản phẩm của <a href="https://nhatanh.tech">nhatanh.tech</a></span></div>
+</div></footer>
+
+<script>
+// QR gia: 3 o dinh vi o goc + o ngau nhien co dinh hat giong de lan nao cung giong nhau.
+function veQr(el, n) {
+  let s = 7;
+  const r = () => (s = (s * 9301 + 49297) % 233280) / 233280;
+  const dv = (x, y) => [[0,0],[n-7,0],[0,n-7]].some(([a,b]) => x>=a && x<a+7 && y>=b && y<b+7);
+  const tron = (x, y) => [[0,0],[n-7,0],[0,n-7]].some(([a,b]) => { const i=x-a, j=y-b; return i>=0&&i<7&&j>=0&&j<7 && (i===0||i===6||j===0||j===6||(i>=2&&i<=4&&j>=2&&j<=4)); });
+  for (let y = 0; y < n; y++) for (let x = 0; x < n; x++) {
+    const c = document.createElement('i');
+    if (dv(x, y) ? tron(x, y) : r() > .52) c.className = 'd';
+    el.appendChild(c);
+  }
+}
+veQr(document.getElementById('qr'), 21); veQr(document.getElementById('q1'), 13); veQr(document.getElementById('q2'), 13);
+document.querySelectorAll('.chon button').forEach((b) => b.onclick = () => {
+  document.body.dataset.theme = b.dataset.choice;
+  document.querySelectorAll('.chon button').forEach((x) => x.classList.toggle('on', x === b));
+});
+</script>
+<script>
+// Ghi chu cho mockup tinh: o ghi chu moi phuong an + ghi chu chung, luu localStorage,
+// nut Copy gom lua chon + ghi chu de user dan vao chat cho Claude (trang tinh khong gui ve duoc).
+(function () {
+  var KEY = 'mockup-notes:' + location.pathname;
+  var saved = {};
+  try { saved = JSON.parse(localStorage.getItem(KEY) || '{}'); } catch (e) {}
+  function save() {
+    var d = { _chon: picked() };
+    document.querySelectorAll('textarea[data-note]').forEach(function (t) { d[t.dataset.note] = t.value; });
+    try { localStorage.setItem(KEY, JSON.stringify(d)); } catch (e) {}
+  }
+  function picked() {
+    return [].map.call(document.querySelectorAll('.selected[data-choice]'), function (o) { return o.dataset.choice.toUpperCase(); });
+  }
+  function area(id, ph) {
+    var t = document.createElement('textarea');
+    t.dataset.note = id; t.placeholder = ph; t.rows = 2; t.value = saved[id] || '';
+    t.style.cssText = 'width:100%;margin-top:8px;padding:8px;border-radius:6px;border:1px solid #8b949e66;background:transparent;color:inherit;font:13px system-ui;resize:vertical';
+    t.addEventListener('click', function (e) { e.stopPropagation(); }); // khong chon option khi bam vao o ghi chu
+    t.addEventListener('input', save);
+    return t;
+  }
+  var status = document.createElement('span');
+  function refresh() { var s = picked(); status.textContent = s.length ? 'Đã chọn: ' + s.join(', ') : 'Chưa chọn'; }
+
+  if (!window.toggleSelect) window.toggleSelect = function (el) {
+    var c = el.closest('.options') || el.closest('.cards'); var m = c && c.dataset.multiselect !== undefined;
+    if (c && !m) c.querySelectorAll('.option, .card').forEach(function (o) { o.classList.remove('selected'); });
+    m ? el.classList.toggle('selected') : el.classList.add('selected');
+  };
+  var orig = window.toggleSelect;
+  window.toggleSelect = function (el) { orig(el); refresh(); save(); };
+
+  document.querySelectorAll('[data-choice]').forEach(function (o) {
+    var id = o.dataset.choice;
+    (o.querySelector('.content, .card-body') || o).appendChild(area(id, 'Ghi chú cho phương án ' + id.toUpperCase() + '…'));
+    if ((saved._chon || []).indexOf(id.toUpperCase()) >= 0) o.classList.add('selected');
+  });
+
+  var bar = document.createElement('div');
+  bar.style.cssText = 'position:sticky;bottom:0;z-index:50;margin-top:24px;padding:12px;border-top:1px solid #8b949e66;background:var(--bg-primary,Canvas);display:flex;flex-direction:column;gap:8px';
+  var gen = area('chung', 'Ghi chú chung: muốn đổi gì, thêm gì…');
+  gen.style.marginTop = '0';
+  var row = document.createElement('div');
+  row.style.cssText = 'display:flex;gap:10px;align-items:center;flex-wrap:wrap;font:14px system-ui';
+  var btn = document.createElement('button');
+  btn.textContent = 'Copy để gửi Claude';
+  btn.style.cssText = 'padding:8px 16px;border-radius:6px;border:0;background:#2f81f7;color:#fff;font:600 14px system-ui;cursor:pointer';
+  btn.onclick = function () {
+    var lines = ['Mockup: ' + ((document.querySelector('h1, h2') || {}).textContent || document.title) + ' (' + location.href + ')', 'Chọn: ' + (picked().join(', ') || '(chưa chọn)')];
+    document.querySelectorAll('textarea[data-note]').forEach(function (t) {
+      if (t.value.trim()) lines.push((t.dataset.note === 'chung' ? 'Ghi chú chung' : 'Ghi chú ' + t.dataset.note.toUpperCase()) + ': ' + t.value.trim());
+    });
+    var txt = lines.join('\n');
+    var done = function () { btn.textContent = 'Đã copy — dán vào chat'; setTimeout(function () { btn.textContent = 'Copy để gửi Claude'; }, 2500); };
+    if (navigator.clipboard && window.isSecureContext) navigator.clipboard.writeText(txt).then(done, function () { prompt('Copy đoạn này:', txt); });
+    else prompt('Copy đoạn này:', txt);
+  };
+  row.appendChild(btn); row.appendChild(status);
+  bar.appendChild(gen); bar.appendChild(row);
+  (document.getElementById('frame-content') || document.body).appendChild(bar);
+  refresh();
+})();
+</script>
+</body>
+</html>
